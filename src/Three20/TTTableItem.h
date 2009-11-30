@@ -173,9 +173,6 @@ extern NSString* kTableItemViewKey;
 @end
 
 
-/* TODO: CLEANUP
-*/
-#if 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableRightCaptionItem : TTTableCaptionItem
 /**
@@ -212,6 +209,9 @@ extern NSString* kTableItemViewKey;
 @end
 
 
+/* TODO: CLEANUP
+*/
+#if 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItem : TTTableSubtitleItem {
 @private

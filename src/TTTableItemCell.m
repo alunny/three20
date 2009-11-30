@@ -31,9 +31,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-static const CGFloat kHPadding = 10;
 static const CGFloat kVPadding = 10;
 static const CGFloat kMargin = 10;
+static const CGFloat kCellBorderSize = 1;
 static const CGFloat kSmallMargin = 6;
 static const CGFloat kSpacing = 8;
 static const CGFloat kControlPadding = 8;
@@ -41,9 +41,13 @@ static const CGFloat kDefaultTextViewLines = 5;
 static const CGFloat kMoreButtonMargin = 40;
 
 static const CGFloat kKeySpacing = 12;
+
 static const CGFloat kKeyWidth = 75;
 static const CGFloat kMaxLabelHeight = 2000;
-static const CGFloat kDisclosureIndicatorWidth = 23;
+
+// There is an odd issue with the height we return for rowHeight being slightly shorter than
+// the height the content view ends up being.
+static const NSInteger kExtraVerticalHeight = 1;
 
 static const NSInteger kMessageTextLineCount = 2;
 
@@ -148,8 +152,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
-  CGFloat width = self.contentView.width - kHPadding * 2;
-  CGFloat height = [self.textLabel heightWithWidth:width];
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+  CGFloat height = [self.textLabel heightWithWidth:contentWidth];
   return height + kVPadding*2;
 }
 
@@ -222,10 +226,12 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+
   CGFloat captionWidth = kKeyWidth;
   CGFloat captionHeight = [self.textLabel heightWithWidth:captionWidth];
 
-  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding * 2);
+  CGFloat titleWidth = contentWidth - (kKeyWidth + kKeySpacing);
   CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
 
   return MAX(captionHeight, titleHeight) + kVPadding * 2;
@@ -246,6 +252,109 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (UILabel*)captionLabel {
   return self.textLabel;
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableSubtitleItemCell
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
+    self.textLabel.font                 = TTSTYLEVAR(tableTitleFont);
+    self.textLabel.textColor            = TTSTYLEVAR(tableTitleColor);
+    self.textLabel.highlightedTextColor = TTSTYLEVAR(tableTitleHighlightedColor);
+    self.textLabel.lineBreakMode        = TTSTYLEVAR(tableTitleLineBreakMode);
+    self.textLabel.numberOfLines        = TTSTYLEVAR(tableTitleNumberOfLines);
+    self.textLabel.textAlignment        = TTSTYLEVAR(tableTitleTextAlignment);
+
+    self.detailTextLabel.font                 = TTSTYLEVAR(tableSubtitleFont);
+    self.detailTextLabel.textColor            = TTSTYLEVAR(tableSubtitleColor);
+    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(tableSubtitleHighlightedColor);
+    self.detailTextLabel.lineBreakMode        = TTSTYLEVAR(tableSubtitleLineBreakMode);
+    self.detailTextLabel.numberOfLines        = TTSTYLEVAR(tableSubtitleNumberOfLines);
+    self.detailTextLabel.textAlignment        = TTSTYLEVAR(tableSubtitleTextAlignment);
+	}
+	return self;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// UIView
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  CGFloat width = self.contentView.width - kHPadding * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - kVPadding * 2;
+
+  CGFloat titleHeight = [self.textLabel heightWithWidth:width];
+  CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:width];
+
+  CGFloat height = titleHeight + subtitleHeight;
+
+  if (height > paddedCellHeight) {
+    // Likely a fixed-height cell. We want to show both bits of information, so let's see how
+    // much we can fit.
+    
+    NSInteger maxTitleRows = 0;
+    NSInteger maxSubtitleRows = 0;
+    if (self.textLabel.font.lineHeight > 0) {
+      maxTitleRows = (NSInteger)floor(paddedCellHeight / self.textLabel.font.lineHeight);
+    }
+    if (maxTitleRows > 0 && self.detailTextLabel.font.lineHeight > 0) {
+      // Prioritize the title, but attempt to show at least one subtitle
+      // We could use similar logic to prioritize the subtitle.
+      while (0 == maxSubtitleRows && maxTitleRows > 0) {
+        CGFloat remainingCellHeight = paddedCellHeight -
+          maxTitleRows * self.textLabel.font.lineHeight;
+        maxSubtitleRows = (NSInteger)floor(
+          remainingCellHeight / self.detailTextLabel.font.lineHeight);
+
+        if (0 == maxSubtitleRows) {
+          maxTitleRows--;
+        }
+      }
+
+      if (0 == maxSubtitleRows && 0 == maxTitleRows) {
+        // There's not enough room to show both a title and a subtitle; just show the title then
+        titleHeight = paddedCellHeight;
+        subtitleHeight = 0;
+      }
+    }
+  }
+
+  self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
+                                    width, titleHeight);
+
+  self.detailTextLabel.frame = CGRectMake(kHPadding, kVPadding + titleHeight,
+                                          width, subtitleHeight);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+  CGFloat titleHeight = [self.textLabel heightWithWidth:contentWidth];
+  CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:contentWidth];
+  return titleHeight + subtitleHeight + kVPadding * 2 + kExtraVerticalHeight;
+}
+
+- (void)setObject:(id)object {
+  if (_item != object) {
+    [super setObject:object];
+
+    TTTableSubtitleItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
+  }  
 }
 
 @end
@@ -346,183 +455,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (UILabel*)captionLabel {
   return self.textLabel;
-}
-
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableRightCaptionItemCell
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  // XXXjoe TODO
-  return TT_ROW_HEIGHT;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
-    self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.textLabel.numberOfLines = 0;
-
-    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-
-    // XXXjoe TODO
-	}
-	return self;
-}
-
-- (void)dealloc {
-	[super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-    
-  // XXXjoe TODO
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell
-
-- (void)setObject:(id)object {
-  if (_item != object) {
-    [super setObject:object];
-
-    TTTableCaptionItem* item = object;
-    self.textLabel.text = item.caption;
-    self.detailTextLabel.text = item.text;
-    // XXXjoe TODO
-  }  
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
-
-- (UILabel*)captionLabel {
-  return self.textLabel;
-}
-
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableSubtitleItemCell
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  CGFloat height = TTSTYLEVAR(tableFont).ttLineHeight + kVPadding*2;
-  height += TTSTYLEVAR(font).lineHeight;
-  
-  return height;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
-    _imageView2 = nil;
-
-    self.textLabel.font = TTSTYLEVAR(tableFont);
-    self.textLabel.textColor = TTSTYLEVAR(textColor);
-    self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.textLabel.textAlignment = UITextAlignmentLeft;
-    self.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.textLabel.adjustsFontSizeToFitWidth = YES;
-    
-    self.detailTextLabel.font = TTSTYLEVAR(font);
-    self.detailTextLabel.textColor = TTSTYLEVAR(tableSubTextColor);
-    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.detailTextLabel.textAlignment = UITextAlignmentLeft;
-    self.detailTextLabel.contentMode = UIViewContentModeTop;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.detailTextLabel.numberOfLines = kMessageTextLineCount;
-	}
-	return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_imageView2);
-	[super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-    
-  CGFloat height = self.contentView.height;
-  CGFloat width = self.contentView.width - (height + kSmallMargin);
-  CGFloat left = 0;
-  
-  if (nil != _imageView2.defaultImage ||
-      nil != _imageView2.URL && !TTIsEmptyString(_imageView2.URL)) {
-    _imageView2.frame = CGRectMake(0, 0, height, height);
-    left = _imageView2.right + kSmallMargin;
-  } else {
-    left = kHPadding;
-  }
-
-  if (self.detailTextLabel.text.length) {
-    CGFloat textHeight = self.textLabel.font.ttLineHeight;
-    CGFloat subtitleHeight = self.detailTextLabel.font.ttLineHeight;
-    CGFloat paddingY = floor((height - (textHeight + subtitleHeight))/2);
-    
-    self.textLabel.frame = CGRectMake(left, paddingY, width, textHeight);
-    self.detailTextLabel.frame = CGRectMake(left, self.textLabel.bottom, width, subtitleHeight);
-  } else {
-    self.textLabel.frame = CGRectMake(_imageView2.right + kSmallMargin, 0, width, height);
-    self.detailTextLabel.frame = CGRectZero;
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell
-
-- (void)setObject:(id)object {
-  if (_item != object) {
-    [super setObject:object];
-
-    TTTableSubtitleItem* item = object;
-    self.textLabel.text = item.text;
-    self.detailTextLabel.text = item.subtitle;
-    self.imageView2.defaultImage = item.defaultImage;
-    self.imageView2.URL = item.imageURL;
-  }  
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
-
-- (UILabel*)subtitleLabel {
-  return self.detailTextLabel;
-}
-
-- (TTImageView*)imageView2 {
-  if (!_imageView2) {
-    _imageView2 = [[TTImageView alloc] init];
-    [self.contentView addSubview:_imageView2];
-  }
-  return _imageView2;
 }
 
 @end

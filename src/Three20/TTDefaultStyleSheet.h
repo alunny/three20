@@ -37,6 +37,8 @@
 
 @property(nonatomic,readonly) UIColor* tableTitleColor;
 @property(nonatomic,readonly) UIColor* tableTitleHighlightedColor;
+@property(nonatomic,readonly) UIColor* tableSubtitleColor;
+@property(nonatomic,readonly) UIColor* tableSubtitleHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableCaptionColor;
 @property(nonatomic,readonly) UIColor* tableCaptionHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableCaptionTitleColor;
@@ -66,6 +68,7 @@
 @property(nonatomic,readonly) UIFont* font;
 @property(nonatomic,readonly) UIFont* buttonFont;
 @property(nonatomic,readonly) UIFont* tableTitleFont;
+@property(nonatomic,readonly) UIFont* tableSubtitleFont;
 @property(nonatomic,readonly) UIFont* tableCaptionFont;
 @property(nonatomic,readonly) UIFont* tableCaptionTitleFont;
 @property(nonatomic,readonly) UIFont* tableFont;
@@ -87,6 +90,10 @@
 @property(nonatomic,readonly) UILineBreakMode tableTitleLineBreakMode;
 @property(nonatomic,readonly) NSInteger       tableTitleNumberOfLines;
 @property(nonatomic,readonly) UITextAlignment tableTitleTextAlignment;
+
+@property(nonatomic,readonly) UILineBreakMode tableSubtitleLineBreakMode;
+@property(nonatomic,readonly) NSInteger       tableSubtitleNumberOfLines;
+@property(nonatomic,readonly) UITextAlignment tableSubtitleTextAlignment;
 
 @property(nonatomic,readonly) UILineBreakMode tableCaptionLineBreakMode;
 @property(nonatomic,readonly) NSInteger       tableCaptionNumberOfLines;

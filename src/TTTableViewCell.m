@@ -19,12 +19,27 @@
 
 #import "Three20/TTGlobalUI.h"
 
+const CGFloat kHPadding = 10;
+
+const CGFloat kDisclosureIndicatorWidth = 20;
+const CGFloat kDetailDisclosureButtonWidth = 33;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
   return TT_ROW_HEIGHT;
+}
+
+- (CGFloat)contentWidthWithTableView:(UITableView*)tableView {
+  CGFloat width = tableView.width - kHPadding * 2 - [tableView tableCellMargin] * 2;
+  if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+    width -= kDisclosureIndicatorWidth;
+  } else if (self.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
+    width -= kDetailDisclosureButtonWidth;
+  }
+  return width;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

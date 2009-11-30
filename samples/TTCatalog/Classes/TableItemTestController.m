@@ -24,7 +24,9 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     // Uncomment this to see how the table looks with the grouped style
-    //self.tableViewStyle = UITableViewStyleGrouped;
+    self.tableViewStyle = UITableViewStyleGrouped;
+    
+    //self.tableViewSeparatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Uncomment this to see how the table cells look against a custom background color 
     //self.tableView.backgroundColor = [UIColor yellowColor];
@@ -57,7 +59,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
         nil]],
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some urls set so this should truncate or wrap", kTableItemTitleKey,
+        @"Long text with some urls set a", kTableItemTitleKey,
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
@@ -88,11 +90,44 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"A very long caption that realistically won't fit", kTableItemCaptionKey,
         nil]],
       [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some urls set so this should truncate or wrap", kTableItemTitleKey,
+        @"Long text with some ii", kTableItemTitleKey,
         @"A normal caption", kTableItemCaptionKey,
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
+
+      @"TTTableSubtitleItem",
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        @"Subtitle", kTableItemSubtitleKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"URL", kTableItemTitleKey,
+        @"This is a really long subtitle that should span a few lines or truncate", kTableItemSubtitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"accessoryURL", kTableItemTitleKey,
+        @"Subtitle", kTableItemSubtitleKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Both URLs", kTableItemTitleKey,
+        @"Subtitle", kTableItemSubtitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
+        @"This is a really long subtitle that should span a few lines or truncate", kTableItemSubtitleKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with some urls set so this should truncate or wrap", kTableItemTitleKey,
+        @"This is a really long subtitle that should span more than two lines which is the default max number of lines for the subtitle item", kTableItemSubtitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"

@@ -17,6 +17,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+extern const CGFloat kHPadding;
+extern const CGFloat kDisclosureIndicatorWidth;
+extern const CGFloat kDetailDisclosureButtonWidth;
+
 /**
  * The base class for table cells which are single-object based.
  *
@@ -37,5 +41,11 @@
  * Measure the height of the row with the given table view.
  */
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView;
+
+/**
+ * Calculate the width of the row with the given table view and
+ * considering accessory types.
+ */
+- (CGFloat)contentWidthWithTableView:(UITableView*)tableView;
 
 @end
