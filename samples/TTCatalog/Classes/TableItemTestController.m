@@ -21,6 +21,8 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     self.title = @"Table Items";
     self.variableHeightRows = YES;
 
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     // Uncomment this to see how the table looks with the grouped style
     //self.tableViewStyle = UITableViewStyleGrouped;
 
