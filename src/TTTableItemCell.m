@@ -185,17 +185,14 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     self.textLabel.adjustsFontSizeToFitWidth = TTSTYLEVAR(tableCaptionAdjustsFontSizeToFitWidth);
     self.textLabel.minimumFontSize           = TTSTYLEVAR(tableCaptionMinimumFontSize);
 
-    self.detailTextLabel.font = TTSTYLEVAR(tableSmallFont);
-    self.detailTextLabel.textColor = TTSTYLEVAR(textColor);
-    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.detailTextLabel.numberOfLines = 0;
+    self.detailTextLabel.font                 = TTSTYLEVAR(tableCaptionTitleFont);
+    self.detailTextLabel.textColor            = TTSTYLEVAR(tableCaptionTitleColor);
+    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(tableCaptionTitleHighlightedColor);
+    self.detailTextLabel.lineBreakMode        = TTSTYLEVAR(tableCaptionTitleLineBreakMode);
+    self.detailTextLabel.numberOfLines        = TTSTYLEVAR(tableCaptionTitleNumberOfLines);
+    self.detailTextLabel.textAlignment        = TTSTYLEVAR(tableCaptionTitleTextAlignment);
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[super dealloc];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +206,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     self.contentView.height - kVPadding * 2,
     [self.textLabel heightWithWidth:captionWidth]);
 
-  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding*2);
+  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding * 2);
   CGFloat titleHeight = MIN(
     self.contentView.height - kVPadding * 2,
     [self.detailTextLabel heightWithWidth:titleWidth]);
@@ -228,10 +225,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat captionWidth = kKeyWidth;
   CGFloat captionHeight = [self.textLabel heightWithWidth:captionWidth];
 
-  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding*2);
+  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding * 2);
   CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
 
-  return MAX(captionHeight, titleHeight) + kVPadding*2;
+  return MAX(captionHeight, titleHeight) + kVPadding * 2;
 }
 
 - (void)setObject:(id)object {
