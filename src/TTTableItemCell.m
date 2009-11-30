@@ -148,19 +148,9 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
-  TTTableTitleItem* item = (TTTableTitleItem*)_item;
   CGFloat width = self.contentView.width - kHPadding * 2;
-  CGFloat maxHeight = self.textLabel.numberOfLines * self.textLabel.font.leading;
-  if (0 == maxHeight) {
-    maxHeight = CGFLOAT_MAX;
-  }
-  CGSize size = [item.title
-         sizeWithFont: self.textLabel.font
-    constrainedToSize: CGSizeMake(width, maxHeight)
-        lineBreakMode: self.textLabel.lineBreakMode];
-  size.height = MAX(MIN(size.height, kMaxLabelHeight), self.textLabel.font.leading);
-
-  return size.height + kVPadding*2;
+  CGFloat height = [self.textLabel heightWithWidth:width];
+  return height + kVPadding*2;
 }
 
 - (void)setObject:(id)object {
@@ -182,22 +172,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 @implementation TTTableCaptionItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  TTTableCaptionItem* item = object;
-
-  CGFloat margin = [tableView tableCellMargin];
-  CGFloat width = tableView.width - (kKeyWidth + kKeySpacing + kHPadding*2 + margin*2);
-
-  CGSize detailTextSize = [item.text sizeWithFont:TTSTYLEVAR(tableSmallFont)
-                                     constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)
-                                     lineBreakMode:UILineBreakModeWordWrap];
-  
-  return detailTextSize.height + kVPadding*2;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
@@ -214,7 +188,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     self.detailTextLabel.font = TTSTYLEVAR(tableSmallFont);
     self.detailTextLabel.textColor = TTSTYLEVAR(textColor);
     self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
     self.detailTextLabel.numberOfLines = 0;
 	}
 	return self;
@@ -229,18 +203,36 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-    
-  self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
-                                    kKeyWidth, self.textLabel.font.ttLineHeight);
 
-  CGFloat valueWidth = self.contentView.width - (kHPadding*2 + kKeyWidth + kKeySpacing);
-  CGFloat innerHeight = self.contentView.height - kVPadding*2;
+  CGFloat captionWidth = kKeyWidth;
+  CGFloat captionHeight = MIN(
+    self.contentView.height - kVPadding * 2,
+    [self.textLabel heightWithWidth:captionWidth]);
+
+  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding*2);
+  CGFloat titleHeight = MIN(
+    self.contentView.height - kVPadding * 2,
+    [self.detailTextLabel heightWithWidth:titleWidth]);
+
+  self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
+                                    captionWidth, captionHeight);
+
   self.detailTextLabel.frame = CGRectMake(kHPadding + kKeyWidth + kKeySpacing, kVPadding,
-                                          valueWidth, innerHeight);
+                                          titleWidth, titleHeight);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
+
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
+  CGFloat captionWidth = kKeyWidth;
+  CGFloat captionHeight = [self.textLabel heightWithWidth:captionWidth];
+
+  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + kHPadding*2);
+  CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
+
+  return MAX(captionHeight, titleHeight) + kVPadding*2;
+}
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -248,7 +240,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
     TTTableCaptionItem* item = object;
     self.textLabel.text = item.caption;
-    self.detailTextLabel.text = item.text;
+    self.detailTextLabel.text = item.title;
   }  
 }
 

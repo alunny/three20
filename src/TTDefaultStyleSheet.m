@@ -777,7 +777,7 @@
 }
 
 - (NSInteger)tableTitleNumberOfLines {
-  return 1;
+  return 0;
 }
 
 - (UITextAlignment)tableTitleTextAlignment {
@@ -798,6 +798,10 @@
 
 - (BOOL)tableCaptionAdjustsFontSizeToFitWidth {
   return YES;
+}
+
+- (CGFloat)tableCaptionMinimumFontSize {
+  return 8;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

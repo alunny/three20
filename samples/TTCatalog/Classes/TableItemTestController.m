@@ -59,6 +59,38 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
+
+      @"TTTableCaptionItem",
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        @"Caption", kTableItemCaptionKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"URL", kTableItemTitleKey,
+        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"accessoryURL", kTableItemTitleKey,
+        @"A normal caption", kTableItemCaptionKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Both URLs", kTableItemTitleKey,
+        @"Caption", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
+        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with some urls set so this should truncate or wrap", kTableItemTitleKey,
+        @"A normal caption", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"
@@ -104,6 +136,14 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
 - (void)dealloc {
   [super dealloc];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return TTIsSupportedOrientation(interfaceOrientation);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+  [self.tableView reloadData];
 }
 
 @end
