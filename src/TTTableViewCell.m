@@ -15,6 +15,7 @@
 //
 
 #import "Three20/TTTableViewCell.h"
+#import "Three20/TTGlobal.h"
 
 #import "Three20/TTGlobalUI.h"
 
@@ -22,7 +23,7 @@
 
 @implementation TTTableViewCell
 
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
   return TT_ROW_HEIGHT;
 }
 

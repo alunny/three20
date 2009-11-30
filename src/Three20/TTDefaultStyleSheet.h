@@ -35,10 +35,11 @@
 @property(nonatomic,readonly) UIColor* screenBackgroundColor;
 @property(nonatomic,readonly) UIColor* backgroundColor;
 
+@property(nonatomic,readonly) UIColor* tableTitleColor;
+@property(nonatomic,readonly) UIColor* tableTitleHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableActivityTextColor;
 @property(nonatomic,readonly) UIColor* tableErrorTextColor;
 @property(nonatomic,readonly) UIColor* tableSubTextColor;
-@property(nonatomic,readonly) UIColor* tableTitleTextColor;
 @property(nonatomic,readonly) UIColor* tableHeaderTextColor;
 @property(nonatomic,readonly) UIColor* tableHeaderShadowColor;
 @property(nonatomic,readonly) UIColor* tableHeaderTintColor;
@@ -60,9 +61,9 @@
 
 @property(nonatomic,readonly) UIFont* font;
 @property(nonatomic,readonly) UIFont* buttonFont;
+@property(nonatomic,readonly) UIFont* tableTitleFont;
 @property(nonatomic,readonly) UIFont* tableFont;
 @property(nonatomic,readonly) UIFont* tableSmallFont;
-@property(nonatomic,readonly) UIFont* tableTitleFont;
 @property(nonatomic,readonly) UIFont* tableTimestampFont;
 @property(nonatomic,readonly) UIFont* tableButtonFont;
 @property(nonatomic,readonly) UIFont* tableSummaryFont;
@@ -76,6 +77,10 @@
 @property(nonatomic,readonly) UIFont* activityBannerFont;
 
 @property(nonatomic,readonly) UITableViewCellSelectionStyle tableSelectionStyle;
+
+@property(nonatomic,readonly) UILineBreakMode tableTitleLineBreakMode;
+@property(nonatomic,readonly) NSInteger tableTitleNumberOfLines;
+@property(nonatomic,readonly) UITextAlignment tableTitleTextAlignment;
 
 - (TTStyle*)selectionFillStyle:(TTStyle*)next;
 

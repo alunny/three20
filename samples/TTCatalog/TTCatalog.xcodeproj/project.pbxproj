@@ -16,7 +16,6 @@
 		BE1288310F8973CD00F65EA2 /* StyleTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE1288300F8973CD00F65EA2 /* StyleTestController.m */; };
 		BE1289C20F91811E00F65EA2 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = BE1289C10F91811E00F65EA2 /* mask.png */; };
 		BE1D843A0F8D104B00EC8BB8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE1D84390F8D104B00EC8BB8 /* QuartzCore.framework */; };
-		BE20A49C0FF418B2008791F4 /* TableControlsTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE20A49B0FF418B2008791F4 /* TableControlsTestController.m */; };
 		BE3188A10F822E2C00E3067D /* smiley.png in Resources */ = {isa = PBXBuildFile; fileRef = BE3188A00F822E2C00E3067D /* smiley.png */; };
 		BE5F25920EBA5F0400FD59A6 /* PhotoTest2Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5F25910EBA5F0400FD59A6 /* PhotoTest2Controller.m */; };
 		BE69B7590F62874900C02928 /* TableTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE69B7580F62874900C02928 /* TableTestController.m */; };
@@ -24,7 +23,6 @@
 		BE6E4AA50F4655A4001CE9B4 /* TableItemTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6E4AA40F4655A4001CE9B4 /* TableItemTestController.m */; };
 		BE6E4DC00F46A352001CE9B4 /* tableIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE6E4DBF0F46A352001CE9B4 /* tableIcon.png */; };
 		BE80E24A0EAEFF6100743358 /* MockPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE80E2490EAEFF6100743358 /* MockPhotoSource.m */; };
-		BE80E3710EAF0F3000743358 /* TableImageTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE80E3700EAF0F3000743358 /* TableImageTestController.m */; };
 		BE80E3A70EAF108500743358 /* ImageTest1Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = BE80E3A60EAF108500743358 /* ImageTest1Controller.m */; };
 		BE80E3B60EAF116700743358 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE80E3B50EAF116700743358 /* Icon.png */; };
 		BE8C0F7D0F2018C600EB0E98 /* YouTubeTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE8C0F7C0F2018C600EB0E98 /* YouTubeTestController.m */; };
@@ -35,12 +33,8 @@
 		BECB1CC20F46AE9600AE5B52 /* person.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BECB1CC10F46AE9600AE5B52 /* person.jpg */; };
 		BEDCFBB40F4FFF820060B7D1 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */; };
 		BEE0FDDB0EB2A6850052C05F /* PhotoTest1Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE0FDDA0EB2A6850052C05F /* PhotoTest1Controller.m */; };
-		BEE341B40F480C76008C826E /* MessageTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE341B30F480C76008C826E /* MessageTestController.m */; };
-		BEE346BC0F48F15C008C826E /* SearchTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE346BB0F48F15C008C826E /* SearchTestController.m */; };
-		BEE348AC0F490F43008C826E /* MockDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE348AB0F490F43008C826E /* MockDataSource.m */; };
 		BEE38E810EB288BA00189902 /* ActivityTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE38E800EB288BA00189902 /* ActivityTestController.m */; };
 		BEE7FD150F3581C1002788A5 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE7FD130F358198002788A5 /* libThree20.a */; };
-		BEF199220F818E720010D36E /* StyledTextTableTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF1991F0F818E720010D36E /* StyledTextTableTestController.m */; };
 		BEF199230F818E720010D36E /* StyledTextTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF199210F818E720010D36E /* StyledTextTestController.m */; };
 		BEF6EC370F280CB300CF4096 /* ScrollViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */; };
 /* End PBXBuildFile section */
@@ -553,7 +547,6 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* CatalogController.m in Sources */,
 				BE80E24A0EAEFF6100743358 /* MockPhotoSource.m in Sources */,
-				BE80E3710EAF0F3000743358 /* TableImageTestController.m in Sources */,
 				BE80E3A70EAF108500743358 /* ImageTest1Controller.m in Sources */,
 				BEE38E810EB288BA00189902 /* ActivityTestController.m in Sources */,
 				BEE0FDDB0EB2A6850052C05F /* PhotoTest1Controller.m in Sources */,
@@ -562,15 +555,10 @@
 				BEF6EC370F280CB300CF4096 /* ScrollViewTestController.m in Sources */,
 				BE6E46EC0F4578BA001CE9B4 /* TabBarTestController.m in Sources */,
 				BE6E4AA50F4655A4001CE9B4 /* TableItemTestController.m in Sources */,
-				BEE341B40F480C76008C826E /* MessageTestController.m in Sources */,
-				BEE346BC0F48F15C008C826E /* SearchTestController.m in Sources */,
-				BEE348AC0F490F43008C826E /* MockDataSource.m in Sources */,
 				BE69B7590F62874900C02928 /* TableTestController.m in Sources */,
-				BEF199220F818E720010D36E /* StyledTextTableTestController.m in Sources */,
 				BEF199230F818E720010D36E /* StyledTextTestController.m in Sources */,
 				BE1288310F8973CD00F65EA2 /* StyleTestController.m in Sources */,
 				BEC5EC680F8C307E007622CD /* ButtonTestController.m in Sources */,
-				BE20A49C0FF418B2008791F4 /* TableControlsTestController.m in Sources */,
 				BEC787631040A430005C00CF /* LauncherViewTestController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

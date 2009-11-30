@@ -18,29 +18,44 @@
 
 #import "Three20/TTGlobalCore.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+NSString* kTableItemTitleKey          = @"title";
+NSString* kTableItemSubtitleKey       = @"subtitle";
+NSString* kTableItemTextKey           = @"text";
 
+NSString* kTableItemCaptionKey        = @"caption";
+
+NSString* kTableItemURLKey            = @"URL";
+NSString* kTableItemAccessoryURLKey   = @"accessoryURL";
+
+NSString* kTableItemImageURLKey       = @"imageURL";
+NSString* kTableItemDefaultImageKey   = @"defaultImage";
+NSString* kTableItemImageStyleKey     = @"imageStyle";
+
+NSString* kTableItemTimestampKey      = @"timestamp";
+NSString* kTableItemControlKey        = @"control";
+NSString* kTableItemViewKey           = @"view";
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableItem
 
 @synthesize userInfo = _userInfo;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)init {
-  if (self = [super init]) {
-    _userInfo = nil;
-  }
-  return self;
-}
+#pragma mark NSObject
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_userInfo);
   [super dealloc];
 }
 
+-(Class)cellClass {
+  return [TTTableTitleItemCell class];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   return [self init];
@@ -51,20 +66,29 @@
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableLinkedItem
 
-@synthesize URL = _URL, accessoryURL = _accessoryURL;
+@synthesize URL = _URL;
+@synthesize accessoryURL = _accessoryURL;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _URL = nil;
-    _accessoryURL = nil;
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super init] ) {
+    self.URL          = [properties objectForKey:kTableItemURLKey];
+    self.accessoryURL = [properties objectForKey:kTableItemAccessoryURLKey];
   }
+
   return self;
 }
 
@@ -75,64 +99,273 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.URL = [decoder decodeObjectForKey:@"URL"];
+    self.URL          = [decoder decodeObjectForKey:kTableItemURLKey];
+    self.accessoryURL = [decoder decodeObjectForKey:kTableItemAccessoryURLKey];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
-  if (self.URL) {
-    [encoder encodeObject:self.URL forKey:@"URL"];
+  if (nil != self.URL) {
+    [encoder encodeObject:self.URL forKey:kTableItemURLKey];
   }
-  if (self.accessoryURL) {
-    [encoder encodeObject:self.accessoryURL forKey:@"URL"];
+  if (nil != self.accessoryURL) {
+    [encoder encodeObject:self.accessoryURL forKey:kTableItemAccessoryURLKey];
   }
 }
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
-@implementation TTTableTextItem
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableTitleItem
+
+@synthesize title = _title;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.title = [properties objectForKey:kTableItemTitleKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_title);
+  [super dealloc];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.title = [decoder decodeObjectForKey:kTableItemTitleKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.title) {
+    [encoder encodeObject:self.title forKey:kTableItemTitleKey];
+  }
+}
+
+@end
+
+/* TODO: CLEANUP
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableCaptionItem
+
+@synthesize caption = _caption;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.caption = [properties objectForKey:kTableItemCaptionKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_caption);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableCaptionItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.caption) {
+    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
+  }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableRightCaptionItem
+
+-(Class)cellClass {
+  return [TTTableRightCaptionItemCell class];
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableSubtitleItem
+
+@synthesize subtitle = _subtitle;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.subtitle = [properties objectForKey:kTableItemSubtitleKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_subtitle);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableSubtitleItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.subtitle = [decoder decodeObjectForKey:kTableItemSubtitleKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.subtitle) {
+    [encoder encodeObject:self.subtitle forKey:kTableItemSubtitleKey];
+  }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableMessageItem
+
+@synthesize text      = _text;
+@synthesize timestamp = _timestamp;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text       = [properties objectForKey:kTableItemTextKey];
+    self.timestamp  = [properties objectForKey:kTableItemTimestampKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_text);
+  TT_RELEASE_SAFELY(_timestamp);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableMessageItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.text       = [decoder decodeObjectForKey:kTableItemTextKey];
+    self.timestamp  = [decoder decodeObjectForKey:kTableItemTimestampKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.text) {
+    [encoder encodeObject:self.text forKey:kTableItemTextKey];
+  }
+  if (self.timestamp) {
+    [encoder encodeObject:self.timestamp forKey:kTableItemTimestampKey];
+  }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableSubtextItem
 
 @synthesize text = _text;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithText:(NSString*)text {
-  TTTableTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text URL:(NSString*)URL {
-  TTTableTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL {
-  TTTableTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.URL = URL;
-  item.accessoryURL = accessoryURL;
-  return item;
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _text = nil;
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text = [properties objectForKey:kTableItemTextKey];
   }
+
   return self;
 }
 
@@ -141,12 +374,16 @@
   [super dealloc];
 }
 
+-(Class)cellClass {
+  return [TTTableSubtextItemCell class];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.text = [decoder decodeObjectForKey:@"text"];
+    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
   }
   return self;
 }
@@ -154,370 +391,76 @@
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
   if (self.text) {
-    [encoder encodeObject:self.text forKey:@"text"];
+    [encoder encodeObject:self.text forKey:kTableItemTextKey];
   }
 }
 
 @end
 
+
+#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableCaptionItem
-
-@synthesize caption = _caption;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption {
-  TTTableCaptionItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.caption = caption;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption URL:(NSString*)URL {
-  TTTableCaptionItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.caption = caption;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption URL:(NSString*)URL
-      accessoryURL:(NSString*)accessoryURL {
-  TTTableCaptionItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.caption = caption;
-  item.URL = URL;
-  item.accessoryURL = accessoryURL;
-  return item;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)init {
-  if (self = [super init]) {
-    _caption = nil;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_caption);
-  [super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.caption = [decoder decodeObjectForKey:@"caption"];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.caption) {
-    [encoder encodeObject:self.caption forKey:@"caption"];
-  }
-}
-
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableRightCaptionItem
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableSubtextItem
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableSubtitleItem
-
-@synthesize subtitle = _subtitle, imageURL = _imageURL, defaultImage = _defaultImage;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle {
-  TTTableSubtitleItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.subtitle = subtitle;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle URL:(NSString*)URL {
-  TTTableSubtitleItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.subtitle = subtitle;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle
-      URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL {
-  TTTableSubtitleItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.subtitle = subtitle;
-  item.URL = URL;
-  item.accessoryURL = accessoryURL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle imageURL:(NSString*)imageURL
-      URL:(NSString*)URL {
-  TTTableSubtitleItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.subtitle = subtitle;
-  item.imageURL = imageURL;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle imageURL:(NSString*)imageURL
-      defaultImage:(UIImage*)defaultImage URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL {
-  TTTableSubtitleItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.subtitle = subtitle;
-  item.imageURL = imageURL;
-  item.defaultImage = defaultImage;
-  item.URL = URL;
-  item.accessoryURL = accessoryURL;
-  return item;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)init {
-  if (self = [super init]) {
-    _subtitle = nil;
-    _imageURL = nil;
-    _defaultImage = nil;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_subtitle);
-  TT_RELEASE_SAFELY(_imageURL);
-  TT_RELEASE_SAFELY(_defaultImage);
-  [super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.subtitle = [decoder decodeObjectForKey:@"subtitle"];
-    self.imageURL = [decoder decodeObjectForKey:@"imageURL"];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.subtitle) {
-    [encoder encodeObject:self.subtitle forKey:@"subtitle"];
-  }
-  if (self.imageURL) {
-    [encoder encodeObject:self.imageURL forKey:@"imageURL"];
-  }
-}
-
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableMessageItem
-
-@synthesize title = _title, caption = _caption, timestamp = _timestamp, imageURL = _imageURL;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithTitle:(NSString*)title caption:(NSString*)caption text:(NSString*)text
-      timestamp:(NSDate*)timestamp URL:(NSString*)URL {
-  TTTableMessageItem* item = [[[self alloc] init] autorelease];
-  item.title = title;
-  item.caption = caption;
-  item.text = text;
-  item.timestamp = timestamp;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithTitle:(NSString*)title caption:(NSString*)caption text:(NSString*)text
-      timestamp:(NSDate*)timestamp imageURL:(NSString*)imageURL URL:(NSString*)URL {
-  TTTableMessageItem* item = [[[self alloc] init] autorelease];
-  item.title = title;
-  item.caption = caption;
-  item.text = text;
-  item.timestamp = timestamp;
-  item.imageURL = imageURL;
-  item.URL = URL;
-  return item;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)init {
-  if (self = [super init]) {
-    _title = nil;
-    _caption = nil;
-    _timestamp = nil;
-    _imageURL = nil;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_title);
-  TT_RELEASE_SAFELY(_caption);
-  TT_RELEASE_SAFELY(_timestamp);
-  TT_RELEASE_SAFELY(_imageURL);
-  [super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.title = [decoder decodeObjectForKey:@"title"];
-    self.caption = [decoder decodeObjectForKey:@"caption"];
-    self.timestamp = [decoder decodeObjectForKey:@"timestamp"];
-    self.imageURL = [decoder decodeObjectForKey:@"imageURL"];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.title) {
-    [encoder encodeObject:self.title forKey:@"title"];
-  }
-  if (self.caption) {
-    [encoder encodeObject:self.caption forKey:@"caption"];
-  }
-  if (self.timestamp) {
-    [encoder encodeObject:self.timestamp forKey:@"timestamp"];
-  }
-  if (self.imageURL) {
-    [encoder encodeObject:self.imageURL forKey:@"imageURL"];
-  }
-}
-
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableLongTextItem
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableGrayTextItem
-@end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 @implementation TTTableSummaryItem
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableLink
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableButton
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableMoreButton
 
 @synthesize isLoading = _isLoading;
 
-- (id)init {
-  if (self = [super init]) {
-    _isLoading = NO;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  [super dealloc];
+-(Class)cellClass {
+  return [TTTableMoreButtonCell class];
 }
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableImageItem
 
-@synthesize imageURL = _imageURL, defaultImage = _defaultImage, imageStyle = _imageStyle;
+@synthesize imageURL      = _imageURL;
+@synthesize defaultImage  = _defaultImage;
+@synthesize imageStyle    = _imageStyle;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL {
-  TTTableImageItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.imageURL = imageURL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL URL:(NSString*)URL {
-  TTTableImageItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.imageURL = imageURL;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL defaultImage:(UIImage*)defaultImage
-      URL:(NSString*)URL {
-  TTTableImageItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.imageURL = imageURL;
-  item.defaultImage = defaultImage;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL defaultImage:(UIImage*)defaultImage
-      imageStyle:(TTStyle*)imageStyle URL:(NSString*)URL {
-  TTTableImageItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.imageURL = imageURL;
-  item.defaultImage = defaultImage;
-  item.imageStyle = imageStyle;
-  item.URL = URL;
-  return item;
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _defaultImage = nil;
-    _imageURL = nil;
-    _imageStyle = nil;
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.imageURL     = [properties objectForKey:kTableItemImageURLKey];
+    self.defaultImage = [properties objectForKey:kTableItemDefaultImageKey];
+    self.imageStyle   = [properties objectForKey:kTableItemImageStyleKey];
   }
+
   return self;
 }
 
@@ -528,13 +471,16 @@
   [super dealloc];
 }
 
+-(Class)cellClass {
+  return [TTTableImageItemCell class];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.imageURL = [decoder decodeObjectForKey:@"imageURL"];
+    self.imageURL = [decoder decodeObjectForKey:kTableItemImageURLKey];
   }
   return self;
 }
@@ -542,87 +488,53 @@
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
   if (self.imageURL) {
-    [encoder encodeObject:self.imageURL forKey:@"imageURL"];
+    [encoder encodeObject:self.imageURL forKey:kTableItemImageURLKey];
   }
 }
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableRightImageItem
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableActivityItem
 
-@synthesize text = _text;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithText:(NSString*)text {
-  TTTableActivityItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  return item;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)init {
-  if (self = [super init]) {
-    _text = nil;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_text);
-  [super dealloc];
+-(Class)cellClass {
+  return [TTTableActivityItemCell class];
 }
 
 @end
 
+
+#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableStyledTextItem
-
-@synthesize text = _text, margin = _margin, padding = _padding;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableTextItem
 
-+ (id)itemWithText:(TTStyledText*)text {
-  TTTableStyledTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  return item;
-}
+@synthesize text = _text;
 
-+ (id)itemWithText:(TTStyledText*)text URL:(NSString*)URL {
-  TTTableStyledTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.URL = URL;
-  return item;
-}
-
-+ (id)itemWithText:(TTStyledText*)text URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL {
-  TTTableStyledTextItem* item = [[[self alloc] init] autorelease];
-  item.text = text;
-  item.URL = URL;
-  item.accessoryURL = accessoryURL;
-  return item;
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _text = nil;
-    _margin = UIEdgeInsetsZero;
-    _padding = UIEdgeInsetsMake(6, 6, 6, 6);
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text = [properties objectForKey:kTableItemTextKey];
   }
+
   return self;
 }
 
@@ -632,11 +544,11 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.text = [decoder decodeObjectForKey:@"text"];
+    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
   }
   return self;
 }
@@ -644,38 +556,104 @@
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
   if (self.text) {
-    [encoder encodeObject:self.text forKey:@"text"];
+    [encoder encodeObject:self.text forKey:kTableItemTextKey];
   }
 }
 
 @end
 
+
+#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableControlItem
-
-@synthesize caption = _caption, control = _control;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableGrayTextItem
+@end
 
-+ (id)itemWithCaption:(NSString*)caption control:(UIControl*)control {
-  TTTableControlItem* item = [[[self alloc] init] autorelease];
-  item.caption = caption;
-  item.control = control;
-  return item;
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableStyledTextItem
+
+@synthesize text    = _text;
+@synthesize margin  = _margin;
+@synthesize padding = _padding;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _caption = nil;
-    _control = nil;
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text = [properties objectForKey:kTableItemTextKey];
+    _margin = UIEdgeInsetsZero;
+    _padding = UIEdgeInsetsMake(6, 6, 6, 6);
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_text);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTStyledTextTableItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
   }
   return self;
 }
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.text) {
+    [encoder encodeObject:self.text forKey:kTableItemTextKey];
+  }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableControlItem
+
+@synthesize caption = _caption;
+@synthesize control = _control;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super init] ) {
+    self.caption = [properties objectForKey:kTableItemCaptionKey];
+    self.control = [properties objectForKey:kTableItemControlKey];
+  }
+
+  return self;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_caption);
@@ -683,13 +661,17 @@
   [super dealloc];
 }
 
+-(Class)cellClass {
+  return [TTTableControlCell class];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.caption = [decoder decodeObjectForKey:@"caption"];
-    self.control = [decoder decodeObjectForKey:@"control"];
+    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+    self.control = [decoder decodeObjectForKey:kTableItemControlKey];
   }
   return self;
 }
@@ -697,39 +679,38 @@
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
   if (self.caption) {
-    [encoder encodeObject:self.caption forKey:@"caption"];
+    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
   }
   if (self.control) {
-    [encoder encodeObject:self.control forKey:@"control"];
+    [encoder encodeObject:self.control forKey:kTableItemControlKey];
   }
 }
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableViewItem
 
-@synthesize caption = _caption, view = _view;
+@synthesize caption = _caption;
+@synthesize view    = _view;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// class public
-
-+ (id)itemWithCaption:(NSString*)caption view:(UIControl*)view {
-  TTTableViewItem* item = [[[self alloc] init] autorelease];
-  item.caption = caption;
-  item.view = view;
-  return item;
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
-- (id)init {
-  if (self = [super init]) {
-    _caption = nil;
-    _view = nil;
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super init] ) {
+    self.caption  = [properties objectForKey:kTableItemCaptionKey];
+    self.view     = [properties objectForKey:kTableItemViewKey];
   }
+
   return self;
 }
 
@@ -740,12 +721,12 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSCoding
+#pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
-    self.caption = [decoder decodeObjectForKey:@"caption"];
-    self.view = [decoder decodeObjectForKey:@"view"];
+    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+    self.view = [decoder decodeObjectForKey:kTableItemViewKey];
   }
   return self;
 }
@@ -753,11 +734,12 @@
 - (void)encodeWithCoder:(NSCoder*)encoder {
   [super encodeWithCoder:encoder];
   if (self.caption) {
-    [encoder encodeObject:self.caption forKey:@"caption"];
+    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
   }
   if (self.view) {
-    [encoder encodeObject:self.view forKey:@"control"];
+    [encoder encodeObject:self.view forKey:kTableItemViewKey];
   }
 }
 
 @end
+*/

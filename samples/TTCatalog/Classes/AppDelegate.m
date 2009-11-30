@@ -27,7 +27,7 @@
 - (void)applicationDidFinishLaunching:(UIApplication*)application {
   TTNavigator* navigator = [TTNavigator navigator];
   navigator.supportsShakeToReload = YES;
-  navigator.persistenceMode = TTNavigatorPersistenceModeAll;
+  navigator.persistenceMode = TTNavigatorPersistenceModeNone;
 
   TTURLMap* map = navigator.URLMap;
   [map from:@"*" toViewController:[TTWebController class]];
@@ -37,22 +37,22 @@
   [map from:@"tt://imageTest1" toViewController:[ImageTest1Controller class]];
   [map from:@"tt://tableTest" toViewController:[TableTestController class]];
   [map from:@"tt://tableItemTest" toViewController:[TableItemTestController class]];
-  [map from:@"tt://tableControlsTest" toViewController:[TableControlsTestController class]];
-  [map from:@"tt://styledTextTableTest" toViewController:[StyledTextTableTestController class]];
-  [map from:@"tt://composerTest" toViewController:[MessageTestController class]];
-  [map from:@"tt://searchTest" toViewController:[SearchTestController class]];
+/* TODO: CLEANUP  [map from:@"tt://tableControlsTest" toViewController:[TableControlsTestController class]];*/
+/* TODO: CLEANUP  [map from:@"tt://styledTextTableTest" toViewController:[StyledTextTableTestController class]];*/
+/* TODO: CLEANUP  [map from:@"tt://composerTest" toViewController:[MessageTestController class]];*/
+/* TODO: CLEANUP  [map from:@"tt://searchTest" toViewController:[SearchTestController class]];*/
   [map from:@"tt://activityTest" toViewController:[ActivityTestController class]];
   [map from:@"tt://styleTest" toViewController:[StyleTestController class]];
-  [map from:@"tt://styledTextTest" toViewController:[StyledTextTestController class]];
+/* TODO: CLEANUP  [map from:@"tt://styledTextTest" toViewController:[StyledTextTestController class]];*/
   [map from:@"tt://buttonTest" toViewController:[ButtonTestController class]];
   [map from:@"tt://tabBarTest" toViewController:[TabBarTestController class]];
   [map from:@"tt://youTubeTest" toViewController:[YouTubeTestController class]];
-  [map from:@"tt://imageTest2" toViewController:[TableImageTestController class]];
+/* TODO: CLEANUP  [map from:@"tt://imageTest2" toViewController:[TableImageTestController class]];*/
   [map from:@"tt://scrollViewTest" toViewController:[ScrollViewTestController class]];
   [map from:@"tt://launcherTest" toViewController:[LauncherViewTestController class]];
 
   if (![navigator restoreViewControllers]) {
-    [navigator openURL:@"tt://catalog" animated:NO];
+    [navigator openURL:@"tt://tableItemTest" animated:NO];
   }
 }
 

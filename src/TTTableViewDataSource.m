@@ -177,38 +177,20 @@
 
 - (Class)tableView:(UITableView*)tableView cellClassForObject:(id)object {
   if ([object isKindOfClass:[TTTableItem class]]) {
-    if ([object isKindOfClass:[TTTableMoreButton class]]) {
-      return [TTTableMoreButtonCell class];
-    } else if ([object isKindOfClass:[TTTableSubtextItem class]]) {
-      return [TTTableSubtextItemCell class];
-    } else if ([object isKindOfClass:[TTTableRightCaptionItem class]]) {
-      return [TTTableRightCaptionItemCell class];
-    } else if ([object isKindOfClass:[TTTableCaptionItem class]]) {
-      return [TTTableCaptionItemCell class];
-    } else if ([object isKindOfClass:[TTTableSubtitleItem class]]) {
-      return [TTTableSubtitleItemCell class];
-    } else if ([object isKindOfClass:[TTTableMessageItem class]]) {
-      return [TTTableMessageItemCell class];
-    } else if ([object isKindOfClass:[TTTableImageItem class]]) {
-      return [TTTableImageItemCell class];
-    } else if ([object isKindOfClass:[TTTableStyledTextItem class]]) {
-      return [TTStyledTextTableItemCell class];
-    } else if ([object isKindOfClass:[TTTableActivityItem class]]) {
-      return [TTTableActivityItemCell class];
-    } else if ([object isKindOfClass:[TTTableControlItem class]]) {
-      return [TTTableControlCell class];
-    } else {
-      return [TTTableTextItemCell class];
-    }
+    return [object cellClass];
+  }
+/* TODO: CLEANUP
   } else if ([object isKindOfClass:[TTStyledText class]]) {
     return [TTStyledTextTableCell class];
+
   } else if ([object isKindOfClass:[UIControl class]]
              || [object isKindOfClass:[UITextView class]]
              || [object isKindOfClass:[TTTextEditor class]]) {
     return [TTTableControlCell class];
+
   } else if ([object isKindOfClass:[UIView class]]) {
     return [TTTableFlushViewCell class];
-  }
+  }*/
   
   // This will display an empty white table cell - probably not what you want, but it
   // is better than crashing, which is what happens if you return nil here
@@ -216,12 +198,12 @@
 }
 
 - (NSString*)tableView:(UITableView*)tableView labelForObject:(id)object {
-  if ([object isKindOfClass:[TTTableTextItem class]]) {
+/* TODO: CLEANUP  if ([object isKindOfClass:[TTTableTextItem class]]) {
     TTTableTextItem* item = object;
     return item.text;
-  } else {
+  } else {*/
     return [NSString stringWithFormat:@"%@", object];
-  }
+/* TODO: CLEANUP  }*/
 }
 
 - (NSIndexPath*)tableView:(UITableView*)tableView indexPathForObject:(id)object {

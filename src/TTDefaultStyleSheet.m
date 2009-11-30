@@ -625,8 +625,12 @@
   return RGBCOLOR(79, 89, 105);
 }
 
-- (UIColor*)tableTitleTextColor {
-  return RGBCOLOR(99, 109, 125);
+- (UIColor*)tableTitleColor {
+  return [UIColor blackColor];
+}
+
+- (UIColor*)tableTitleHighlightedColor {
+  return [UIColor whiteColor];
 }
 
 - (UIColor*)tableHeaderTextColor {
@@ -696,16 +700,16 @@
   return [UIFont boldSystemFontOfSize:12];
 }
 
+- (UIFont*)tableTitleFont {
+  return [UIFont boldSystemFontOfSize:17];
+}
+
 - (UIFont*)tableFont {
   return [UIFont boldSystemFontOfSize:17];
 }
 
 - (UIFont*)tableSmallFont {
   return [UIFont boldSystemFontOfSize:15];
-}
-
-- (UIFont*)tableTitleFont {
-  return [UIFont boldSystemFontOfSize:13];
 }
 
 - (UIFont*)tableTimestampFont {
@@ -754,6 +758,18 @@
 
 - (UITableViewCellSelectionStyle)tableSelectionStyle {
   return UITableViewCellSelectionStyleBlue;
+}
+
+- (UILineBreakMode)tableTitleLineBreakMode {
+  return UILineBreakModeTailTruncation;
+}
+
+- (NSInteger)tableTitleNumberOfLines {
+  return 1;
+}
+
+- (UITextAlignment)tableTitleTextAlignment {
+  return UITextAlignmentLeft;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

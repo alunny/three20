@@ -19,55 +19,55 @@
 @class TTTableLinkedItem, TTTableActivityItem, TTTableErrorItem, TTTableControlItem,
        TTTableViewItem, TTImageView, TTErrorView, TTActivityLabel, TTStyledTextLabel, TTStyledText;
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkedItemCell : TTTableViewCell {
+@protected
   TTTableLinkedItem* _item;
 }
+
 @end
 
-@interface TTTableTextItemCell : TTTableLinkedItemCell
-@end
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableTitleItemCell : TTTableLinkedItemCell
+@end
+/* TODO: CLEANUP
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableCaptionItemCell : TTTableLinkedItemCell
-
-@property(nonatomic,readonly) UILabel* captionLabel;
-
 @end
 
-@interface TTTableSubtextItemCell : TTTableLinkedItemCell
 
-@property(nonatomic,readonly) UILabel* captionLabel;
-
-@end
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableRightCaptionItemCell : TTTableLinkedItemCell
-
-@property(nonatomic,readonly) UILabel* captionLabel;
-
 @end
 
-@interface TTTableSubtitleItemCell : TTTableLinkedItemCell {
-  TTImageView* _imageView2;
-}
 
-@property(nonatomic,readonly,retain) UILabel* subtitleLabel;
-@property(nonatomic,readonly,retain) TTImageView* imageView2;
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSubtitleItemCell : TTTableLinkedItemCell
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItemCell : TTTableLinkedItemCell {
-  UILabel* _titleLabel;
+  UILabel* _messageLabel;
   UILabel* _timestampLabel;
-  TTImageView* _imageView2;
 }
 
-@property(nonatomic,readonly,retain) UILabel* titleLabel;
-@property(nonatomic,readonly) UILabel* captionLabel;
+@property(nonatomic,readonly,retain) UILabel* messageLabel;
 @property(nonatomic,readonly,retain) UILabel* timestampLabel;
-@property(nonatomic,readonly,retain) TTImageView* imageView2;
 
 @end
 
-@interface TTTableMoreButtonCell : TTTableSubtitleItemCell {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSubtextItemCell : TTTableLinkedItemCell
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableMoreButtonCell : TTTableTitleItemCell {
   UIActivityIndicatorView* _activityIndicatorView;
   BOOL _animating;
 }
@@ -77,14 +77,18 @@
 
 @end
 
-@interface TTTableImageItemCell : TTTableTextItemCell {
-  TTImageView* _imageView2;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableImageItemCell : TTTableTitleItemCell {
+  TTImageView* _styledImageView;
 }
 
-@property(nonatomic,readonly,retain) TTImageView* imageView2;
+@property(nonatomic,readonly,retain) TTImageView* styledImageView;
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTStyledTextTableItemCell : TTTableLinkedItemCell {
   TTStyledTextLabel* _label;
 }
@@ -93,6 +97,8 @@
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTStyledTextTableCell : TTTableViewCell {
   TTStyledTextLabel* _label;
 }
@@ -101,6 +107,8 @@
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableActivityItemCell : TTTableViewCell {
   TTTableActivityItem* _item;
   TTActivityLabel* _activityLabel;
@@ -110,6 +118,8 @@
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableControlCell : TTTableViewCell {
   TTTableControlItem* _item;
   UIControl* _control;
@@ -120,6 +130,8 @@
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableFlushViewCell : TTTableViewCell {
   TTTableViewItem* _item;
   UIView* _view;
@@ -129,3 +141,4 @@
 @property(nonatomic,readonly,retain) UIView* view;
 
 @end
+*/

@@ -310,9 +310,12 @@ static const CGFloat kDesiredTableHeight = 150;
   if (_rowHeight) {
     return _rowHeight;
   } else {
-    id object = [_dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
-    Class cls = [_dataSource tableView:tableView cellClassForObject:object];
-    return [cls tableView:_tableView rowHeightForObject:object];
+    id cell = [_dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+    if( [cell isKindOfClass:[TTTableViewCell class]] ) {
+      return [(TTTableViewCell*)cell rowHeightWithTableView:tableView];
+    } else {
+      return _rowHeight;
+    }
   }
 }
 

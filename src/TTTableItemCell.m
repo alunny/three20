@@ -51,19 +51,14 @@ static const CGFloat kDefaultImageSize = 50;
 static const CGFloat kDefaultMessageImageWidth = 34;
 static const CGFloat kDefaultMessageImageHeight = 34;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableLinkedItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
-    _item = nil;
-	}
-	return self;
-}
+#pragma mark NSObject
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_item);
@@ -71,7 +66,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (id)object {
   return _item;
@@ -79,23 +74,37 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (void)setObject:(id)object {
   if (_item != object) {
+    // We've just ensured that _item != object, so a release/retain is fine here.
     [_item release];
     _item = [object retain];
 
     TTTableLinkedItem* item = object;
-    if (item.URL) {
+
+    // accessoryURL takes priority over URL when setting the accessory type because
+    // you can still access URL by tapping the row if there is an accessory button.
+    if (nil != item.accessoryURL) {
+      self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+
+    } else if (nil != item.URL) {
       TTNavigationMode navigationMode = [[TTNavigator navigator].URLMap
-                                         navigationModeForURL:item.URL];
-      if (item.accessoryURL) {
-        self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-      } else if (navigationMode == TTNavigationModeCreate ||
-                 navigationMode == TTNavigationModeShare) {
+        navigationModeForURL:item.URL];
+
+      if (navigationMode == TTNavigationModeCreate ||
+          navigationMode == TTNavigationModeShare) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
       } else {
         self.accessoryType = UITableViewCellAccessoryNone;
       }
+    }
+
+    // Any URL can be tapped and accessed.
+    if (nil != item.URL) {
       self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
     } else {
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+
+    if (nil == item.URL && nil == item.accessoryURL) {
       self.accessoryType = UITableViewCellAccessoryNone;
       self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -104,55 +113,26 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
+
+#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-@implementation TTTableTextItemCell
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class private
-
-+ (UIFont*)textFontForItem:(TTTableTextItem*)item {
-  if ([item isKindOfClass:[TTTableLongTextItem class]]) {
-    return TTSTYLEVAR(font);
-  } else if ([item isKindOfClass:[TTTableGrayTextItem class]]) {
-    return TTSTYLEVAR(font);
-  } else {
-    return TTSTYLEVAR(tableFont);
-  }
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableTitleItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  TTTableTextItem* item = object;
-
-  CGFloat width = tableView.width - (kHPadding*2 + [tableView tableCellMargin]*2);
-  UIFont* font = [self textFontForItem:item];
-  CGSize size = [item.text sizeWithFont:font
-                           constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)
-                           lineBreakMode:UILineBreakModeTailTruncation];
-  if (size.height > kMaxLabelHeight) {
-    size.height = kMaxLabelHeight;
-  }
-
-  return size.height + kVPadding*2;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
-    self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.textLabel.numberOfLines = 0;
+    self.textLabel.font                 = TTSTYLEVAR(tableTitleFont);
+    self.textLabel.textColor            = TTSTYLEVAR(tableTitleColor);
+    self.textLabel.highlightedTextColor = TTSTYLEVAR(tableTitleHighlightedColor);
+    self.textLabel.lineBreakMode        = TTSTYLEVAR(tableTitleLineBreakMode);
+    self.textLabel.numberOfLines        = TTSTYLEVAR(tableTitleNumberOfLines);
+    self.textLabel.textAlignment        = TTSTYLEVAR(tableTitleTextAlignment);
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[super dealloc];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,58 +140,49 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-    
+
   self.textLabel.frame = CGRectInset(self.contentView.bounds, kHPadding, kVPadding);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
+
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
+  TTTableTitleItem* item = (TTTableTitleItem*)_item;
+  CGFloat width = self.contentView.width - kHPadding * 2;
+  CGFloat maxHeight = self.textLabel.numberOfLines * self.textLabel.font.leading;
+  if (0 == maxHeight) {
+    maxHeight = CGFLOAT_MAX;
+  }
+  CGSize size = [item.title
+         sizeWithFont: self.textLabel.font
+    constrainedToSize: CGSizeMake(width, maxHeight)
+        lineBreakMode: self.textLabel.lineBreakMode];
+  size.height = MAX(MIN(size.height, kMaxLabelHeight), self.textLabel.font.leading);
+
+  return size.height + kVPadding*2;
+}
 
 - (void)setObject:(id)object {
   if (_item != object) {
     [super setObject:object];
 
-    TTTableTextItem* item = object;
-    self.textLabel.text = item.text;
-
-    if ([object isKindOfClass:[TTTableButton class]]) {
-      self.textLabel.font = TTSTYLEVAR(tableButtonFont);
-      self.textLabel.textColor = TTSTYLEVAR(linkTextColor);
-      self.textLabel.textAlignment = UITextAlignmentCenter;
-      self.accessoryType = UITableViewCellAccessoryNone;
-      self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
-    } else if ([object isKindOfClass:[TTTableLink class]]) {
-      self.textLabel.font = TTSTYLEVAR(tableFont);
-      self.textLabel.textColor = TTSTYLEVAR(linkTextColor);
-      self.textLabel.textAlignment = UITextAlignmentLeft;
-    } else if ([object isKindOfClass:[TTTableSummaryItem class]]) {
-      self.textLabel.font = TTSTYLEVAR(tableSummaryFont);
-      self.textLabel.textColor = TTSTYLEVAR(tableSubTextColor);
-      self.textLabel.textAlignment = UITextAlignmentCenter;
-    } else if ([object isKindOfClass:[TTTableLongTextItem class]]) {
-      self.textLabel.font = TTSTYLEVAR(font);
-      self.textLabel.textColor = TTSTYLEVAR(textColor);
-      self.textLabel.textAlignment = UITextAlignmentLeft;
-    } else if ([object isKindOfClass:[TTTableGrayTextItem class]]) {
-      self.textLabel.font = TTSTYLEVAR(font);
-      self.textLabel.textColor = TTSTYLEVAR(tableSubTextColor);
-      self.textLabel.textAlignment = UITextAlignmentLeft;
-    } else {
-      self.textLabel.font = TTSTYLEVAR(tableFont);
-      self.textLabel.textColor = TTSTYLEVAR(textColor);
-      self.textLabel.textAlignment = UITextAlignmentLeft;
-    }   
+    TTTableTitleItem* item = object;
+    self.textLabel.text = item.title;
   }  
 }
 
 @end
 
+/* TODO: CLEANUP
+#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableCaptionItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTTableCaptionItem* item = object;
@@ -227,11 +198,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
-    self.textLabel.font = TTSTYLEVAR(tableTitleFont);
+    self.textLabel.font = TTSTYLEVAR(tableButtonFont);
     self.textLabel.textColor = TTSTYLEVAR(linkTextColor);
     self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
     self.textLabel.textAlignment = UITextAlignmentRight;
@@ -270,7 +241,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -291,12 +262,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableSubtextItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTTableCaptionItem* item = object;
@@ -315,7 +289,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
@@ -367,7 +341,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -388,12 +362,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableRightCaptionItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   // XXXjoe TODO
@@ -401,7 +378,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
@@ -430,7 +407,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -452,26 +429,25 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableSubtitleItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  TTTableSubtitleItem* item = object;
-  
   CGFloat height = TTSTYLEVAR(tableFont).ttLineHeight + kVPadding*2;
-  if (item.subtitle) {
-    height += TTSTYLEVAR(font).ttLineHeight;
-  }
+  height += TTSTYLEVAR(font).lineHeight;
   
   return height;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
@@ -510,7 +486,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat width = self.contentView.width - (height + kSmallMargin);
   CGFloat left = 0;
   
-  if (_imageView2) {
+  if (nil != _imageView2.defaultImage ||
+      nil != _imageView2.URL && !TTIsEmptyString(_imageView2.URL)) {
     _imageView2.frame = CGRectMake(0, 0, height, height);
     left = _imageView2.right + kSmallMargin;
   } else {
@@ -531,25 +508,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
     [super setObject:object];
 
     TTTableSubtitleItem* item = object;
-    if (item.text.length) {
-      self.textLabel.text = item.text;
-    }
-    if (item.subtitle.length) {
-      self.detailTextLabel.text = item.subtitle;
-    }
-    if (item.defaultImage) {
-      self.imageView2.defaultImage = item.defaultImage;
-    }
-    if (item.imageURL) {
-      self.imageView2.URL = item.imageURL;
-    }
+    self.textLabel.text = item.text;
+    self.detailTextLabel.text = item.subtitle;
+    self.imageView2.defaultImage = item.defaultImage;
+    self.imageView2.URL = item.imageURL;
   }  
 }
 
@@ -563,8 +532,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (TTImageView*)imageView2 {
   if (!_imageView2) {
     _imageView2 = [[TTImageView alloc] init];
-//    _imageView2.defaultImage = TTSTYLEVAR(personImageSmall);
-//    _imageView2.style = TTSTYLE(threadActorIcon);
     [self.contentView addSubview:_imageView2];
   }
   return _imageView2;
@@ -572,12 +539,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableMessageItemCell
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   // XXXjoe Compute height based on font sizes
@@ -585,7 +555,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
@@ -687,7 +657,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -755,14 +725,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableMoreButtonCell
 
 @synthesize animating = _animating;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   CGFloat height = [super tableView:tableView rowHeightForObject:object];
@@ -775,7 +748,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier]) {
@@ -811,7 +784,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -852,14 +825,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableImageItemCell
 
 @synthesize imageView2 = _imageView2;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTTableImageItem* imageItem = object;
@@ -895,7 +871,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -985,7 +961,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -1008,14 +984,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableActivityItemCell
 
 @synthesize activityLabel = _activityLabel;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -1048,7 +1027,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -1062,14 +1041,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTStyledTextTableItemCell
 
 @synthesize label = _label;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTTableStyledTextItem* item = object;
@@ -1088,7 +1070,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -1122,7 +1104,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (void)setObject:(id)object {
   if (_item != object) {
@@ -1137,14 +1119,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTStyledTextTableCell
 
 @synthesize label = _label;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   TTStyledText* text = object;
@@ -1156,7 +1141,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -1190,7 +1175,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (id)object {
   return _label.text;
@@ -1204,8 +1189,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableControlCell
 
 @synthesize item = _item, control = _control;
@@ -1227,7 +1215,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   UIView* view = nil;
@@ -1267,7 +1255,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -1319,7 +1307,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (id)object {
   return _item ? _item : (id)_control;
@@ -1349,21 +1337,24 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableFlushViewCell
 
 @synthesize item = _item, view = _view;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell class public
+#pragma mark TTTableViewCell class public
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
   return TT_ROW_HEIGHT;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
+#pragma mark NSObject
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
@@ -1390,7 +1381,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// TTTableViewCell
+#pragma mark TTTableViewCell
 
 - (id)object {
   return _item ? _item : (id)_view;
@@ -1414,3 +1405,4 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 @end
+*/

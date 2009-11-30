@@ -34,8 +34,8 @@
 @property(nonatomic,retain) id object;
 
 /**
- * Measure the height of the row with the object that will be assigned to the cell.
+ * Measure the height of the row with the given table view.
  */
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object;
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView;
 
 @end

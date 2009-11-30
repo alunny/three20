@@ -19,15 +19,101 @@
 
 @class TTStyledText, TTStyle;
 
+/**
+ * TTTableItems define the data used to create TTTableItemCells. Each item has a
+ * corresponding cell in TTTableItemCell.h/m.
+ *
+ * Here's a quick overview of the inheritance tree.
+ *
+ * TTTableItem
+ *   \_ TTTableLinkedItem
+ *   |   \_ TTTableTitleItem
+ *   |   |   \_ TTTableCaptionItem
+ *   |   |   |   \_ TTTableRightCaptionItem
+ *   |   |   \_ TTTableSubtitleItem
+ *   |   |   |   \_ TTTableMessageItem
+ *   |   |   \_ TTTableSubtextItem
+ *   |   |   \_ TTTableSummaryItem
+ *   |   |   \_ TTTableLink
+ *   |   |   \_ TTTableButton
+ *   |   |   |   \_ TTTableMoreButton
+ *   |   |   \_ TTTableImageItem
+ *   |   |   |   \_ TTTableRightImageItem
+ *   |   |   \_ TTTableActivityItem
+ *   |   \_ TTTableTextItem
+ *   |   |   \_ TTTableGrayTextItem
+ *   |   \_ TTTableStyledTextItem
+ *   \_ TTTableControlItem
+ *   \_ TTTableViewItem
+ *
+ * All table items are initialized with the itemWithProperties: or initWithProperties methods.
+ * These methods accept an NSDictionary* parameter. See each class for the accepted properties.
+ * Use the list of key definitions below to ensure consistency when setting the property
+ * values.
+ *
+ */
+
+// /-----------------------------\
+// | Title title title title ... |
+// | Subtitle subtitle subtit... |
+// | Text text text text text te |
+// | xt text text text text text |
+// \-----------------------------/
+extern NSString* kTableItemTitleKey;
+extern NSString* kTableItemSubtitleKey;
+extern NSString* kTableItemTextKey;
+
+// /-----------------------------\
+// | Caption:                    |
+// \-----------------------------/
+extern NSString* kTableItemCaptionKey;
+
+// The URL to navigate to upon tapping the row
+extern NSString* kTableItemURLKey;
+
+// The URL to navigate to upon tapping the accessory
+extern NSString* kTableItemAccessoryURLKey;
+
+// Where to download the image from
+extern NSString* kTableItemImageURLKey;
+
+// A default image that is replaced by URL image if/when it is downloaded.
+extern NSString* kTableItemDefaultImageKey;
+
+// Styling applied to the image (here's where you can set borders, padding, size, etc...)
+extern NSString* kTableItemImageStyleKey;
+
+// /-----------------------------\
+// |                   timestamp |
+// | Text text text text text te |
+// | xt text text text text text |
+// \-----------------------------/
+extern NSString* kTableItemTimestampKey;
+
+// A control as seen in the Preferences app
+extern NSString* kTableItemControlKey;
+
+// Anything, really
+extern NSString* kTableItemViewKey;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableItem : NSObject <NSCoding> {
+@private
   id _userInfo;
 }
 
 @property(nonatomic,retain) id userInfo;
 
+// Used to instantiate the cell object
+// By default returns [TTTableTextItemCell class]
+-(Class)cellClass;
+
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkedItem : TTTableItem {
+@private
   NSString* _URL;
   NSString* _accessoryURL;
 }
@@ -35,170 +121,352 @@
 @property(nonatomic,copy) NSString* URL;
 @property(nonatomic,copy) NSString* accessoryURL;
 
-@end
++ (id)itemWithProperties:(NSDictionary*)properties;
 
-@interface TTTableTextItem : TTTableLinkedItem {
-  NSString* _text;
-}
-  
-@property(nonatomic,copy) NSString* text;
-
-+ (id)itemWithText:(NSString*)text;
-+ (id)itemWithText:(NSString*)text URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL;
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
-@interface TTTableCaptionItem : TTTableTextItem {
-  NSString* _caption;
-}
 
-@property(nonatomic,copy) NSString* caption;
-
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption;
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text caption:(NSString*)caption URL:(NSString*)URL
-      accessoryURL:(NSString*)accessoryURL;
-
-@end
-
-@interface TTTableRightCaptionItem : TTTableCaptionItem
-@end
-
-@interface TTTableSubtextItem : TTTableCaptionItem
-@end
-
-@interface TTTableSubtitleItem : TTTableTextItem {
-  NSString* _subtitle;
-  NSString* _imageURL;
-  UIImage* _defaultImage;
-}
-
-@property(nonatomic,copy) NSString* subtitle;
-@property(nonatomic,copy) NSString* imageURL;
-@property(nonatomic,retain) UIImage* defaultImage;
-
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle;
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle URL:(NSString*)URL
-      accessoryURL:(NSString*)accessoryURL;
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle imageURL:(NSString*)imageURL
-      URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text subtitle:(NSString*)subtitle imageURL:(NSString*)imageURL
-      defaultImage:(UIImage*)defaultImage URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL;
-
-@end
-
-@interface TTTableMessageItem : TTTableTextItem {
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableTitleItem : TTTableLinkedItem {
+@private
   NSString* _title;
-  NSString* _caption;
-  NSDate* _timestamp;
-  NSString* _imageURL;
 }
 
 @property(nonatomic,copy) NSString* title;
+
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+/* TODO: CLEANUP
+*/
+#if 0
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableCaptionItem : TTTableTitleItem {
+@private
+  NSString* _caption;
+}
+
 @property(nonatomic,copy) NSString* caption;
+
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemCaptionKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableRightCaptionItem : TTTableCaptionItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemCaptionKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSubtitleItem : TTTableTitleItem {
+@private
+  NSString* _subtitle;
+}
+
+@property(nonatomic,copy) NSString* subtitle;
+
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemSubtitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableMessageItem : TTTableSubtitleItem {
+@private
+  NSString* _text;
+  NSDate*   _timestamp;
+}
+
+@property(nonatomic,copy) NSString* text;
 @property(nonatomic,retain) NSDate* timestamp;
-@property(nonatomic,copy) NSString* imageURL;
 
-+ (id)itemWithTitle:(NSString*)title caption:(NSString*)caption text:(NSString*)text
-      timestamp:(NSDate*)timestamp URL:(NSString*)URL;
-+ (id)itemWithTitle:(NSString*)title caption:(NSString*)caption text:(NSString*)text
-      timestamp:(NSDate*)timestamp imageURL:(NSString*)imageURL URL:(NSString*)URL;
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemSubtitleKey
+ * * kTableItemTextKey
+ * * kTableItemTimestampKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
-@interface TTTableLongTextItem : TTTableTextItem
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSubtextItem : TTTableTitleItem {
+@private
+  NSString* _text;
+}
+
+@property(nonatomic,copy) NSString* text;
+
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemTextKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
 @end
 
-@interface TTTableGrayTextItem : TTTableTextItem
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSummaryItem : TTTableTitleItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
 @end
 
-@interface TTTableSummaryItem : TTTableTextItem
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableLink : TTTableTitleItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
 @end
 
-@interface TTTableLink : TTTableTextItem
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableButton : TTTableTitleItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
 @end
 
-@interface TTTableButton : TTTableTextItem
-@end
 
-@interface TTTableMoreButton : TTTableSubtitleItem {
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableMoreButton : TTTableButton {
+@private
   BOOL _isLoading;
 }
 
 @property(nonatomic) BOOL isLoading;
 
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
 @end
 
-@interface TTTableImageItem : TTTableTextItem {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableImageItem : TTTableTitleItem {
+@private
   NSString* _imageURL;
-  UIImage* _defaultImage;
-  TTStyle* _imageStyle;
+  UIImage*  _defaultImage;
+  TTStyle*  _imageStyle;
 }
 
 @property(nonatomic,copy) NSString* imageURL;
 @property(nonatomic,retain) UIImage* defaultImage;
 @property(nonatomic,retain) TTStyle* imageStyle;
 
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL;
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL
-      defaultImage:(UIImage*)defaultImage URL:(NSString*)URL;
-+ (id)itemWithText:(NSString*)text imageURL:(NSString*)imageURL
-      defaultImage:(UIImage*)defaultImage imageStyle:(TTStyle*)imageStyle URL:(NSString*)URL;
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableRightImageItem : TTTableImageItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
 @end
 
-@interface TTTableActivityItem : TTTableItem {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableActivityItem : TTTableTitleItem
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableTextItem : TTTableLinkedItem {
+@private
   NSString* _text;
 }
 
 @property(nonatomic,copy) NSString* text;
 
-+ (id)itemWithText:(NSString*)text;
+/**
+ * Properties:
+ *
+ * * kTableItemTextKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableGrayTextItem : TTTableTextItem
+/**
+ * Properties:
+ *
+ * * kTableItemTextKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableStyledTextItem : TTTableLinkedItem {
+@private
   TTStyledText* _text;
-  UIEdgeInsets _margin;
-  UIEdgeInsets _padding;
+  UIEdgeInsets  _margin;
+  UIEdgeInsets  _padding;
 }
 
 @property(nonatomic,retain) TTStyledText* text;
 @property(nonatomic) UIEdgeInsets margin;
 @property(nonatomic) UIEdgeInsets padding;
 
-+ (id)itemWithText:(TTStyledText*)text;
-+ (id)itemWithText:(TTStyledText*)text URL:(NSString*)URL;
-+ (id)itemWithText:(TTStyledText*)text URL:(NSString*)URL accessoryURL:(NSString*)accessoryURL;
+/**
+ * Properties:
+ *
+ * * kTableItemTextKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableControlItem : TTTableItem {
-  NSString* _caption;
-  UIControl* _control;
+@private
+  NSString*   _caption;
+  UIControl*  _control;
 }
 
 @property(nonatomic,copy) NSString* caption;
 @property(nonatomic,retain) UIControl* control;
 
-+ (id)itemWithCaption:(NSString*)caption control:(UIControl*)control;
+/**
+ * Properties:
+ *
+ * * kTableItemCaptionKey
+ * * kTableItemControlKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableViewItem : TTTableItem {
+@private
   NSString* _caption;
-  UIView* _view;
+  UIView*   _view;
 }
 
 @property(nonatomic,copy) NSString* caption;
 @property(nonatomic,retain) UIView* view;
 
-+ (id)itemWithCaption:(NSString*)caption view:(UIView*)view;
+/**
+ * Properties:
+ *
+ * * kTableItemCaptionKey
+ * * kTableItemViewKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
 
 @end
+#endif

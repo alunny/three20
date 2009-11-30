@@ -88,7 +88,7 @@ static const CGFloat kSectionHeaderHeight = 35;
     if (item.URL && [_controller shouldOpenURL:item.URL]) {
       TTOpenURL(item.URL);
     }
-
+/* TODO: CLEANUP
     if ([object isKindOfClass:[TTTableButton class]]) {
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else if ([object isKindOfClass:[TTTableMoreButton class]]) {
@@ -100,7 +100,7 @@ static const CGFloat kSectionHeaderHeight = 35;
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       
       [_controller.model load:TTURLRequestCachePolicyDefault more:YES];
-    }
+    }*/
   }
 
   [_controller didSelectObject:object atIndexPath:indexPath];
@@ -181,9 +181,12 @@ static const CGFloat kSectionHeaderHeight = 35;
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
   id<TTTableViewDataSource> dataSource = (id<TTTableViewDataSource>)tableView.dataSource;
 
-  id object = [dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
-  Class cls = [dataSource tableView:tableView cellClassForObject:object];
-  return [cls tableView:tableView rowHeightForObject:object];
+  id cell = [dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+  if( [cell isKindOfClass:[TTTableViewCell class]] ) {
+    return [(TTTableViewCell*)cell rowHeightWithTableView:tableView];
+  } else {
+    return tableView.rowHeight;
+  }
 }
 
 @end
