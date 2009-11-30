@@ -174,7 +174,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-/* TODO: CLEANUP
+
 #pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,19 +202,18 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
-    self.textLabel.font = TTSTYLEVAR(tableButtonFont);
-    self.textLabel.textColor = TTSTYLEVAR(linkTextColor);
-    self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.textLabel.textAlignment = UITextAlignmentRight;
-    self.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.textLabel.numberOfLines = 1;
-    self.textLabel.adjustsFontSizeToFitWidth = YES;
+    self.textLabel.font                      = TTSTYLEVAR(tableCaptionFont);
+    self.textLabel.textColor                 = TTSTYLEVAR(tableCaptionColor);
+    self.textLabel.highlightedTextColor      = TTSTYLEVAR(tableCaptionHighlightedColor);
+    self.textLabel.lineBreakMode             = TTSTYLEVAR(tableCaptionLineBreakMode);
+    self.textLabel.numberOfLines             = TTSTYLEVAR(tableCaptionNumberOfLines);
+    self.textLabel.textAlignment             = TTSTYLEVAR(tableCaptionTextAlignment);
+    self.textLabel.adjustsFontSizeToFitWidth = TTSTYLEVAR(tableCaptionAdjustsFontSizeToFitWidth);
+    self.textLabel.minimumFontSize           = TTSTYLEVAR(tableCaptionMinimumFontSize);
 
     self.detailTextLabel.font = TTSTYLEVAR(tableSmallFont);
     self.detailTextLabel.textColor = TTSTYLEVAR(textColor);
     self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-    self.detailTextLabel.minimumFontSize = 8;
     self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
     self.detailTextLabel.numberOfLines = 0;
 	}
@@ -262,7 +261,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 @end
 
-
+/* TODO: CLEANUP
 #pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////

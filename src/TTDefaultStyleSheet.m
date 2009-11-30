@@ -633,6 +633,14 @@
   return [UIColor whiteColor];
 }
 
+- (UIColor*)tableCaptionColor {
+  return RGBCOLOR(36, 112, 216);
+}
+
+- (UIColor*)tableCaptionHighlightedColor {
+  return [UIColor whiteColor];
+}
+
 - (UIColor*)tableHeaderTextColor {
   return nil;
 }
@@ -704,6 +712,10 @@
   return [UIFont boldSystemFontOfSize:17];
 }
 
+- (UIFont*)tableCaptionFont {
+  return [UIFont boldSystemFontOfSize:13];
+}
+
 - (UIFont*)tableFont {
   return [UIFont boldSystemFontOfSize:17];
 }
@@ -770,6 +782,22 @@
 
 - (UITextAlignment)tableTitleTextAlignment {
   return UITextAlignmentLeft;
+}
+
+- (UILineBreakMode)tableCaptionLineBreakMode {
+  return UILineBreakModeTailTruncation;
+}
+
+- (NSInteger)tableCaptionNumberOfLines {
+  return 1;
+}
+
+- (UITextAlignment)tableCaptionTextAlignment {
+  return UITextAlignmentLeft;
+}
+
+- (BOOL)tableCaptionAdjustsFontSizeToFitWidth {
+  return YES;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

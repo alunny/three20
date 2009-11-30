@@ -37,6 +37,8 @@
 
 @property(nonatomic,readonly) UIColor* tableTitleColor;
 @property(nonatomic,readonly) UIColor* tableTitleHighlightedColor;
+@property(nonatomic,readonly) UIColor* tableCaptionColor;
+@property(nonatomic,readonly) UIColor* tableCaptionHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableActivityTextColor;
 @property(nonatomic,readonly) UIColor* tableErrorTextColor;
 @property(nonatomic,readonly) UIColor* tableSubTextColor;
@@ -62,6 +64,7 @@
 @property(nonatomic,readonly) UIFont* font;
 @property(nonatomic,readonly) UIFont* buttonFont;
 @property(nonatomic,readonly) UIFont* tableTitleFont;
+@property(nonatomic,readonly) UIFont* tableCaptionFont;
 @property(nonatomic,readonly) UIFont* tableFont;
 @property(nonatomic,readonly) UIFont* tableSmallFont;
 @property(nonatomic,readonly) UIFont* tableTimestampFont;
@@ -79,8 +82,14 @@
 @property(nonatomic,readonly) UITableViewCellSelectionStyle tableSelectionStyle;
 
 @property(nonatomic,readonly) UILineBreakMode tableTitleLineBreakMode;
-@property(nonatomic,readonly) NSInteger tableTitleNumberOfLines;
+@property(nonatomic,readonly) NSInteger       tableTitleNumberOfLines;
 @property(nonatomic,readonly) UITextAlignment tableTitleTextAlignment;
+
+@property(nonatomic,readonly) UILineBreakMode tableCaptionLineBreakMode;
+@property(nonatomic,readonly) NSInteger       tableCaptionNumberOfLines;
+@property(nonatomic,readonly) UITextAlignment tableCaptionTextAlignment;
+@property(nonatomic,readonly) BOOL            tableCaptionAdjustsFontSizeToFitWidth;
+@property(nonatomic,readonly) CGFloat         tableCaptionMinimumFontSize;
 
 - (TTStyle*)selectionFillStyle:(TTStyle*)next;
 
