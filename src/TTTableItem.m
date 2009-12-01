@@ -27,8 +27,8 @@ NSString* kTableItemCaptionKey        = @"caption";
 NSString* kTableItemURLKey            = @"URL";
 NSString* kTableItemAccessoryURLKey   = @"accessoryURL";
 
+NSString* kTableItemImageKey          = @"image";
 NSString* kTableItemImageURLKey       = @"imageURL";
-NSString* kTableItemDefaultImageKey   = @"defaultImage";
 NSString* kTableItemImageStyleKey     = @"imageStyle";
 
 NSString* kTableItemTimestampKey      = @"timestamp";
@@ -73,8 +73,11 @@ NSString* kTableItemViewKey           = @"view";
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableLinkedItem
 
-@synthesize URL = _URL;
-@synthesize accessoryURL = _accessoryURL;
+@synthesize URL           = _URL;
+@synthesize accessoryURL  = _accessoryURL;
+@synthesize image         = _image;
+@synthesize imageURL      = _imageURL;
+@synthesize imageStyle    = _imageStyle;
 
 + (id)itemWithProperties:(NSDictionary*)properties {
   return [[[self alloc] initWithProperties:properties] autorelease];
@@ -87,6 +90,9 @@ NSString* kTableItemViewKey           = @"view";
   if( self = [super init] ) {
     self.URL          = [properties objectForKey:kTableItemURLKey];
     self.accessoryURL = [properties objectForKey:kTableItemAccessoryURLKey];
+    self.image        = [properties objectForKey:kTableItemImageKey];
+    self.imageURL     = [properties objectForKey:kTableItemImageURLKey];
+    self.imageStyle   = [properties objectForKey:kTableItemImageStyleKey];
   }
 
   return self;
@@ -95,6 +101,9 @@ NSString* kTableItemViewKey           = @"view";
 - (void)dealloc {
   TT_RELEASE_SAFELY(_URL);
   TT_RELEASE_SAFELY(_accessoryURL);
+  TT_RELEASE_SAFELY(_image);
+  TT_RELEASE_SAFELY(_imageURL);
+  TT_RELEASE_SAFELY(_imageStyle);
   [super dealloc];
 }
 
@@ -105,6 +114,7 @@ NSString* kTableItemViewKey           = @"view";
   if (self = [super initWithCoder:decoder]) {
     self.URL          = [decoder decodeObjectForKey:kTableItemURLKey];
     self.accessoryURL = [decoder decodeObjectForKey:kTableItemAccessoryURLKey];
+    self.imageURL     = [decoder decodeObjectForKey:kTableItemImageURLKey];
   }
   return self;
 }
@@ -116,6 +126,9 @@ NSString* kTableItemViewKey           = @"view";
   }
   if (nil != self.accessoryURL) {
     [encoder encodeObject:self.accessoryURL forKey:kTableItemAccessoryURLKey];
+  }
+  if (nil != self.imageURL) {
+    [encoder encodeObject:self.imageURL forKey:kTableItemImageURLKey];
   }
 }
 

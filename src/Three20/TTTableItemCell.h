@@ -23,7 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkedItemCell : TTTableViewCell {
 @protected
-  TTTableLinkedItem* _item;
+  TTTableLinkedItem*  _item;
+  TTImageView*        _styledImageView;
 }
 
 @end

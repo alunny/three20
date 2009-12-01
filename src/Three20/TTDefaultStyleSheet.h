@@ -121,6 +121,12 @@
 
 @property(nonatomic,readonly) UITextAlignment tableTimestampTextAlignment;
 
+@property(nonatomic,readonly) CGFloat         tableHPadding;
+@property(nonatomic,readonly) CGFloat         tableVPadding;
+
+@property(nonatomic,readonly) CGSize          tableImageSize;
+@property(nonatomic,readonly) UIEdgeInsets    tableImagePadding;
+
 - (TTStyle*)selectionFillStyle:(TTStyle*)next;
 
 - (TTStyle*)toolbarButtonForState:(UIControlState)state shape:(TTShape*)shape

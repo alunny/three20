@@ -62,13 +62,13 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     self.title = @"Table Items";
     self.variableHeightRows = YES;
 
-    // Uncomment this to test fixed height rows.
-    //self.tableView.rowHeight = 120;
+    // Uncomment this to test fixed-height rows.
+    //self.tableView.rowHeight = 44;
 
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     // Uncomment this to see how the table looks with the grouped style
-    self.tableViewStyle = UITableViewStyleGrouped;
+    //self.tableViewStyle = UITableViewStyleGrouped;
     
     //self.tableViewSeparatorStyle = UITableViewCellSeparatorStyleNone;
 
@@ -78,6 +78,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     NSString* localImage = @"bundle://tableIcon.png";
     NSString* remoteImage = @"http://profile.ak.fbcdn.net/v223/35/117/q223792_6978.jpg";
     UIImage* defaultPerson = TTIMAGE(@"bundle://defaultPerson.png");
+    TTStyle* imageStyle = 
+      [TTShapeStyle styleWithShape:[TTRectangleShape shape] next:
+      [TTSolidBorderStyle styleWithColor:[UIColor lightGrayColor] width:1 next:
+      [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
+      [TTInsetStyle styleWithInset:UIEdgeInsetsMake(3, 3, 3, 3) next:
+      [TTContentStyle styleWithNext:nil]]]]];
     
     // This demonstrates how to create a table with standard table "fields".  Many of these
     // fields with URLs that will be visited when the row is selected
@@ -85,10 +91,16 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       @"TTTableTitleItem",
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"URL", kTableItemTitleKey,
         @"tt://tableItemTest", kTableItemURLKey,
+        defaultPerson, kTableItemImageKey,
+        localImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"accessoryURL", kTableItemTitleKey,
@@ -100,10 +112,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
+        kLoremIpsum, kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some urls set a", kTableItemTitleKey,
+        kLoremIpsum, kTableItemTitleKey,
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
@@ -149,6 +163,9 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       @"TTTableSubtitleItem",
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Subtitle", kTableItemSubtitleKey,
@@ -166,6 +183,8 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"accessoryURL", kTableItemTitleKey,
         @"Subtitle", kTableItemSubtitleKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
+        defaultPerson, kTableItemImageKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Both URLs", kTableItemTitleKey,
@@ -281,9 +300,9 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
   [self.tableView reloadData];
 }
-
+/*
 - (id<UITableViewDelegate>)createDelegate {
   return [[[TableViewVarHeightDelegate alloc] initWithController:self] autorelease];
-}
+}*/
 
 @end

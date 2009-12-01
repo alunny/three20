@@ -829,7 +829,7 @@
 }
 
 - (NSInteger)tableTitleNumberOfLines {
-  return 1;
+  return 0;
 }
 
 - (UITextAlignment)tableTitleTextAlignment {
@@ -894,6 +894,22 @@
 
 - (UITextAlignment)tableTimestampTextAlignment {
   return UITextAlignmentRight;
+}
+
+- (CGFloat)tableHPadding {
+  return 10;
+}
+
+- (CGFloat)tableVPadding {
+  return 10;
+}
+
+- (CGSize)tableImageSize {
+  return CGSizeMake(50, 50);
+}
+
+- (UIEdgeInsets)tableImagePadding {
+  return UIEdgeInsetsMake(10, 10, 10, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

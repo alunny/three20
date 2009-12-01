@@ -19,8 +19,6 @@
 
 #import "Three20/TTGlobalUI.h"
 
-const CGFloat kHPadding = 10;
-
 const CGFloat kDisclosureIndicatorWidth = 20;
 const CGFloat kDetailDisclosureButtonWidth = 33;
 const CGFloat kEditingIndentationWidth = 32;
@@ -35,7 +33,7 @@ const CGFloat kReorderButtonWidth = 32;
 }
 
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat width = tableView.width - kHPadding * 2 - [tableView tableCellMargin] * 2;
+  CGFloat width = tableView.width - TTSTYLEVAR(tableHPadding) * 2 - [tableView tableCellMargin] * 2;
 
   if (tableView.editing) {
     UITableViewCellEditingStyle editingStyle;

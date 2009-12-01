@@ -29,7 +29,6 @@
  *   \_ TTTableLinkedItem
  *   |   \_ TTTableTitleItem
  *   |   |   \_ TTTableCaptionItem
- *   |   |   |   \_ TTTableRightCaptionItem
  *   |   |   \_ TTTableSubtitleItem
  *   |   |   |   \_ TTTableMessageItem
  *   |   |   \_ TTTableSubtextItem
@@ -74,13 +73,14 @@ extern NSString* kTableItemURLKey;
 // The URL to navigate to upon tapping the accessory
 extern NSString* kTableItemAccessoryURLKey;
 
+// An image that is replaced by the URL image if/when it is downloaded.
+extern NSString* kTableItemImageKey;
+
 // Where to download the image from
 extern NSString* kTableItemImageURLKey;
 
-// A default image that is replaced by URL image if/when it is downloaded.
-extern NSString* kTableItemDefaultImageKey;
-
-// Styling applied to the image (here's where you can set borders, padding, size, etc...)
+// Styling applied to the image (here's where you can set borders,
+// padding, size, etc...)
 extern NSString* kTableItemImageStyleKey;
 
 // /-----------------------------\
@@ -116,10 +116,16 @@ extern NSString* kTableItemViewKey;
 @private
   NSString* _URL;
   NSString* _accessoryURL;
+  UIImage*  _image;
+  NSString* _imageURL;
+  TTStyle*  _imageStyle;
 }
 
-@property(nonatomic,copy) NSString* URL;
-@property(nonatomic,copy) NSString* accessoryURL;
+@property(nonatomic,copy)   NSString* URL;
+@property(nonatomic,copy)   NSString* accessoryURL;
+@property(nonatomic,retain) UIImage*  image;
+@property(nonatomic,copy)   NSString* imageURL;
+@property(nonatomic,retain) TTStyle*  imageStyle;
 
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -142,6 +148,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -174,19 +183,6 @@ extern NSString* kTableItemViewKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableRightCaptionItem : TTTableCaptionItem
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemCaptionKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- */
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableSubtitleItem : TTTableTitleItem {
 @private
   NSString* _subtitle;
@@ -201,6 +197,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemSubtitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -228,6 +227,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTimestampKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -254,6 +256,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTextKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -270,6 +275,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -282,6 +290,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -294,6 +305,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -312,6 +326,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -334,6 +351,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -350,6 +370,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -362,6 +385,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -380,6 +406,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTextKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -396,6 +425,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTextKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 @end
 
@@ -418,6 +450,9 @@ extern NSString* kTableItemViewKey;
  * * kTableItemTextKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 

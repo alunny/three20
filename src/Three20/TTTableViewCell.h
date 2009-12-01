@@ -17,7 +17,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-extern const CGFloat kHPadding;
 extern const CGFloat kDisclosureIndicatorWidth;
 extern const CGFloat kDetailDisclosureButtonWidth;
 
