@@ -9,6 +9,47 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt\
  mollit anim id est laborum.
 
+@interface TableViewVarHeightDelegate : TTTableViewVarHeightDelegate {
+}
+
+@end
+
+@implementation TableViewVarHeightDelegate
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.row % 2) {
+    return UITableViewCellEditingStyleDelete;
+  } else {
+    return UITableViewCellEditingStyleNone;
+  }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+@end
+
+
+@interface SectionedSortableDataSource : TTSectionedDataSource {
+}
+
+@end
+
+@implementation SectionedSortableDataSource
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+}
+
+@end
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation TableItemTestController
@@ -20,6 +61,9 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
   if (self = [super init]) {
     self.title = @"Table Items";
     self.variableHeightRows = YES;
+
+    // Uncomment this to test fixed height rows.
+    //self.tableView.rowHeight = 120;
 
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
@@ -37,7 +81,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     
     // This demonstrates how to create a table with standard table "fields".  Many of these
     // fields with URLs that will be visited when the row is selected
-    self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
+    self.dataSource = [SectionedSortableDataSource dataSourceWithObjects:
       @"TTTableTitleItem",
       [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
@@ -65,6 +109,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         nil]],
 
       @"TTTableCaptionItem",
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Caption", kTableItemCaptionKey,
+        nil]],
       [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
         @"Caption", kTableItemCaptionKey,
@@ -99,6 +149,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       @"TTTableSubtitleItem",
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Subtitle", kTableItemSubtitleKey,
+        nil]],
+      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
         @"Subtitle", kTableItemSubtitleKey,
         nil]],
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -127,6 +183,49 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
+
+      @"TTTableMessageItem",
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Title", kTableItemTitleKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Subtitle", kTableItemSubtitleKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Text", kTableItemTextKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Title", kTableItemTitleKey,
+        @"Subtitle", kTableItemSubtitleKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Title", kTableItemTitleKey,
+        @"Text", kTableItemTextKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Subtitle", kTableItemSubtitleKey,
+        @"Text", kTableItemTextKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        kLoremIpsum, kTableItemSubtitleKey,
+        kLoremIpsum, kTableItemTextKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+    /*  [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        @"Subtitle", kTableItemSubtitleKey,
+        kLoremIpsum, kTableItemTextKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Bob Jones", kTableItemTitleKey,
+        @"TTTableMessageItem", kTableItemSubtitleKey,
+        kLoremIpsum, kTableItemTextKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],*/
 
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
@@ -181,6 +280,10 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
   [self.tableView reloadData];
+}
+
+- (id<UITableViewDelegate>)createDelegate {
+  return [[[TableViewVarHeightDelegate alloc] initWithController:self] autorelease];
 }
 
 @end

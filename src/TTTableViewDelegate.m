@@ -183,7 +183,7 @@ static const CGFloat kSectionHeaderHeight = 35;
 
   id cell = [dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
   if( [cell isKindOfClass:[TTTableViewCell class]] ) {
-    return [(TTTableViewCell*)cell rowHeightWithTableView:tableView];
+    return [(TTTableViewCell*)cell rowHeightWithTableView:tableView indexPath:indexPath];
   } else {
     return tableView.rowHeight;
   }

@@ -140,7 +140,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -151,10 +151,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
 
-- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
-  return height + kVPadding*2;
+  return height + kVPadding*2 + kExtraVerticalHeight;
 }
 
 - (void)setObject:(id)object {
@@ -200,7 +200,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -225,8 +225,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
 
-- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
 
   CGFloat captionWidth = kKeyWidth;
   CGFloat captionHeight = [self.textLabel heightWithWidth:captionWidth];
@@ -234,7 +234,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat titleWidth = contentWidth - (kKeyWidth + kKeySpacing);
   CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
 
-  return MAX(captionHeight, titleHeight) + kVPadding * 2;
+  return MAX(captionHeight, titleHeight) + kVPadding * 2 + kExtraVerticalHeight;
 }
 
 - (void)setObject:(id)object {
@@ -286,62 +286,82 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  CGFloat width = self.contentView.width - kHPadding * 2;
+  CGFloat contentWidth = self.contentView.width - kHPadding * 2;
   const CGFloat paddedCellHeight = self.contentView.height - kVPadding * 2;
 
-  CGFloat titleHeight = [self.textLabel heightWithWidth:width];
-  CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:width];
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
 
   CGFloat height = titleHeight + subtitleHeight;
 
   if (height > paddedCellHeight) {
-    // Likely a fixed-height cell. We want to show both bits of information, so let's see how
-    // much we can fit.
-    
-    NSInteger maxTitleRows = 0;
-    NSInteger maxSubtitleRows = 0;
-    if (self.textLabel.font.lineHeight > 0) {
-      maxTitleRows = (NSInteger)floor(paddedCellHeight / self.textLabel.font.lineHeight);
-    }
-    if (maxTitleRows > 0 && self.detailTextLabel.font.lineHeight > 0) {
-      // Prioritize the title, but attempt to show at least one subtitle
-      // We could use similar logic to prioritize the subtitle.
-      while (0 == maxSubtitleRows && maxTitleRows > 0) {
-        CGFloat remainingCellHeight = paddedCellHeight -
-          maxTitleRows * self.textLabel.font.lineHeight;
-        maxSubtitleRows = (NSInteger)floor(
-          remainingCellHeight / self.detailTextLabel.font.lineHeight);
+    // Likely a fixed-height cell. Let's try to show as much as we can.
 
-        if (0 == maxSubtitleRows) {
-          maxTitleRows--;
+    NSInteger titleRows = 0;
+    NSInteger subtitleRows = 0;
+
+    titleHeight     = 0;
+    subtitleHeight  = 0;
+
+    height = 0;
+
+    BOOL couldAddAny = YES;
+    while (couldAddAny) {
+      couldAddAny = NO;
+
+      if (nil != self.textLabel.text) {
+        titleRows++;
+        titleHeight = titleRows * self.textLabel.font.lineHeight;
+
+        height = titleHeight + subtitleHeight;
+        if (height > paddedCellHeight) {
+          titleRows--;
+          titleHeight = titleRows * self.textLabel.font.lineHeight;
+        } else {
+          couldAddAny = YES;
         }
       }
 
-      if (0 == maxSubtitleRows && 0 == maxTitleRows) {
-        // There's not enough room to show both a title and a subtitle; just show the title then
-        titleHeight = paddedCellHeight;
-        subtitleHeight = 0;
+      if (nil != self.detailTextLabel.text) {
+        subtitleRows++;
+        subtitleHeight = subtitleRows * self.detailTextLabel.font.lineHeight;
+
+        height = titleHeight + subtitleHeight;
+        if (height > paddedCellHeight) {
+          subtitleRows--;
+          subtitleHeight = subtitleRows * self.detailTextLabel.font.lineHeight;
+        } else {
+          couldAddAny = YES;
+        }
       }
+    }
+
+    if (0 == subtitleRows && 0 == titleRows) {
+      // There's not enough room to show anything, so just show the title.
+      titleHeight = paddedCellHeight;
+      subtitleHeight = 0;
+    } else {
+      height = titleHeight + subtitleHeight;
     }
   }
 
   self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
-                                    width, titleHeight);
+                                    contentWidth, titleHeight);
 
   self.detailTextLabel.frame = CGRectMake(kHPadding, kVPadding + titleHeight,
-                                          width, subtitleHeight);
+                                          contentWidth, subtitleHeight);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
 
-- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView];
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
   CGFloat titleHeight = [self.textLabel heightWithWidth:contentWidth];
   CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:contentWidth];
   return titleHeight + subtitleHeight + kVPadding * 2 + kExtraVerticalHeight;
@@ -358,6 +378,187 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 @end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableMessageItemCell
+
+@synthesize messageLabel    = _messageLabel;
+@synthesize timestampLabel  = _timestampLabel;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
+    _messageLabel = [[UILabel alloc] init];
+    _timestampLabel = [[UILabel alloc] init];
+    [self.contentView addSubview:_messageLabel];
+    [self.contentView addSubview:_timestampLabel];
+
+    self.textLabel.font                 = TTSTYLEVAR(tableTitleFont);
+    self.textLabel.textColor            = TTSTYLEVAR(tableTitleColor);
+    self.textLabel.highlightedTextColor = TTSTYLEVAR(tableTitleHighlightedColor);
+    self.textLabel.lineBreakMode        = TTSTYLEVAR(tableTitleLineBreakMode);
+    self.textLabel.numberOfLines        = TTSTYLEVAR(tableTitleNumberOfLines);
+    self.textLabel.textAlignment        = TTSTYLEVAR(tableTitleTextAlignment);
+
+    self.detailTextLabel.font                 = TTSTYLEVAR(tableSubtitleFont);
+    self.detailTextLabel.textColor            = TTSTYLEVAR(tableMessageSubtitleColor);
+    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(tableMessageSubtitleHighlightedColor);
+    self.detailTextLabel.lineBreakMode        = TTSTYLEVAR(tableSubtitleLineBreakMode);
+    self.detailTextLabel.numberOfLines        = TTSTYLEVAR(tableSubtitleNumberOfLines);
+    self.detailTextLabel.textAlignment        = TTSTYLEVAR(tableSubtitleTextAlignment);
+
+    self.messageLabel.font                 = TTSTYLEVAR(tableMessageFont);
+    self.messageLabel.textColor            = TTSTYLEVAR(tableMessageColor);
+    self.messageLabel.highlightedTextColor = TTSTYLEVAR(tableMessageHighlightedColor);
+    self.messageLabel.lineBreakMode        = TTSTYLEVAR(tableMessageLineBreakMode);
+    self.messageLabel.numberOfLines        = TTSTYLEVAR(tableMessageNumberOfLines);
+    self.messageLabel.textAlignment        = TTSTYLEVAR(tableMessageTextAlignment);
+
+    self.timestampLabel.font                 = TTSTYLEVAR(tableTimestampFont);
+    self.timestampLabel.textColor            = TTSTYLEVAR(tableTimestampColor);
+    self.timestampLabel.highlightedTextColor = TTSTYLEVAR(tableTimestampHighlightedColor);
+    self.timestampLabel.textAlignment        = TTSTYLEVAR(tableTimestampTextAlignment);
+	}
+	return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_messageLabel);
+  TT_RELEASE_SAFELY(_timestampLabel);
+	[super dealloc];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UIView
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  CGFloat contentWidth = self.contentView.width - kHPadding * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - kVPadding * 2;
+
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
+  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth];
+
+  CGFloat height = titleHeight + subtitleHeight + messageHeight;
+
+  if (height > paddedCellHeight) {
+    // Likely a fixed-height cell. Let's try to show as much as we can.
+
+    NSInteger titleRows = 0;
+    NSInteger subtitleRows = 0;
+    NSInteger messageRows = 0;
+
+    titleHeight     = 0;
+    subtitleHeight  = 0;
+    messageHeight   = 0;
+
+    height = 0;
+
+    BOOL couldAddAny = YES;
+    while (couldAddAny) {
+      couldAddAny = NO;
+
+      if (nil != self.textLabel.text) {
+        titleRows++;
+        titleHeight = titleRows * self.textLabel.font.lineHeight;
+
+        height = titleHeight + subtitleHeight + messageHeight;
+        if (height > paddedCellHeight) {
+          titleRows--;
+          titleHeight = titleRows * self.textLabel.font.lineHeight;
+        } else {
+          couldAddAny = YES;
+        }
+      }
+
+      if (nil != self.detailTextLabel.text) {
+        subtitleRows++;
+        subtitleHeight = subtitleRows * self.detailTextLabel.font.lineHeight;
+
+        height = titleHeight + subtitleHeight + messageHeight;
+        if (height > paddedCellHeight) {
+          subtitleRows--;
+          subtitleHeight = subtitleRows * self.detailTextLabel.font.lineHeight;
+        } else {
+          couldAddAny = YES;
+        }
+      }
+
+      if (nil != self.messageLabel.text) {
+        messageRows++;
+        messageHeight = messageRows * self.messageLabel.font.lineHeight;
+
+        height = titleHeight + subtitleHeight + messageHeight;
+        if (height > paddedCellHeight) {
+          messageRows--;
+          messageHeight = messageRows * self.messageLabel.font.lineHeight;
+        } else {
+          couldAddAny = YES;
+        }
+      }
+    }
+
+    if (0 == messageRows && 0 == subtitleRows && 0 == titleRows) {
+      // There's not enough room to show anything, so just show the title.
+      titleHeight = paddedCellHeight;
+      subtitleHeight = 0;
+      messageHeight = 0;
+    } else {
+      height = titleHeight + subtitleHeight + messageHeight;
+    }
+  }
+
+  self.textLabel.frame = CGRectMake(kHPadding, kVPadding,
+                                    contentWidth, titleHeight);
+
+  self.detailTextLabel.frame = CGRectMake(kHPadding, kVPadding + titleHeight,
+                                          contentWidth, subtitleHeight);
+
+  self.messageLabel.frame = CGRectMake(kHPadding, kVPadding + titleHeight + subtitleHeight,
+                                       contentWidth, messageHeight);
+}
+
+- (void)didMoveToSuperview {
+  [super didMoveToSuperview];
+  if (self.superview) {
+    _messageLabel.backgroundColor = self.backgroundColor;
+    _timestampLabel.backgroundColor = self.backgroundColor;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
+  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth];
+  return titleHeight + subtitleHeight + messageHeight + kVPadding * 2 + kExtraVerticalHeight;
+}
+
+- (void)setObject:(id)object {
+  if (_item != object) {
+    [super setObject:object];
+
+    TTTableMessageItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
+    self.messageLabel.text = item.text;
+    self.timestampLabel.text = [item.timestamp formatShortTime];
+  }  
+}
+
+@end
+
 
 /* TODO: CLEANUP
 #pragma mark -
@@ -411,7 +612,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -464,192 +665,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableMessageItemCell
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  // XXXjoe Compute height based on font sizes
-  return 90;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
-    _titleLabel = nil;
-    _timestampLabel = nil;
-    _imageView2 = nil;
-
-    self.textLabel.font = TTSTYLEVAR(font);
-    self.textLabel.textColor = TTSTYLEVAR(textColor);
-    self.textLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.textLabel.textAlignment = UITextAlignmentLeft;
-    self.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.textLabel.adjustsFontSizeToFitWidth = YES;
-    self.textLabel.contentMode = UIViewContentModeLeft;
-    
-    self.detailTextLabel.font = TTSTYLEVAR(font);
-    self.detailTextLabel.textColor = TTSTYLEVAR(tableSubTextColor);
-    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
-    self.detailTextLabel.textAlignment = UITextAlignmentLeft;
-    self.detailTextLabel.contentMode = UIViewContentModeTop;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    self.detailTextLabel.numberOfLines = kMessageTextLineCount;
-    self.detailTextLabel.contentMode = UIViewContentModeLeft;
-	}
-	return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_titleLabel);
-  TT_RELEASE_SAFELY(_timestampLabel);
-  TT_RELEASE_SAFELY(_imageView2);
-	[super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
-
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    _imageView2.image = nil;
-    _titleLabel.text = nil;
-    _timestampLabel.text = nil;
-}
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-
-  CGFloat left = 0;
-  if (_imageView2) {
-    _imageView2.frame = CGRectMake(kSmallMargin, kSmallMargin,
-                                  kDefaultMessageImageWidth, kDefaultMessageImageHeight);
-    left += kSmallMargin + kDefaultMessageImageHeight + kSmallMargin;
-  } else {
-    left = kMargin;
-  }
-
-  CGFloat width = self.contentView.width - left;
-  CGFloat top = kSmallMargin;
-  
-  if (_titleLabel.text.length) {
-    _titleLabel.frame = CGRectMake(left, top, width, _titleLabel.font.ttLineHeight);
-    top += _titleLabel.height;
-  } else {
-    _titleLabel.frame = CGRectZero;
-  }
-  
-  if (self.captionLabel.text.length) {
-    self.captionLabel.frame = CGRectMake(left, top, width, self.captionLabel.font.ttLineHeight);
-    top += self.captionLabel.height;
-  } else {
-    self.captionLabel.frame = CGRectZero;
-  }
-  
-  if (self.detailTextLabel.text.length) {
-    CGFloat textHeight = self.detailTextLabel.font.ttLineHeight * kMessageTextLineCount;
-    self.detailTextLabel.frame = CGRectMake(left, top, width, textHeight);
-  } else {
-    self.detailTextLabel.frame = CGRectZero;
-  }
-  
-  if (_timestampLabel.text.length) {
-    _timestampLabel.alpha = !self.showingDeleteConfirmation;
-    [_timestampLabel sizeToFit];
-    _timestampLabel.left = self.contentView.width - (_timestampLabel.width + kSmallMargin);
-    _timestampLabel.top = _titleLabel.top;
-    _titleLabel.width -= _timestampLabel.width + kSmallMargin*2;
-  } else {
-    _titleLabel.frame = CGRectZero;
-  }
-}
-
-- (void)didMoveToSuperview {
-  [super didMoveToSuperview];
-  if (self.superview) {
-    _imageView2.backgroundColor = self.backgroundColor;
-    _titleLabel.backgroundColor = self.backgroundColor;
-    _timestampLabel.backgroundColor = self.backgroundColor;
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell
-
-- (void)setObject:(id)object {
-  if (_item != object) {
-    [super setObject:object];
-
-    TTTableMessageItem* item = object;
-    if (item.title.length) {
-      self.titleLabel.text = item.title;
-    }
-    if (item.caption.length) {
-      self.captionLabel.text = item.caption;
-    }
-    if (item.text.length) {
-      self.detailTextLabel.text = item.text;
-    }
-    if (item.timestamp) {
-      self.timestampLabel.text = [item.timestamp formatShortTime];
-    }
-    if (item.imageURL) {
-      self.imageView2.URL = item.imageURL;
-    }
-  }  
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// public
-
-- (UILabel*)titleLabel {
-  if (!_titleLabel) {
-    _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textColor = [UIColor blackColor];
-    _titleLabel.highlightedTextColor = [UIColor whiteColor];
-    _titleLabel.font = TTSTYLEVAR(tableFont);
-    _titleLabel.contentMode = UIViewContentModeLeft;
-    [self.contentView addSubview:_titleLabel];
-  }
-  return _titleLabel;
-}
-
-- (UILabel*)captionLabel {
-  return self.textLabel;
-}
-
-- (UILabel*)timestampLabel {
-  if (!_timestampLabel) {
-    _timestampLabel = [[UILabel alloc] init];
-    _timestampLabel.font = TTSTYLEVAR(tableTimestampFont);
-    _timestampLabel.textColor = TTSTYLEVAR(timestampTextColor);
-    _timestampLabel.highlightedTextColor = [UIColor whiteColor];
-    _timestampLabel.contentMode = UIViewContentModeLeft;
-    [self.contentView addSubview:_timestampLabel];
-  }
-  return _timestampLabel;
-}
-
-- (TTImageView*)imageView2 {
-  if (!_imageView2) {
-    _imageView2 = [[TTImageView alloc] init];
-//    _imageView2.defaultImage = TTSTYLEVAR(personImageSmall);
-//    _imageView2.style = TTSTYLE(threadActorIcon);
-    [self.contentView addSubview:_imageView2];
-  }
-  return _imageView2;
-}
-
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableMoreButtonCell
 
 @synthesize animating = _animating;
@@ -686,7 +701,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -807,7 +822,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -933,7 +948,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -1007,7 +1022,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -1080,7 +1095,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
@@ -1293,7 +1308,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UIView
+#pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];

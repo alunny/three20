@@ -23,22 +23,76 @@ const CGFloat kHPadding = 10;
 
 const CGFloat kDisclosureIndicatorWidth = 20;
 const CGFloat kDetailDisclosureButtonWidth = 33;
+const CGFloat kEditingIndentationWidth = 32;
+const CGFloat kReorderButtonWidth = 32;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation TTTableViewCell
 
-- (CGFloat)rowHeightWithTableView:(UITableView*)tableView {
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   return TT_ROW_HEIGHT;
 }
 
-- (CGFloat)contentWidthWithTableView:(UITableView*)tableView {
+- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   CGFloat width = tableView.width - kHPadding * 2 - [tableView tableCellMargin] * 2;
-  if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
-    width -= kDisclosureIndicatorWidth;
-  } else if (self.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
-    width -= kDetailDisclosureButtonWidth;
+
+  if (tableView.editing) {
+    UITableViewCellEditingStyle editingStyle;
+    if ([tableView.delegate respondsToSelector:
+          @selector(tableView:editingStyleForRowAtIndexPath:)]) {
+      editingStyle = [tableView.delegate
+                            tableView: tableView
+        editingStyleForRowAtIndexPath: indexPath];
+    } else {
+      editingStyle = UITableViewCellEditingStyleDelete;
+    }
+
+    BOOL shouldIndent = YES;
+    if (editingStyle == UITableViewCellEditingStyleNone &&
+        [tableView.delegate respondsToSelector:
+          @selector(tableView:shouldIndentWhileEditingRowAtIndexPath:)]) {
+      shouldIndent = [tableView.delegate
+                                     tableView: tableView
+        shouldIndentWhileEditingRowAtIndexPath: indexPath];
+    }
+
+    if (shouldIndent) {
+      width -= kEditingIndentationWidth;
+    }
+
+    BOOL canMoveRow = NO;
+    if ([tableView.dataSource respondsToSelector:
+          @selector(tableView:moveRowAtIndexPath:toIndexPath:)]) {
+      canMoveRow = YES;
+      if ([tableView.dataSource respondsToSelector:
+            @selector(tableView:canMoveRowAtIndexPath:)]) {
+        canMoveRow = [tableView.dataSource
+                      tableView: tableView
+          canMoveRowAtIndexPath: indexPath];
+      }
+
+      if (canMoveRow) {
+        width -= kReorderButtonWidth;
+      }
+    }
+
+    if (canMoveRow) {
+      width++;
+    }
+
+  } else {
+    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+      width -= kDisclosureIndicatorWidth;
+    } else if (self.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
+      width -= kDetailDisclosureButtonWidth;
+    }
+
+    if (tableView.style == UITableViewStyleGrouped) {
+      width++;
+    }
   }
+
   return width;
 }
 

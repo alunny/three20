@@ -43,7 +43,7 @@
 @interface TTTableSubtitleItemCell : TTTableLinkedItemCell
 @end
 
-/* TODO: CLEANUP
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItemCell : TTTableLinkedItemCell {
   UILabel* _messageLabel;
@@ -55,7 +55,7 @@
 
 @end
 
-
+/* TODO: CLEANUP
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableSubtextItemCell : TTTableLinkedItemCell
 @end

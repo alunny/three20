@@ -40,12 +40,12 @@ extern const CGFloat kDetailDisclosureButtonWidth;
 /**
  * Measure the height of the row with the given table view.
  */
-- (CGFloat)rowHeightWithTableView:(UITableView*)tableView;
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 
 /**
  * Calculate the width of the row with the given table view and
  * considering accessory types.
  */
-- (CGFloat)contentWidthWithTableView:(UITableView*)tableView;
+- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 
 @end
