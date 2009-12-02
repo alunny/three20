@@ -112,6 +112,30 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   return contentWidth;
 }
 
+- (CGFloat)calculateContentWidthWithTableView: (UITableView*)tableView
+                                    indexPath: (NSIndexPath*)indexPath
+                                    imageSize: (CGSize*)pImageSize
+                                 imagePadding: (UIEdgeInsets*)pImagePadding {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+
+  CGSize imageSize;
+  UIEdgeInsets imagePadding;
+
+  if (nil != _styledImageView) {
+    imageSize = TTSTYLEVAR(tableImageSize);
+    imagePadding = TTSTYLEVAR(tableImagePadding);
+    contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
+  } else {
+    imageSize = CGSizeZero;
+    imagePadding = UIEdgeInsetsZero;
+  }
+
+  *pImageSize = imageSize;
+  *pImagePadding = imagePadding;
+
+  return contentWidth;
+}
+
 - (id)object {
   return _item;
 }
@@ -220,18 +244,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
-
   CGSize imageSize;
   UIEdgeInsets imagePadding;
-  if (nil != _styledImageView) {
-    imageSize = TTSTYLEVAR(tableImageSize);
-    imagePadding = TTSTYLEVAR(tableImagePadding);
-    contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
-  } else {
-    imageSize = CGSizeZero;
-    imagePadding = UIEdgeInsetsZero;
-  }
+  CGFloat contentWidth = [self
+    calculateContentWidthWithTableView: tableView
+                             indexPath: indexPath
+                             imageSize: &imageSize
+                          imagePadding: &imagePadding];
 
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
@@ -370,18 +389,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
-
   CGSize imageSize;
   UIEdgeInsets imagePadding;
-  if (nil != _styledImageView) {
-    imageSize = TTSTYLEVAR(tableImageSize);
-    imagePadding = TTSTYLEVAR(tableImagePadding);
-    contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
-  } else {
-    imageSize = CGSizeZero;
-    imagePadding = UIEdgeInsetsZero;
-  }
+  CGFloat contentWidth = [self
+    calculateContentWidthWithTableView: tableView
+                             indexPath: indexPath
+                             imageSize: &imageSize
+                          imagePadding: &imagePadding];
 
   CGFloat titleHeight = [self.textLabel heightWithWidth:contentWidth];
   CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:contentWidth];
@@ -583,11 +597,19 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark TTTableViewCell
 
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGSize imageSize;
+  UIEdgeInsets imagePadding;
+  CGFloat contentWidth = [self
+    calculateContentWidthWithTableView: tableView
+                             indexPath: indexPath
+                             imageSize: &imageSize
+                          imagePadding: &imagePadding];
+
   CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
   CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
   CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth];
-  return titleHeight + subtitleHeight + messageHeight + TTSTYLEVAR(tableVPadding) * 2 +
+  return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
+             titleHeight + subtitleHeight + messageHeight + TTSTYLEVAR(tableVPadding) * 2) +
     [tableView tableCellExtraHeight];
 }
 

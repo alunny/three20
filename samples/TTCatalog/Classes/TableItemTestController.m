@@ -168,20 +168,32 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       @"TTTableMessageItem",
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Title", kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Subtitle", kTableItemSubtitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Text", kTableItemTextKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Title", kTableItemTitleKey,
         @"Subtitle", kTableItemSubtitleKey,
+        defaultPerson, kTableItemImageKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Title", kTableItemTitleKey,
         @"Text", kTableItemTextKey,
+        remoteImage, kTableItemImageURLKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Subtitle", kTableItemSubtitleKey,
@@ -240,7 +252,6 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         nil]],
       [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
-        
         @"A very long caption that realistically won't fit", kTableItemCaptionKey,
         nil]],
       [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
