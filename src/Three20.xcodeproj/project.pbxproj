@@ -218,9 +218,9 @@
 		EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBB349610B36CCE00AD5BCF /* TTDebug.h */; };
 		EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */; };
 		EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */; };
-		EBDC8EB610C5CCB000257247 /* TTDebugFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */; };
 		EBDC845310C4493200257247 /* UILabelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDC845110C4493200257247 /* UILabelAdditions.m */; };
 		EBDC847A10C44AD400257247 /* UILabelAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC847910C44AD400257247 /* UILabelAdditions.h */; };
+		EBDC8EB610C5CCB000257247 /* TTDebugFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -427,9 +427,9 @@
 		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
 		EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRecursiveProgress.m; sourceTree = "<group>"; };
 		EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTRecursiveProgress.h; path = Three20/TTRecursiveProgress.h; sourceTree = "<group>"; };
-		EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebugFlags.h; path = Three20/TTDebugFlags.h; sourceTree = "<group>"; };
 		EBDC845110C4493200257247 /* UILabelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelAdditions.m; sourceTree = "<group>"; };
 		EBDC847910C44AD400257247 /* UILabelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILabelAdditions.h; path = Three20/UILabelAdditions.h; sourceTree = "<group>"; };
+		EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebugFlags.h; path = Three20/TTDebugFlags.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

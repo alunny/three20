@@ -45,6 +45,14 @@
   }
 }
 
+- (CGFloat)tableCellExtraHeight {
+  if (self.separatorStyle == UITableViewCellSeparatorStyleNone) {
+    return self.style == UITableViewStyleGrouped;
+  } else {
+    return 1;
+  }
+}
+
 - (void)scrollToTop:(BOOL)animated {
   [self setContentOffset:CGPointMake(0,0) animated:animated];
 }

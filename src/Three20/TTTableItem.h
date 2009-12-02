@@ -28,9 +28,9 @@
  * TTTableItem
  *   \_ TTTableLinkedItem
  *   |   \_ TTTableTitleItem
- *   |   |   \_ TTTableCaptionItem
  *   |   |   \_ TTTableSubtitleItem
  *   |   |   |   \_ TTTableMessageItem
+ *   |   |   \_ TTTableCaptionItem
  *   |   |   \_ TTTableSubtextItem
  *   |   |   \_ TTTableSummaryItem
  *   |   |   \_ TTTableLink
@@ -160,20 +160,27 @@ extern NSString* kTableItemViewKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableCaptionItem : TTTableTitleItem {
+@interface TTTableMessageItem : TTTableSubtitleItem {
 @private
-  NSString* _caption;
+  NSString* _text;
+  NSDate*   _timestamp;
 }
 
-@property(nonatomic,copy) NSString* caption;
+@property(nonatomic,copy) NSString* text;
+@property(nonatomic,retain) NSDate* timestamp;
 
 /**
  * Properties:
  *
  * * kTableItemTitleKey
- * * kTableItemCaptionKey
+ * * kTableItemSubtitleKey
+ * * kTableItemTextKey
+ * * kTableItemTimestampKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
@@ -209,27 +216,20 @@ extern NSString* kTableItemViewKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableMessageItem : TTTableSubtitleItem {
+@interface TTTableCaptionItem : TTTableTitleItem {
 @private
-  NSString* _text;
-  NSDate*   _timestamp;
+  NSString* _caption;
 }
 
-@property(nonatomic,copy) NSString* text;
-@property(nonatomic,retain) NSDate* timestamp;
+@property(nonatomic,copy) NSString* caption;
 
 /**
  * Properties:
  *
  * * kTableItemTitleKey
- * * kTableItemSubtitleKey
- * * kTableItemTextKey
- * * kTableItemTimestampKey
+ * * kTableItemCaptionKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
  */
 + (id)itemWithProperties:(NSDictionary*)properties;
 

@@ -122,44 +122,6 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
 
-      @"TTTableCaptionItem",
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Caption", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        @"Caption", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"A normal caption", kTableItemCaptionKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"Caption", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
-        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some ii", kTableItemTitleKey,
-        @"A normal caption", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-
       @"TTTableSubtitleItem",
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
@@ -230,8 +192,11 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         kLoremIpsum, kTableItemSubtitleKey,
         kLoremIpsum, kTableItemTextKey,
         @"tt://tableItemTest", kTableItemURLKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
         nil]],
-    /*  [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         kLoremIpsum, kTableItemTitleKey,
         @"Subtitle", kTableItemSubtitleKey,
         kLoremIpsum, kTableItemTextKey,
@@ -244,7 +209,46 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         kLoremIpsum, kTableItemTextKey,
         @"tt://tableItemTest", kTableItemURLKey,
         @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],*/
+        nil]],
+
+      @"TTTableCaptionItem",
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Caption", kTableItemCaptionKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        @"Caption", kTableItemCaptionKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"URL", kTableItemTitleKey,
+        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"accessoryURL", kTableItemTitleKey,
+        @"A normal caption", kTableItemCaptionKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Both URLs", kTableItemTitleKey,
+        @"Caption", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
+        
+        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
+        nil]],
+      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Long text with some ii", kTableItemTitleKey,
+        @"A normal caption", kTableItemCaptionKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
 
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],

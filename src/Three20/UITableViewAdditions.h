@@ -32,6 +32,13 @@
  */
 @property(nonatomic,readonly) CGFloat tableCellMargin;
 
+/**
+ * Returns the extra height added to rowHeightWithTableView.
+ *
+ * Tables with no separator add one pixel of vertical spacing to rowHeightWithTableView.
+ */
+@property(nonatomic,readonly) CGFloat tableCellExtraHeight;
+
 - (void)scrollToTop:(BOOL)animated;
 
 - (void)scrollToBottom:(BOOL)animated;

@@ -187,58 +187,6 @@ NSString* kTableItemViewKey           = @"view";
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableCaptionItem
-
-@synthesize caption = _caption;
-
-+ (id)itemWithProperties:(NSDictionary*)properties {
-  return [[[self alloc] initWithProperties:properties] autorelease];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super initWithProperties:properties] ) {
-    self.caption = [properties objectForKey:kTableItemCaptionKey];
-  }
-
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_caption);
-  [super dealloc];
-}
-
--(Class)cellClass {
-  return [TTTableCaptionItemCell class];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.caption) {
-    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
-  }
-}
-
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableSubtitleItem
 
 @synthesize subtitle = _subtitle;
@@ -340,6 +288,58 @@ NSString* kTableItemViewKey           = @"view";
   }
   if (self.timestamp) {
     [encoder encodeObject:self.timestamp forKey:kTableItemTimestampKey];
+  }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableCaptionItem
+
+@synthesize caption = _caption;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.caption = [properties objectForKey:kTableItemCaptionKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_caption);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableCaptionItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.caption) {
+    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
   }
 }
 
