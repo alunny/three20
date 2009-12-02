@@ -68,7 +68,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     // Uncomment this to see how the table looks with the grouped style
-    //self.tableViewStyle = UITableViewStyleGrouped;
+    self.tableViewStyle = UITableViewStyleGrouped;
     
     //self.tableViewSeparatorStyle = UITableViewCellSeparatorStyleNone;
 
@@ -313,7 +313,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-  [self.tableView reloadData];
+  //[self.tableView reloadData];
 }
 /*
 - (id<UITableViewDelegate>)createDelegate {
