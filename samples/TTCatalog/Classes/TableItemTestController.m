@@ -216,6 +216,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
       [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No subtitle", kTableItemTitleKey,
+        kLoremIpsum, kTableItemTextKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Bob Jones", kTableItemTitleKey,
         @"TTTableMessageItem", kTableItemSubtitleKey,
         kLoremIpsum, kTableItemTextKey,

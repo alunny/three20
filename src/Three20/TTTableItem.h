@@ -241,31 +241,6 @@ extern NSString* kTableItemViewKey;
 /* TODO: CLEANUP
 */
 #if 0
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableSubtextItem : TTTableTitleItem {
-@private
-  NSString* _text;
-}
-
-@property(nonatomic,copy) NSString* text;
-
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemTextKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
-
-@end
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableSummaryItem : TTTableTitleItem
