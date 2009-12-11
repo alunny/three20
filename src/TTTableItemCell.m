@@ -520,9 +520,16 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                           imagePadding: &imagePadding];
   CGFloat imageWidth = imageSize.width + imagePadding.left + imagePadding.right;
 
-  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
-  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
-  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth];
+  CGSize timestampSize = [self.timestampLabel.text
+         sizeWithFont: self.timestampLabel.font
+    constrainedToSize: CGSizeMake(contentWidth, CGFLOAT_MAX)
+        lineBreakMode: self.timestampLabel.lineBreakMode];
+
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth - timestampSize.width];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth -
+                              ((titleHeight > 0) ? 0 : timestampSize.width)];
+  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth -
+                              ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width)];
 
   NSArray* labels = [[NSArray alloc] initWithObjects:
     self.textLabel,
@@ -550,17 +557,24 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   self.textLabel.frame =
     CGRectMake(imageWidth + TTSTYLEVAR(tableHPadding),
                TTSTYLEVAR(tableVPadding),
-               contentWidth, titleHeight);
+               contentWidth - timestampSize.width, titleHeight);
 
   self.detailTextLabel.frame =
     CGRectMake(imageWidth + TTSTYLEVAR(tableHPadding),
                TTSTYLEVAR(tableVPadding) + titleHeight,
-               contentWidth, subtitleHeight);
+               contentWidth - ((titleHeight > 0) ? 0 : timestampSize.width), subtitleHeight);
 
   self.messageLabel.frame =
     CGRectMake(imageWidth + TTSTYLEVAR(tableHPadding),
                TTSTYLEVAR(tableVPadding) + titleHeight + subtitleHeight,
-               contentWidth, messageHeight);
+               contentWidth - ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width),
+               messageHeight);
+
+  CGFloat entireContentWidth = imageWidth + TTSTYLEVAR(tableHPadding) + contentWidth;
+  self.timestampLabel.frame =
+    CGRectMake(entireContentWidth - timestampSize.width,
+               TTSTYLEVAR(tableVPadding),
+               timestampSize.width, timestampSize.height);
 }
 
 
@@ -588,9 +602,16 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                              imageSize: &imageSize
                           imagePadding: &imagePadding];
 
-  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth];
-  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth];
-  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth];
+  CGSize timestampSize = [self.timestampLabel.text
+         sizeWithFont: self.timestampLabel.font
+    constrainedToSize: CGSizeMake(contentWidth, CGFLOAT_MAX)
+        lineBreakMode: self.timestampLabel.lineBreakMode];
+
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth - timestampSize.width];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth -
+                              ((titleHeight > 0) ? 0 : timestampSize.width)];
+  CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth -
+                              ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width)];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
              titleHeight + subtitleHeight + messageHeight + TTSTYLEVAR(tableVPadding) * 2) +
     [tableView tableCellExtraHeight];
