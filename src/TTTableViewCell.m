@@ -118,7 +118,7 @@ const CGFloat kReorderButtonWidth = 32;
     labelHeights[ix] = [[calculatedLabelHeights objectAtIndex:ix] floatValue];
     height += labelHeights[ix];
     UILabel* label = [labels objectAtIndex:ix];
-    maxNumberOfLines[ix] = labelHeights[ix] / label.font.safeLineHeight;
+    maxNumberOfLines[ix] = labelHeights[ix] / label.font.ttLineHeight;
   }
 
   const CGFloat paddedCellHeight =
@@ -142,7 +142,7 @@ const CGFloat kReorderButtonWidth = 32;
             (0 == label.numberOfLines && labelRowCounts[ix] < maxNumberOfLines[ix] ||
             labelRowCounts[ix] < label.numberOfLines)) {
           labelRowCounts[ix]++;
-          labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
+          labelHeights[ix] = labelRowCounts[ix] * label.font.ttLineHeight;
 
           height = 0;
           for (int iy = 0; iy < [labels count]; ++iy) {
@@ -151,7 +151,7 @@ const CGFloat kReorderButtonWidth = 32;
 
           if (height > paddedCellHeight) {
             labelRowCounts[ix]--;
-            labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
+            labelHeights[ix] = labelRowCounts[ix] * label.font.ttLineHeight;
           } else {
             couldAddAny = YES;
           }
