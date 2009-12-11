@@ -16,6 +16,9 @@
 
 #import "Three20/TTStyleSheet.h"
 
+// For TTActivityLabelStyle
+#import "Three20/TTActivityLabel.h"
+
 @class TTShape;
 
 @interface TTDefaultStyleSheet : TTStyleSheet
@@ -155,6 +158,8 @@
 @property(nonatomic,readonly) UILineBreakMode tableMoreButtonSubtitleLineBreakMode;
 @property(nonatomic,readonly) NSInteger       tableMoreButtonSubtitleNumberOfLines;
 @property(nonatomic,readonly) UITextAlignment tableMoreButtonSubtitleTextAlignment;
+
+@property(nonatomic,readonly) TTActivityLabelStyle tableActivityLabelStyle;
 
 @property(nonatomic,readonly) CGFloat         tableHPadding;
 @property(nonatomic,readonly) CGFloat         tableVPadding;

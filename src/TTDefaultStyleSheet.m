@@ -1016,6 +1016,10 @@
   return UITextAlignmentLeft;
 }
 
+- (TTActivityLabelStyle)tableActivityLabelStyle {
+  return TTActivityLabelStyleGray;
+}
+
 - (CGFloat)tableHPadding {
   return 10;
 }

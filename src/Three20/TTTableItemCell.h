@@ -20,6 +20,8 @@
 @class TTTableSummaryItem;
 @class TTImageView;
 @class TTTableMoreButtonItem;
+@class TTTableActivityItem;
+@class TTActivityLabel;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +98,18 @@
 
 @property(nonatomic,readonly,retain) UIActivityIndicatorView* activityIndicatorView;
 @property(nonatomic)                 BOOL                     animating;
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableActivityItemCell : TTTableViewCell {
+@protected
+  TTTableActivityItem*  _item;
+  TTActivityLabel*      _activityLabel;
+}
+
+@property(nonatomic,readonly,retain) TTActivityLabel* activityLabel;
 
 @end
 

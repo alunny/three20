@@ -109,10 +109,10 @@ static CGFloat kThumbSpacing = 4;
                                            TTFormatInteger(_photoSource.maxPhotoIndex+1),
                                            TTFormatInteger(_photoSource.numberOfPhotos)];
     }
-    /* TODO: CLEANUP
-    return [TTTableMoreButton itemWithText:text subtitle:caption];
-    */
-    return nil;
+    return [TTTableMoreButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+      text, kTableItemTitleKey,
+      caption, kTableItemSubtitleKey,
+      nil]];
   } else {
     NSInteger columnCount = self.columnCount;
     return [_photoSource photoAtIndex:indexPath.row * columnCount];

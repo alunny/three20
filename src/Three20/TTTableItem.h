@@ -320,36 +320,6 @@ extern NSString* kTableItemViewKey;
  * * kTableItemSubtitleKey
  * * kTableItemURLKey
  */
-@end
-
-
-/* TODO: CLEANUP
-*/
-#if 0
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableImageItem : TTTableTitleItem {
-@private
-  NSString* _imageURL;
-  UIImage*  _defaultImage;
-  TTStyle*  _imageStyle;
-}
-
-@property(nonatomic,copy) NSString* imageURL;
-@property(nonatomic,retain) UIImage* defaultImage;
-@property(nonatomic,retain) TTStyle* imageStyle;
-
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
 + (id)itemWithProperties:(NSDictionary*)properties;
 
 - (id)initWithProperties:(NSDictionary*)properties;
@@ -358,33 +328,28 @@ extern NSString* kTableItemViewKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableRightImageItem : TTTableImageItem
+@interface TTTableActivityItem : TTTableItem {
+@private
+  NSString* _title;
+}
+
+@property(nonatomic,copy) NSString* title;
+
 /**
  * Properties:
  *
  * * kTableItemTitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
  */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
 @end
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableActivityItem : TTTableTitleItem
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
-@end
+/* TODO: CLEANUP
+*/
+#if 0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
