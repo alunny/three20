@@ -96,10 +96,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat height = 0;
 
   CGFloat labelHeights[kMaxNumberOfLabels];
+  CGFloat maxNumberOfLines[kMaxNumberOfLabels];
 
   for (int ix = 0; ix < [calculatedLabelHeights count]; ++ix) {
     labelHeights[ix] = [[calculatedLabelHeights objectAtIndex:ix] floatValue];
     height += labelHeights[ix];
+    UILabel* label = [labels objectAtIndex:ix];
+    maxNumberOfLines[ix] = labelHeights[ix] / label.font.safeLineHeight;
   }
 
   const CGFloat paddedCellHeight =
@@ -120,7 +123,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
         UILabel* label = [labels objectAtIndex:ix];
 
         if (nil != label.text &&
-            (0 == label.numberOfLines ||
+            (0 == label.numberOfLines && labelRowCounts[ix] < maxNumberOfLines[ix] ||
             labelRowCounts[ix] < label.numberOfLines)) {
           labelRowCounts[ix]++;
           labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
