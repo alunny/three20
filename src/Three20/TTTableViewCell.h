@@ -42,9 +42,17 @@ extern const CGFloat kDetailDisclosureButtonWidth;
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 
 /**
- * Calculate the width of the row with the given table view and
- * considering accessory types.
+ * Calculate the width of the row with the given table view and considering accessory types.
  */
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
+
+/**
+ * Calculate the best label heights for this cell's current height.
+ *
+ * Accepts up to 10 labels and their corresponding calculated heights.
+ * Replaces the calculatedLabelHeights values with the calculated label heights.
+ */
+- (void)optimizeLabels: (NSArray*)labels
+               heights: (NSMutableArray*)calculatedLabelHeights;
 
 @end

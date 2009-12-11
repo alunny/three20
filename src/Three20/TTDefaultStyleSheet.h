@@ -49,6 +49,8 @@
 @property(nonatomic,readonly) UIColor* tableCaptionTitleHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableTimestampColor;
 @property(nonatomic,readonly) UIColor* tableTimestampHighlightedColor;
+@property(nonatomic,readonly) UIColor* tableSummaryColor;
+@property(nonatomic,readonly) UIColor* tableSummaryHighlightedColor;
 
 @property(nonatomic,readonly) UIColor* tableActivityTextColor;
 @property(nonatomic,readonly) UIColor* tableErrorTextColor;
@@ -81,11 +83,11 @@
 @property(nonatomic,readonly) UIFont* tableCaptionFont;
 @property(nonatomic,readonly) UIFont* tableCaptionTitleFont;
 @property(nonatomic,readonly) UIFont* tableTimestampFont;
+@property(nonatomic,readonly) UIFont* tableSummaryFont;
 
 @property(nonatomic,readonly) UIFont* tableFont;
 @property(nonatomic,readonly) UIFont* tableSmallFont;
 @property(nonatomic,readonly) UIFont* tableButtonFont;
-@property(nonatomic,readonly) UIFont* tableSummaryFont;
 @property(nonatomic,readonly) UIFont* tableHeaderPlainFont;
 @property(nonatomic,readonly) UIFont* tableHeaderGroupedFont;
 @property(nonatomic,readonly) UIFont* photoCaptionFont;
@@ -120,6 +122,12 @@
 @property(nonatomic,readonly) UITextAlignment tableCaptionTitleTextAlignment;
 
 @property(nonatomic,readonly) UITextAlignment tableTimestampTextAlignment;
+
+@property(nonatomic,readonly) UILineBreakMode tableSummaryLineBreakMode;
+@property(nonatomic,readonly) NSInteger       tableSummaryNumberOfLines;
+@property(nonatomic,readonly) UITextAlignment tableSummaryTextAlignment;
+@property(nonatomic,readonly) BOOL            tableSummaryAdjustsFontSizeToFitWidth;
+@property(nonatomic,readonly) CGFloat         tableSummaryMinimumFontSize;
 
 @property(nonatomic,readonly) CGFloat         tableHPadding;
 @property(nonatomic,readonly) CGFloat         tableVPadding;

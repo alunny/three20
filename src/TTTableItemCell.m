@@ -73,95 +73,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * Calculate the best label heights for this cell's current height.
- *
- * Accepts up to 10 labels and their corresponding calculated heights.
- * Replaces the calculatedLabelHeights values with the calculated label heights.
- *
- */
-- (void)optimizeLabels: (NSArray*)labels
-               heights: (NSMutableArray*)calculatedLabelHeights {
-
-  static const NSInteger kMaxNumberOfLabels = 10;
-
-  TTDASSERT([labels count] == [calculatedLabelHeights count]);
-  TTDASSERT([labels count] < kMaxNumberOfLabels);
-  if ([labels count] >= kMaxNumberOfLabels) {
-    return;
-  }
-
-  CGFloat height = 0;
-
-  CGFloat labelHeights[kMaxNumberOfLabels];
-  CGFloat maxNumberOfLines[kMaxNumberOfLabels];
-
-  for (int ix = 0; ix < [calculatedLabelHeights count]; ++ix) {
-    labelHeights[ix] = [[calculatedLabelHeights objectAtIndex:ix] floatValue];
-    height += labelHeights[ix];
-    UILabel* label = [labels objectAtIndex:ix];
-    maxNumberOfLines[ix] = labelHeights[ix] / label.font.safeLineHeight;
-  }
-
-  const CGFloat paddedCellHeight =
-    self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
-
-  if (height > paddedCellHeight) {
-    NSInteger labelRowCounts[kMaxNumberOfLabels];
-    memset(labelRowCounts, 0, sizeof(NSInteger) * kMaxNumberOfLabels);
-    memset(labelHeights, 0, sizeof(CGFloat) * kMaxNumberOfLabels);
-
-    height = 0;
-
-    BOOL couldAddAny = YES;
-    while (couldAddAny) {
-      couldAddAny = NO;
-
-      for (int ix = 0; ix < [labels count]; ++ix) {
-        UILabel* label = [labels objectAtIndex:ix];
-
-        if (nil != label.text &&
-            (0 == label.numberOfLines && labelRowCounts[ix] < maxNumberOfLines[ix] ||
-            labelRowCounts[ix] < label.numberOfLines)) {
-          labelRowCounts[ix]++;
-          labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
-
-          height = 0;
-          for (int iy = 0; iy < [labels count]; ++iy) {
-            height += labelHeights[iy];
-          }
-
-          if (height > paddedCellHeight) {
-            labelRowCounts[ix]--;
-            labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
-          } else {
-            couldAddAny = YES;
-          }
-        }
-      }
-    }
-
-    BOOL anyRows = NO;
-    for (int ix = 0; ix < [labels count]; ++ix) {
-      if (labelRowCounts[ix] != 0) {
-        anyRows = YES;
-        break;
-      }
-    }
-
-    if (!anyRows) {
-      labelHeights[0] = paddedCellHeight;
-    }
-
-    [calculatedLabelHeights removeAllObjects];
-    for (int ix = 0; ix < [labels count]; ++ix) {
-      [calculatedLabelHeights addObject:[NSNumber numberWithFloat:labelHeights[ix]]];
-    }
-  }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)object {
   return _item;
 }
@@ -788,6 +699,86 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     TTTableCaptionItem* item = object;
     self.textLabel.text = item.caption;
     self.detailTextLabel.text = item.title;
+  }  
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableSummaryItemCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
+    self.textLabel.font                      = TTSTYLEVAR(tableSummaryFont);
+    self.textLabel.textColor                 = TTSTYLEVAR(tableSummaryColor);
+    self.textLabel.highlightedTextColor      = TTSTYLEVAR(tableSummaryHighlightedColor);
+    self.textLabel.lineBreakMode             = TTSTYLEVAR(tableSummaryLineBreakMode);
+    self.textLabel.numberOfLines             = TTSTYLEVAR(tableSummaryNumberOfLines);
+    self.textLabel.textAlignment             = TTSTYLEVAR(tableSummaryTextAlignment);
+    self.textLabel.adjustsFontSizeToFitWidth = TTSTYLEVAR(tableSummaryAdjustsFontSizeToFitWidth);
+    self.textLabel.minimumFontSize           = TTSTYLEVAR(tableSummaryMinimumFontSize);
+	}
+	return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UIView
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  const CGFloat paddedCellHeight = self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
+
+  CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
+
+  self.textLabel.frame =
+    CGRectMake(TTSTYLEVAR(tableHPadding), TTSTYLEVAR(tableVPadding),
+               contentWidth, paddedCellHeight);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGFloat height = [self.textLabel heightWithWidth:contentWidth];
+  return height + TTSTYLEVAR(tableVPadding) * 2 + [tableView tableCellExtraHeight];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)object {
+  return _item;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setObject:(id)object {
+  if (_item != object) {
+    // We've just ensured that _item != object, so a release/retain is fine here.
+    [_item release];
+    _item = [object retain];
+
+    TTTableSummaryItem* item = object;
+    self.textLabel.text = item.title;
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
   }  
 }
 

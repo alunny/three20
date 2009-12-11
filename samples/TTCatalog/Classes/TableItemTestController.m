@@ -267,6 +267,14 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
 
+      @"TTTableSummaryItem",
+      [TTTableSummaryItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"TTTableSummaryItem", kTableItemTitleKey,
+        nil]],
+      [TTTableSummaryItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        nil]],
+
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"

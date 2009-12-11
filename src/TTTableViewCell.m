@@ -96,6 +96,89 @@ const CGFloat kReorderButtonWidth = 32;
   return width;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)optimizeLabels: (NSArray*)labels
+               heights: (NSMutableArray*)calculatedLabelHeights {
+
+  static const NSInteger kMaxNumberOfLabels = 10;
+
+  TTDASSERT([labels count] == [calculatedLabelHeights count]);
+  TTDASSERT([labels count] < kMaxNumberOfLabels);
+  if ([labels count] >= kMaxNumberOfLabels) {
+    return;
+  }
+
+  CGFloat height = 0;
+
+  CGFloat labelHeights[kMaxNumberOfLabels];
+  CGFloat maxNumberOfLines[kMaxNumberOfLabels];
+
+  for (int ix = 0; ix < [calculatedLabelHeights count]; ++ix) {
+    labelHeights[ix] = [[calculatedLabelHeights objectAtIndex:ix] floatValue];
+    height += labelHeights[ix];
+    UILabel* label = [labels objectAtIndex:ix];
+    maxNumberOfLines[ix] = labelHeights[ix] / label.font.safeLineHeight;
+  }
+
+  const CGFloat paddedCellHeight =
+    self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
+
+  if (height > paddedCellHeight) {
+    NSInteger labelRowCounts[kMaxNumberOfLabels];
+    memset(labelRowCounts, 0, sizeof(NSInteger) * kMaxNumberOfLabels);
+    memset(labelHeights, 0, sizeof(CGFloat) * kMaxNumberOfLabels);
+
+    height = 0;
+
+    BOOL couldAddAny = YES;
+    while (couldAddAny) {
+      couldAddAny = NO;
+
+      for (int ix = 0; ix < [labels count]; ++ix) {
+        UILabel* label = [labels objectAtIndex:ix];
+
+        if (nil != label.text &&
+            (0 == label.numberOfLines && labelRowCounts[ix] < maxNumberOfLines[ix] ||
+            labelRowCounts[ix] < label.numberOfLines)) {
+          labelRowCounts[ix]++;
+          labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
+
+          height = 0;
+          for (int iy = 0; iy < [labels count]; ++iy) {
+            height += labelHeights[iy];
+          }
+
+          if (height > paddedCellHeight) {
+            labelRowCounts[ix]--;
+            labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
+          } else {
+            couldAddAny = YES;
+          }
+        }
+      }
+    }
+
+    BOOL anyRows = NO;
+    for (int ix = 0; ix < [labels count]; ++ix) {
+      if (labelRowCounts[ix] != 0) {
+        anyRows = YES;
+        break;
+      }
+    }
+
+    if (!anyRows) {
+      labelHeights[0] = paddedCellHeight;
+    }
+
+    [calculatedLabelHeights removeAllObjects];
+    for (int ix = 0; ix < [labels count]; ++ix) {
+      [calculatedLabelHeights addObject:[NSNumber numberWithFloat:labelHeights[ix]]];
+    }
+  }
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // UITableViewCell
 
