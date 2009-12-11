@@ -519,22 +519,60 @@ NSString* kTableItemViewKey           = @"view";
 @end
 
 
-/* TODO: CLEANUP
-
-
 #pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableMoreButton
+@implementation TTTableMoreButtonItem
 
+@synthesize subtitle = _subtitle;
 @synthesize isLoading = _isLoading;
 
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.subtitle = [properties objectForKey:kTableItemSubtitleKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_subtitle);
+  [super dealloc];
+}
+
 -(Class)cellClass {
-  return [TTTableMoreButtonCell class];
+  return [TTTableMoreButtonItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.subtitle = [decoder decodeObjectForKey:kTableItemSubtitleKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.subtitle) {
+    [encoder encodeObject:self.subtitle forKey:kTableItemSubtitleKey];
+  }
 }
 
 @end
+
+
+/* TODO: CLEANUP
 
 
 #pragma mark -

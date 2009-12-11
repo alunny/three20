@@ -19,6 +19,7 @@
 @class TTTableLinkedItem;
 @class TTTableSummaryItem;
 @class TTImageView;
+@class TTTableMoreButtonItem;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,18 +86,21 @@
 @end
 
 
-/* TODO: CLEANUP
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableMoreButtonCell : TTTableTitleItemCell {
-  UIActivityIndicatorView* _activityIndicatorView;
-  BOOL _animating;
+@interface TTTableMoreButtonItemCell : TTTableViewCell {
+@protected
+  TTTableMoreButtonItem*    _item;
+  UIActivityIndicatorView*  _activityIndicatorView;
+  BOOL                      _animating;
 }
 
 @property(nonatomic,readonly,retain) UIActivityIndicatorView* activityIndicatorView;
-@property(nonatomic) BOOL animating;
+@property(nonatomic)                 BOOL                     animating;
 
 @end
 
+
+/* TODO: CLEANUP
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableImageItemCell : TTTableTitleItemCell {

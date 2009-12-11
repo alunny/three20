@@ -949,12 +949,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (id)object {
-  return _item;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
     [super setObject:object];
@@ -964,11 +958,157 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
     self.accessoryType = UITableViewCellAccessoryNone;
     if (TTIsStringWithAnyText(item.URL)) {
-      self.selectionStyle = UITableViewCellSelectionStyleBlue;
+      self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
     } else {
       self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
   }  
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableMoreButtonItemCell
+
+@synthesize activityIndicatorView = _activityIndicatorView;
+@synthesize animating             = _animating;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [_activityIndicatorView sizeToFit];
+    [self.contentView addSubview:_activityIndicatorView];
+
+    self.textLabel.font                 = TTSTYLEVAR(tableMoreButtonFont);
+    self.textLabel.textColor            = TTSTYLEVAR(tableMoreButtonColor);
+    self.textLabel.highlightedTextColor = TTSTYLEVAR(tableMoreButtonHighlightedColor);
+    self.textLabel.lineBreakMode        = TTSTYLEVAR(tableMoreButtonLineBreakMode);
+    self.textLabel.numberOfLines        = TTSTYLEVAR(tableMoreButtonNumberOfLines);
+    self.textLabel.textAlignment        = TTSTYLEVAR(tableMoreButtonTextAlignment);
+
+    self.detailTextLabel.font                 = TTSTYLEVAR(tableMoreButtonSubtitleFont);
+    self.detailTextLabel.textColor            = TTSTYLEVAR(tableMoreButtonSubtitleColor);
+    self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(tableMoreButtonSubtitleHighlightedColor);
+    self.detailTextLabel.lineBreakMode        = TTSTYLEVAR(tableMoreButtonSubtitleLineBreakMode);
+    self.detailTextLabel.numberOfLines        = TTSTYLEVAR(tableMoreButtonSubtitleNumberOfLines);
+    self.detailTextLabel.textAlignment        = TTSTYLEVAR(tableMoreButtonSubtitleTextAlignment);
+	}
+	return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_activityIndicatorView);
+  [super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UIView
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
+  CGFloat textContentWidth =
+    contentWidth - self.activityIndicatorView.width - TTSTYLEVAR(tableHPadding);
+
+  CGFloat titleHeight     = [self.textLabel heightWithWidth:textContentWidth];
+  CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:textContentWidth];
+
+  NSArray* labels = [[NSArray alloc] initWithObjects:
+    self.textLabel,
+    self.detailTextLabel,
+    nil];
+  NSMutableArray* labelHeights = [[NSMutableArray alloc] initWithObjects:
+    [NSNumber numberWithFloat:titleHeight],
+    [NSNumber numberWithFloat:subtitleHeight],
+    nil];
+  [self optimizeLabels:labels heights:labelHeights];
+  TT_RELEASE_SAFELY(labels);
+
+  titleHeight = [[labelHeights objectAtIndex:0] floatValue];
+  subtitleHeight = [[labelHeights objectAtIndex:1] floatValue];
+
+  TT_RELEASE_SAFELY(labelHeights);
+
+  self.activityIndicatorView.left = TTSTYLEVAR(tableHPadding);
+  self.activityIndicatorView.top =
+    floor((self.contentView.height - self.activityIndicatorView.height) / 2);
+
+  self.textLabel.frame =
+    CGRectMake(self.activityIndicatorView.right + TTSTYLEVAR(tableHPadding),
+               TTSTYLEVAR(tableVPadding),
+               textContentWidth, titleHeight);
+
+  self.detailTextLabel.frame =
+    CGRectMake(self.activityIndicatorView.right + TTSTYLEVAR(tableHPadding),
+               TTSTYLEVAR(tableVPadding) + titleHeight,
+               textContentWidth, subtitleHeight);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGFloat textContentWidth =
+    contentWidth - self.activityIndicatorView.width - TTSTYLEVAR(tableHPadding);
+
+  CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
+  CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:textContentWidth];
+  return MAX(self.activityIndicatorView.height, titleHeight + subtitleHeight) +
+         TTSTYLEVAR(tableVPadding) * 2 +
+         [tableView tableCellExtraHeight];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setObject:(id)object {
+  if (_item != object) {
+    // We've just ensured that _item != object, so a release/retain is fine here.
+    [_item release];
+    _item = [object retain];
+
+    TTTableMoreButtonItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
+    self.animating = item.isLoading;
+
+    self.accessoryType = UITableViewCellAccessoryNone;
+    self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
+  }  
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setAnimating:(BOOL)animating {
+  if (_animating != animating) {
+    _animating = animating;
+
+    if (_animating) {
+      [self.activityIndicatorView startAnimating];
+    } else {
+      [_activityIndicatorView stopAnimating];
+    }
+    [self setNeedsLayout];
+  }
 }
 
 @end

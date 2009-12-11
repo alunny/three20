@@ -88,19 +88,19 @@ static const CGFloat kSectionHeaderHeight = 35;
     if (item.URL && [_controller shouldOpenURL:item.URL]) {
       TTOpenURL(item.URL);
     }
-/* TODO: CLEANUP
-    if ([object isKindOfClass:[TTTableButton class]]) {
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    } else if ([object isKindOfClass:[TTTableMoreButton class]]) {
-      TTTableMoreButton* moreLink = (TTTableMoreButton*)object;
+
+    if ([object isKindOfClass:[TTTableMoreButtonItem class]]) {
+      TTTableMoreButtonItem* moreLink = (TTTableMoreButtonItem*)object;
       moreLink.isLoading = YES;
-      TTTableMoreButtonCell* cell
-        = (TTTableMoreButtonCell*)[tableView cellForRowAtIndexPath:indexPath];
+      TTTableMoreButtonItemCell* cell
+        = (TTTableMoreButtonItemCell*)[tableView cellForRowAtIndexPath:indexPath];
       cell.animating = YES;
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       
       [_controller.model load:TTURLRequestCachePolicyDefault more:YES];
-    }*/
+    } else if ([object isKindOfClass:[TTTableButtonItem class]]) {
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
   }
 
   [_controller didSelectObject:object atIndexPath:indexPath];
