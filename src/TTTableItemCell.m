@@ -73,15 +73,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)didMoveToSuperview {
-  [super didMoveToSuperview];
-  if (self.superview) {
-    _styledImageView.backgroundColor = self.backgroundColor;
-  }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Calculate the best label heights for this cell's current height.
+ *
+ * Accepts up to 10 labels and their corresponding calculated heights.
+ * Replaces the calculatedLabelHeights values with the calculated label heights.
+ *
+ */
 - (void)optimizeLabels: (NSArray*)labels
                heights: (NSMutableArray*)calculatedLabelHeights {
 
@@ -164,6 +162,85 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)object {
+  return _item;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setObject:(id)object {
+  if (_item != object) {
+    // We've just ensured that _item != object, so a release/retain is fine here.
+    [_item release];
+    _item = [object retain];
+
+    TTTableLinkedItem* item = object;
+
+    // accessoryURL takes priority over URL when setting the accessory type because
+    // you can still access URL by tapping the row if there is an accessory button.
+    if (nil != item.accessoryURL) {
+      self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+
+    } else if (nil != item.URL) {
+      TTNavigationMode navigationMode = [[TTNavigator navigator].URLMap
+        navigationModeForURL:item.URL];
+
+      if (navigationMode == TTNavigationModeCreate ||
+          navigationMode == TTNavigationModeShare) {
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      } else {
+        self.accessoryType = UITableViewCellAccessoryNone;
+      }
+    }
+
+    // Any URL can be tapped and accessed.
+    if (nil != item.URL) {
+      self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
+    } else {
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+
+    if (nil == item.URL && nil == item.accessoryURL) {
+      self.accessoryType = UITableViewCellAccessoryNone;
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+  }
+}
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableImageLinkedItemCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_styledImageView);
+	[super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)didMoveToSuperview {
+  [super didMoveToSuperview];
+  if (self.superview) {
+    _styledImageView.backgroundColor = self.backgroundColor;
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)calculateContentWidthWithImageSize: (CGSize*)pImageSize
                                  imagePadding: (UIEdgeInsets*)pImagePadding {
   CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
@@ -230,58 +307,21 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (id)object {
-  return _item;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
     // We've just ensured that _item != object, so a release/retain is fine here.
-    [_item release];
-    _item = [object retain];
-
-    TTTableLinkedItem* item = object;
-
-    // accessoryURL takes priority over URL when setting the accessory type because
-    // you can still access URL by tapping the row if there is an accessory button.
-    if (nil != item.accessoryURL) {
-      self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-
-    } else if (nil != item.URL) {
-      TTNavigationMode navigationMode = [[TTNavigator navigator].URLMap
-        navigationModeForURL:item.URL];
-
-      if (navigationMode == TTNavigationModeCreate ||
-          navigationMode == TTNavigationModeShare) {
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-      } else {
-        self.accessoryType = UITableViewCellAccessoryNone;
-      }
-    }
-
-    // Any URL can be tapped and accessed.
-    if (nil != item.URL) {
-      self.selectionStyle = TTSTYLEVAR(tableSelectionStyle);
-    } else {
-      self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-
-    if (nil == item.URL && nil == item.accessoryURL) {
-      self.accessoryType = UITableViewCellAccessoryNone;
-      self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    [super setObject:object];
 
     [_styledImageView removeFromSuperview];
     TT_RELEASE_SAFELY(_styledImageView);
 
-    if (nil != _item.image ||
-        TTIsStringWithAnyText(_item.imageURL)) {
+    TTTableImageLinkedItem* item = object;
+
+    if (nil != item.image || TTIsStringWithAnyText(item.imageURL)) {
       _styledImageView = [[TTImageView alloc] init];
-      _styledImageView.defaultImage = _item.image;
-      _styledImageView.URL          = _item.imageURL;
-      _styledImageView.style        = _item.imageStyle;
+      _styledImageView.defaultImage = item.image;
+      _styledImageView.URL          = item.imageURL;
+      _styledImageView.style        = item.imageStyle;
       [self.contentView addSubview:_styledImageView];
     }
   }

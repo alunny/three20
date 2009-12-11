@@ -77,9 +77,6 @@ NSString* kTableItemViewKey           = @"view";
 
 @synthesize URL           = _URL;
 @synthesize accessoryURL  = _accessoryURL;
-@synthesize image         = _image;
-@synthesize imageURL      = _imageURL;
-@synthesize imageStyle    = _imageStyle;
 
 + (id)itemWithProperties:(NSDictionary*)properties {
   return [[[self alloc] initWithProperties:properties] autorelease];
@@ -92,9 +89,6 @@ NSString* kTableItemViewKey           = @"view";
   if( self = [super init] ) {
     self.URL          = [properties objectForKey:kTableItemURLKey];
     self.accessoryURL = [properties objectForKey:kTableItemAccessoryURLKey];
-    self.image        = [properties objectForKey:kTableItemImageKey];
-    self.imageURL     = [properties objectForKey:kTableItemImageURLKey];
-    self.imageStyle   = [properties objectForKey:kTableItemImageStyleKey];
   }
 
   return self;
@@ -103,9 +97,6 @@ NSString* kTableItemViewKey           = @"view";
 - (void)dealloc {
   TT_RELEASE_SAFELY(_URL);
   TT_RELEASE_SAFELY(_accessoryURL);
-  TT_RELEASE_SAFELY(_image);
-  TT_RELEASE_SAFELY(_imageURL);
-  TT_RELEASE_SAFELY(_imageStyle);
   [super dealloc];
 }
 
@@ -116,7 +107,6 @@ NSString* kTableItemViewKey           = @"view";
   if (self = [super initWithCoder:decoder]) {
     self.URL          = [decoder decodeObjectForKey:kTableItemURLKey];
     self.accessoryURL = [decoder decodeObjectForKey:kTableItemAccessoryURLKey];
-    self.imageURL     = [decoder decodeObjectForKey:kTableItemImageURLKey];
   }
   return self;
 }
@@ -129,6 +119,57 @@ NSString* kTableItemViewKey           = @"view";
   if (nil != self.accessoryURL) {
     [encoder encodeObject:self.accessoryURL forKey:kTableItemAccessoryURLKey];
   }
+}
+
+@end
+
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableImageLinkedItem
+
+@synthesize image         = _image;
+@synthesize imageURL      = _imageURL;
+@synthesize imageStyle    = _imageStyle;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.image      = [properties objectForKey:kTableItemImageKey];
+    self.imageURL   = [properties objectForKey:kTableItemImageURLKey];
+    self.imageStyle = [properties objectForKey:kTableItemImageStyleKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_image);
+  TT_RELEASE_SAFELY(_imageURL);
+  TT_RELEASE_SAFELY(_imageStyle);
+  [super dealloc];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.imageURL = [decoder decodeObjectForKey:kTableItemImageURLKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
   if (nil != self.imageURL) {
     [encoder encodeObject:self.imageURL forKey:kTableItemImageURLKey];
   }
@@ -303,6 +344,7 @@ NSString* kTableItemViewKey           = @"view";
 @implementation TTTableCaptionItem
 
 @synthesize caption = _caption;
+@synthesize title = _title;
 
 + (id)itemWithProperties:(NSDictionary*)properties {
   return [[[self alloc] initWithProperties:properties] autorelease];
@@ -314,6 +356,7 @@ NSString* kTableItemViewKey           = @"view";
 - (id)initWithProperties:(NSDictionary*)properties {
   if( self = [super initWithProperties:properties] ) {
     self.caption = [properties objectForKey:kTableItemCaptionKey];
+    self.title = [properties objectForKey:kTableItemTitleKey];
   }
 
   return self;
@@ -321,6 +364,7 @@ NSString* kTableItemViewKey           = @"view";
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_caption);
+  TT_RELEASE_SAFELY(_title);
   [super dealloc];
 }
 
@@ -334,6 +378,7 @@ NSString* kTableItemViewKey           = @"view";
 - (id)initWithCoder:(NSCoder*)decoder {
   if (self = [super initWithCoder:decoder]) {
     self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+    self.title = [decoder decodeObjectForKey:kTableItemTitleKey];
   }
   return self;
 }
@@ -342,6 +387,7 @@ NSString* kTableItemViewKey           = @"view";
   [super encodeWithCoder:encoder];
   if (self.caption) {
     [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
+    [encoder encodeObject:self.caption forKey:kTableItemTitleKey];
   }
 }
 

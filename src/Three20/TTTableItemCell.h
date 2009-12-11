@@ -23,25 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkedItemCell : TTTableViewCell {
 @protected
-  TTTableLinkedItem*  _item;
-  TTImageView*        _styledImageView;
+  TTTableLinkedItem* _item;
 }
 
 @end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableTitleItemCell : TTTableLinkedItemCell
+@interface TTTableImageLinkedItemCell : TTTableLinkedItemCell {
+@protected
+  TTImageView* _styledImageView;
+}
+
 @end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableSubtitleItemCell : TTTableLinkedItemCell
+@interface TTTableTitleItemCell : TTTableImageLinkedItemCell
 @end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableMessageItemCell : TTTableLinkedItemCell {
+@interface TTTableSubtitleItemCell : TTTableImageLinkedItemCell
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableMessageItemCell : TTTableImageLinkedItemCell {
   UILabel* _messageLabel;
   UILabel* _timestampLabel;
 }
