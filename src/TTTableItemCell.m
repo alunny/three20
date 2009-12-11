@@ -115,7 +115,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
             (0 == label.numberOfLines ||
             labelRowCounts[ix] < label.numberOfLines)) {
           labelRowCounts[ix]++;
-          labelHeights[ix] = labelRowCounts[ix] * label.font.lineHeight;
+          labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
 
           height = 0;
           for (int iy = 0; iy < [labels count]; ++iy) {
@@ -124,7 +124,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
           if (height > paddedCellHeight) {
             labelRowCounts[ix]--;
-            labelHeights[ix] = labelRowCounts[ix] * label.font.lineHeight;
+            labelHeights[ix] = labelRowCounts[ix] * label.font.safeLineHeight;
           } else {
             couldAddAny = YES;
           }
@@ -258,7 +258,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     TT_RELEASE_SAFELY(_styledImageView);
 
     if (nil != _item.image ||
-        nil != _item.imageURL && !TTIsEmptyString(_item.imageURL)) {
+        TTIsStringWithAnyText(_item.imageURL)) {
       _styledImageView = [[TTImageView alloc] init];
       _styledImageView.defaultImage = _item.image;
       _styledImageView.URL          = _item.imageURL;

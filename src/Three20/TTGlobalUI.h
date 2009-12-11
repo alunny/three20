@@ -30,6 +30,7 @@
 #import "Three20/UIToolbarAdditions.h"
 #import "Three20/UIWindowAdditions.h"
 #import "Three20/UIViewControllerAdditions.h"
+#import "Three20/UILabelAdditions.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Debug logging helpers

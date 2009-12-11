@@ -215,6 +215,8 @@
 		EB9E71CE10B782F100DE563C /* NSMutableDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E35CCC010912BE10066B478 /* NSMutableDictionaryAdditions.m */; };
 		EBA17A2010B4DDD500835016 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */; };
 		EBA17A3810B4DF5E00835016 /* NSDataAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */; };
+		EBAE96A610D1F3C700F497CA /* UILabelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE96A510D1F3C700F497CA /* UILabelAdditions.m */; };
+		EBAE96B010D1F3D000F497CA /* UILabelAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE96AF10D1F3D000F497CA /* UILabelAdditions.h */; };
 		EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBB349610B36CCE00AD5BCF /* TTDebug.h */; };
 		EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */; };
 		EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */; };
@@ -424,6 +426,8 @@
 		EB9E6E8610B731F600DE563C /* CoreGlobalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreGlobalTests.m; path = tests/CoreGlobalTests.m; sourceTree = "<group>"; };
 		EBA17A1E10B4DDD500835016 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		EBA17A3710B4DF5E00835016 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAdditions.h; path = Three20/NSDataAdditions.h; sourceTree = "<group>"; };
+		EBAE96A510D1F3C700F497CA /* UILabelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelAdditions.m; sourceTree = "<group>"; };
+		EBAE96AF10D1F3D000F497CA /* UILabelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILabelAdditions.h; path = Three20/UILabelAdditions.h; sourceTree = "<group>"; };
 		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
 		EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRecursiveProgress.m; sourceTree = "<group>"; };
 		EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTRecursiveProgress.h; path = Three20/TTRecursiveProgress.h; sourceTree = "<group>"; };
@@ -871,6 +875,8 @@
 				BEAF211F0F4D329600D75F3B /* UIToolbarAdditions.m */,
 				C6620EAB109CEDA400EC35C6 /* UIWindowAdditions.h */,
 				C6620EAC109CEDA400EC35C6 /* UIWindowAdditions.m */,
+				EBAE96AF10D1F3D000F497CA /* UILabelAdditions.h */,
+				EBAE96A510D1F3C700F497CA /* UILabelAdditions.m */,
 				EB9E6D3810B6B0E200DE563C /* UINSStringAdditions.h */,
 				EB9E6CFC10B6B01800DE563C /* UINSStringAdditions.m */,
 				EB4CD6FA10CA019200A856E5 /* UINSObjectAdditions.h */,
@@ -1205,6 +1211,7 @@
 				EB4CDAFB10CADC9A00A856E5 /* TTGlobalUINavigator.m in Sources */,
 				EB4CDBA210CAE0C100A856E5 /* TTGlobalStyle.m in Sources */,
 				EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */,
+				EBAE96A610D1F3C700F497CA /* UILabelAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,7 +1233,6 @@
 				EB4CDAF610CADC7100A856E5 /* TTGlobalCoreLocale.m in Sources */,
 				EB2F8DBB10D027E9008522A7 /* UIAdditionTests.m in Sources */,
 				EB2F8DBD10D02815008522A7 /* UIColorAdditions.m in Sources */,
-				EBDC845310C4493200257247 /* UILabelAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

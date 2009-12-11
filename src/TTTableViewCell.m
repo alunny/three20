@@ -15,9 +15,11 @@
 //
 
 #import "Three20/TTTableViewCell.h"
-#import "Three20/TTGlobal.h"
 
 #import "Three20/TTGlobalUI.h"
+#import "Three20/TTGlobalStyle.h"
+
+#import "Three20/TTDefaultStyleSheet.h"
 
 const CGFloat kDisclosureIndicatorWidth = 20;
 const CGFloat kDetailDisclosureButtonWidth = 33;

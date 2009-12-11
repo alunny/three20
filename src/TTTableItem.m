@@ -18,6 +18,8 @@
 
 #import "Three20/TTGlobalCore.h"
 
+#import "Three20/TTTableItemCell.h"
+
 NSString* kTableItemTitleKey          = @"title";
 NSString* kTableItemSubtitleKey       = @"subtitle";
 NSString* kTableItemTextKey           = @"text";

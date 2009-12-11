@@ -160,6 +160,32 @@ extern NSString* kTableItemViewKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableSubtitleItem : TTTableTitleItem {
+@private
+  NSString* _subtitle;
+}
+
+@property(nonatomic,copy) NSString* subtitle;
+
+/**
+ * Properties:
+ *
+ * * kTableItemTitleKey
+ * * kTableItemSubtitleKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItem : TTTableSubtitleItem {
 @private
   NSString* _text;
@@ -176,32 +202,6 @@ extern NSString* kTableItemViewKey;
  * * kTableItemSubtitleKey
  * * kTableItemTextKey
  * * kTableItemTimestampKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableSubtitleItem : TTTableTitleItem {
-@private
-  NSString* _subtitle;
-}
-
-@property(nonatomic,copy) NSString* subtitle;
-
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemSubtitleKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
  * * kTableItemImageKey
