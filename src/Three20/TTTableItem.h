@@ -273,12 +273,8 @@ extern NSString* kTableItemViewKey;
 @end
 
 
-/* TODO: CLEANUP
-*/
-#if 0
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableLink : TTTableTitleItem
+@interface TTTableLinkItem : TTTableTitleItem
 /**
  * Properties:
  *
@@ -290,6 +286,11 @@ extern NSString* kTableItemViewKey;
  * * kTableItemImageStyleKey
  */
 @end
+
+
+/* TODO: CLEANUP
+*/
+#if 0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -281,6 +281,43 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         kLoremIpsum, kTableItemTitleKey,
         nil]],
 
+      @"TTTableLinkItem",
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"URL", kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        defaultPerson, kTableItemImageKey,
+        localImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"accessoryURL", kTableItemTitleKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Both URLs", kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"
