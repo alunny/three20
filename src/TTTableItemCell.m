@@ -894,6 +894,86 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 @end
 
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableButtonItemCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
+    self.textLabel.font                      = TTSTYLEVAR(tableButtonFont);
+    self.textLabel.textColor                 = TTSTYLEVAR(tableButtonColor);
+    self.textLabel.highlightedTextColor      = TTSTYLEVAR(tableButtonHighlightedColor);
+    self.textLabel.lineBreakMode             = TTSTYLEVAR(tableButtonLineBreakMode);
+    self.textLabel.numberOfLines             = TTSTYLEVAR(tableButtonNumberOfLines);
+    self.textLabel.textAlignment             = TTSTYLEVAR(tableButtonTextAlignment);
+	}
+	return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UIView
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  const CGFloat paddedCellHeight = self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
+  CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
+
+  self.textLabel.frame =
+    CGRectMake(TTSTYLEVAR(tableHPadding), TTSTYLEVAR(tableVPadding),
+               contentWidth, paddedCellHeight);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGFloat height = [self.textLabel heightWithWidth:contentWidth];
+  return height + TTSTYLEVAR(tableVPadding) * 2 + [tableView tableCellExtraHeight];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)object {
+  return _item;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setObject:(id)object {
+  if (_item != object) {
+    [super setObject:object];
+
+    TTTableButtonItem* item = object;
+    self.textLabel.text = item.title;
+
+    self.accessoryType = UITableViewCellAccessoryNone;
+    if (TTIsStringWithAnyText(item.URL)) {
+      self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else {
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+  }  
+}
+
+@end
+
+
 /* TODO: CLEANUP
 #pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -318,6 +318,42 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         @"http://www.google.com", kTableItemAccessoryURLKey,
         nil]],
 
+      @"TTTableButtonItem",
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"No URLs", kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        remoteImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"URL", kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        defaultPerson, kTableItemImageKey,
+        localImage, kTableItemImageURLKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"accessoryURL", kTableItemTitleKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Both URLs", kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        @"http://www.google.com", kTableItemAccessoryURLKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        defaultPerson, kTableItemImageKey,
+        imageStyle, kTableItemImageStyleKey,
+        nil]],
+      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"
