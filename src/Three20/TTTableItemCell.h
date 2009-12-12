@@ -117,16 +117,6 @@
 /* TODO: CLEANUP
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableImageItemCell : TTTableTitleItemCell {
-  TTImageView* _styledImageView;
-}
-
-@property(nonatomic,readonly,retain) TTImageView* styledImageView;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTStyledTextTableItemCell : TTTableLinkedItemCell {
   TTStyledTextLabel* _label;
 }
