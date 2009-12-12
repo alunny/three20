@@ -1049,14 +1049,16 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   self.activityIndicatorView.top =
     floor((self.contentView.height - self.activityIndicatorView.height) / 2);
 
+  CGFloat centeredYOffset = floor((self.contentView.height - (titleHeight + subtitleHeight)) / 2);
+
   self.textLabel.frame =
     CGRectMake(self.activityIndicatorView.right + TTSTYLEVAR(tableHPadding),
-               TTSTYLEVAR(tableVPadding),
+               centeredYOffset,
                textContentWidth, titleHeight);
 
   self.detailTextLabel.frame =
     CGRectMake(self.activityIndicatorView.right + TTSTYLEVAR(tableHPadding),
-               TTSTYLEVAR(tableVPadding) + titleHeight,
+               centeredYOffset + titleHeight,
                textContentWidth, subtitleHeight);
 }
 
@@ -1073,7 +1075,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
   CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:textContentWidth];
-  return MAX(self.activityIndicatorView.height, titleHeight + subtitleHeight) +
+  return MAX(self.activityIndicatorView.height,
+             MAX(TT_ROW_HEIGHT * 3/2, titleHeight + subtitleHeight)) +
          TTSTYLEVAR(tableVPadding) * 2 +
          [tableView tableCellExtraHeight];
 }

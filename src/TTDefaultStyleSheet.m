@@ -714,7 +714,7 @@
 }
 
 - (UIColor*)tableMoreButtonSubtitleColor {
-  return RGBCOLOR(36, 112, 216);
+  return RGBCOLOR(79, 89, 105);
 }
 
 - (UIColor*)tableMoreButtonSubtitleHighlightedColor {
