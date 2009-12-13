@@ -178,32 +178,32 @@
 - (Class)tableView:(UITableView*)tableView cellClassForObject:(id)object {
   if ([object isKindOfClass:[TTTableItem class]]) {
     return [object cellClass];
-  }
-/* TODO: CLEANUP
+
   } else if ([object isKindOfClass:[TTStyledText class]]) {
-    return [TTStyledTextTableCell class];
+    return [TTTableStyledTextItemCell class];
 
   } else if ([object isKindOfClass:[UIControl class]]
              || [object isKindOfClass:[UITextView class]]
              || [object isKindOfClass:[TTTextEditor class]]) {
-    return [TTTableControlCell class];
+    return [TTTableControlItemCell class];
 
-  } else if ([object isKindOfClass:[UIView class]]) {
+  }
+/* TODO: CLEANUP  } else if ([object isKindOfClass:[UIView class]]) {
     return [TTTableFlushViewCell class];
-  }*/
-  
+  }
+  */
   // This will display an empty white table cell - probably not what you want, but it
   // is better than crashing, which is what happens if you return nil here
   return [TTTableViewCell class];
 }
 
 - (NSString*)tableView:(UITableView*)tableView labelForObject:(id)object {
-/* TODO: CLEANUP  if ([object isKindOfClass:[TTTableTextItem class]]) {
-    TTTableTextItem* item = object;
-    return item.text;
-  } else {*/
+  if ([object isKindOfClass:[TTTableTitleItem class]]) {
+    TTTableTitleItem* item = object;
+    return item.title;
+  } else {
     return [NSString stringWithFormat:@"%@", object];
-/* TODO: CLEANUP  }*/
+  }
 }
 
 - (NSIndexPath*)tableView:(UITableView*)tableView indexPathForObject:(id)object {

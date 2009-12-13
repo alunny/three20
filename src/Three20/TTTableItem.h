@@ -83,6 +83,9 @@ extern NSString* kTableItemImageURLKey;
 // padding, size, etc...)
 extern NSString* kTableItemImageStyleKey;
 
+// A bool NSNumber that states whether or not the image is right-aligned.
+extern NSString* kTableItemImageRightAlignedKey;
+
 // /-----------------------------\
 // |                   timestamp |
 // | Text text text text text te |
@@ -135,11 +138,13 @@ extern NSString* kTableItemStyledTextKey;
   UIImage*  _image;
   NSString* _imageURL;
   TTStyle*  _imageStyle;
+  BOOL      _imageRightAligned;
 }
 
 @property(nonatomic,retain) UIImage*  image;
 @property(nonatomic,copy)   NSString* imageURL;
 @property(nonatomic,retain) TTStyle*  imageStyle;
+@property(nonatomic)        BOOL      imageRightAligned;
 
 @end
 
@@ -403,7 +408,7 @@ extern NSString* kTableItemStyledTextKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableLongTextItem : TTTableLinkedItem {
+@interface TTTableLongTextItem : TTTableImageLinkedItem {
 @private
   NSString* _text;
 }

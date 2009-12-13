@@ -20,24 +20,25 @@
 
 #import "Three20/TTTableItemCell.h"
 
-NSString* kTableItemTitleKey          = @"title";
-NSString* kTableItemSubtitleKey       = @"subtitle";
-NSString* kTableItemTextKey           = @"text";
+NSString* kTableItemTitleKey              = @"title";
+NSString* kTableItemSubtitleKey           = @"subtitle";
+NSString* kTableItemTextKey               = @"text";
 
-NSString* kTableItemCaptionKey        = @"caption";
+NSString* kTableItemCaptionKey            = @"caption";
 
-NSString* kTableItemURLKey            = @"URL";
-NSString* kTableItemAccessoryURLKey   = @"accessoryURL";
+NSString* kTableItemURLKey                = @"URL";
+NSString* kTableItemAccessoryURLKey       = @"accessoryURL";
 
-NSString* kTableItemImageKey          = @"image";
-NSString* kTableItemImageURLKey       = @"imageURL";
-NSString* kTableItemImageStyleKey     = @"imageStyle";
+NSString* kTableItemImageKey              = @"image";
+NSString* kTableItemImageURLKey           = @"imageURL";
+NSString* kTableItemImageStyleKey         = @"imageStyle";
+NSString* kTableItemImageRightAlignedKey  = @"imageRightAligned";
 
-NSString* kTableItemTimestampKey      = @"timestamp";
-NSString* kTableItemControlKey        = @"control";
-NSString* kTableItemViewKey           = @"view";
+NSString* kTableItemTimestampKey          = @"timestamp";
+NSString* kTableItemControlKey            = @"control";
+NSString* kTableItemViewKey               = @"view";
 
-NSString* kTableItemStyledTextKey     = @"styledText";
+NSString* kTableItemStyledTextKey         = @"styledText";
 
 static const CGFloat kDefaultStyledTextPadding = 6;
 
@@ -134,9 +135,10 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableImageLinkedItem
 
-@synthesize image         = _image;
-@synthesize imageURL      = _imageURL;
-@synthesize imageStyle    = _imageStyle;
+@synthesize image             = _image;
+@synthesize imageURL          = _imageURL;
+@synthesize imageStyle        = _imageStyle;
+@synthesize imageRightAligned = _imageRightAligned;
 
 + (id)itemWithProperties:(NSDictionary*)properties {
   return [[[self alloc] initWithProperties:properties] autorelease];
@@ -147,9 +149,10 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 
 - (id)initWithProperties:(NSDictionary*)properties {
   if( self = [super initWithProperties:properties] ) {
-    self.image      = [properties objectForKey:kTableItemImageKey];
-    self.imageURL   = [properties objectForKey:kTableItemImageURLKey];
-    self.imageStyle = [properties objectForKey:kTableItemImageStyleKey];
+    self.image              = [properties objectForKey:kTableItemImageKey];
+    self.imageURL           = [properties objectForKey:kTableItemImageURLKey];
+    self.imageStyle         = [properties objectForKey:kTableItemImageStyleKey];
+    self.imageRightAligned  = [[properties objectForKey:kTableItemImageRightAlignedKey] boolValue];
   }
 
   return self;
@@ -779,7 +782,7 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 }
 
 -(Class)cellClass {
-  return [TTTableLongTextItem class];
+  return [TTTableLongTextItemCell class];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

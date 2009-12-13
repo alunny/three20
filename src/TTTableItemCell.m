@@ -86,6 +86,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     _item = [object retain];
 
     TTTableLinkedItem* item = object;
+    if (![item isKindOfClass:[TTTableLinkedItem class]]) {
+      self.accessoryType = UITableViewCellAccessoryNone;
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+      return;
+    }
 
     // accessoryURL takes priority over URL when setting the accessory type because
     // you can still access URL by tapping the row if there is an accessory button.
@@ -283,14 +288,18 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                           imagePadding: &imagePadding];
   CGFloat imageWidth = imageSize.width + imagePadding.left + imagePadding.right;
 
+  BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
+
   _styledImageView.frame =
-    CGRectMake(imagePadding.left,
-               floor(self.contentView.height -
-                     MIN(self.contentView.height, imageSize.height)) / 2,
-               imageSize.width, imageSize.height);
+    CGRectMake((isImageRightAligned ?
+        (self.contentView.width - imagePadding.right - imageSize.width) :
+        imagePadding.left),
+      floor(self.contentView.height -
+            MIN(self.contentView.height, imageSize.height)) / 2,
+      imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + TTSTYLEVAR(tableHPadding),
+    CGRectMake((isImageRightAligned ? 0 : imageWidth) + TTSTYLEVAR(tableHPadding),
                TTSTYLEVAR(tableVPadding),
                contentWidth, paddedCellHeight);
 }
@@ -1233,7 +1242,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   [super layoutSubviews];
 
   TTTableStyledTextItem* item = self.object;
-  _label.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, item.margin);
+  UIEdgeInsets margin;
+  if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
+    margin = item.margin;
+  } else {
+    margin = UIEdgeInsetsZero;
+  }
+  _label.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, margin);
 
   // Necessary to force the label to redraw its new layout.
   [_label setNeedsDisplay];
@@ -1255,15 +1270,24 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   TTTableStyledTextItem* item = self.object;
+  UIEdgeInsets margin;
+  UIEdgeInsets padding;
+  if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
+    margin = item.margin;
+    padding = item.padding;
+  } else {
+    margin = UIEdgeInsetsZero;
+    padding = UIEdgeInsetsZero;
+  }
   CGFloat contentWidth = [self contentWidthWithTableView: tableView
                                                indexPath: indexPath
-                                                 padding: item.margin];
+                                                 padding: margin];
   _label.text.width = contentWidth;
 
   return
     _label.text.height +
-    item.padding.top + item.padding.bottom +
-    item.margin.top + item.margin.bottom +
+    padding.top + padding.bottom +
+    margin.top + margin.bottom +
     [tableView tableCellExtraHeight];
 }
 
@@ -1273,8 +1297,16 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     [super setObject:object];
 
     TTTableStyledTextItem* item = object;
-    _label.text = item.text;
-    _label.contentInset = item.padding;
+    if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
+      _label.text = item.text;
+      _label.contentInset = item.padding;
+    } else if ([item isKindOfClass:[TTStyledText class]]) {
+      _label.text = (TTStyledText*)item;
+      _label.contentInset = UIEdgeInsetsZero;
+    } else {
+      _label.text = nil;
+      _label.contentInset = UIEdgeInsetsZero;    
+    }
 
     if (!_label.text.font) {
       _label.text.font = TTSTYLEVAR(font);

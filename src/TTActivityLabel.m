@@ -176,14 +176,14 @@ static CGFloat kProgressMargin = 6;
     padding = kBannerPadding;
     bezelWidth = self.width;
     bezelHeight = self.height;
+    contentWidth = MIN(self.width, contentWidth);
   }
 
   CGFloat maxBevelWidth = TTScreenBounds().size.width - margin*2;
   if (bezelWidth > maxBevelWidth) {
     bezelWidth = maxBevelWidth;
+    contentWidth = bezelWidth - (kSpacing + indicatorSize);
   }
-
-  contentWidth = bezelWidth - (kSpacing + indicatorSize);
 
   CGFloat textMaxWidth = (bezelWidth - (indicatorSize + kSpacing)) - padding*2;
   CGFloat textWidth = textSize.width;
