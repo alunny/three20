@@ -1366,6 +1366,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
   CGFloat textContentWidth = contentWidth - _control.width;
 
+  if (![TTTableControlItemCell shouldRespectControlPadding:_control]) {
+    textContentWidth += kControlPadding;
+  }
+
   CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
 
   self.textLabel.frame =

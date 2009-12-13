@@ -6,10 +6,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // private
 
-- (TTTableImageItem*)itemForURL:(NSString*)URL {
-  return [TTTableSubtitleItem itemWithText:@"Table Row" subtitle:nil imageURL:URL
-                              defaultImage:TTIMAGE(@"bundle://defaultMusic.png")
-                              URL:nil accessoryURL:nil];
+- (TTTableTitleItem*)itemForURL:(NSString*)URL {
+  return [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+    @"Table Row", kTableItemTitleKey,
+    TTIMAGE(@"bundle://defaultMusic.png"), kTableItemImageKey,
+    URL, kTableItemImageURLKey,
+    nil]];
 }
 
 - (id)init {

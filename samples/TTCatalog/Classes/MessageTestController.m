@@ -9,10 +9,8 @@
 // private
 
 - (UIViewController*)composeTo:(NSString*)recipient {
-  TTTableTextItem* item = [TTTableTextItem itemWithText:recipient URL:nil];
-
   TTMessageController* controller =
-    [[[TTMessageController alloc] initWithRecipients:[NSArray arrayWithObject:item]] autorelease];
+    [[[TTMessageController alloc] initWithRecipients:[NSArray arrayWithObject:recipient]] autorelease];
   controller.dataSource = [[[MockSearchDataSource alloc] init] autorelease];
   controller.delegate = self;
 

@@ -29,8 +29,11 @@ Move along now. Nothing to see here. Goodbye now."],
     TTListDataSource* dataSource = [[[TTListDataSource alloc] init] autorelease];
     for (int i = 0; i < 50; ++i) {
       TTStyledText* text = [strings objectAtIndex:i % strings.count];
-      
-      [dataSource.items addObject:[TTTableStyledTextItem itemWithText:text URL:nil]];
+
+      [dataSource.items addObject:
+        [TTTableStyledTextItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+          text, kTableItemStyledTextKey,
+          nil]]];
     }
     self.dataSource = dataSource;
   }

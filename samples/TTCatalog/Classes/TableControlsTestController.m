@@ -20,8 +20,6 @@
     UITextField* textField2 = [[[UITextField alloc] init] autorelease];
     textField2.font = TTSTYLEVAR(font);
     textField2.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    TTTableControlItem* textFieldItem = [TTTableControlItem itemWithCaption:@"TTTableControlItem"
-                                                            control:textField2];
     
     UITextView* textView = [[[UITextView alloc] init] autorelease];
     textView.text = @"UITextView";
@@ -35,18 +33,30 @@
     editor.placeholder = @"TTTextEditor";
     
     UISwitch* switchy = [[[UISwitch alloc] init] autorelease];
-    TTTableControlItem* switchItem = [TTTableControlItem itemWithCaption:@"UISwitch" control:switchy];
-
     UISlider* slider = [[[UISlider alloc] init] autorelease];
-    TTTableControlItem* sliderItem = [TTTableControlItem itemWithCaption:@"UISlider" control:slider];
     
     self.dataSource = [TTListDataSource dataSourceWithObjects:
-      textField,
-      editor,
-      textView,
-      textFieldItem,
-      switchItem,
-      sliderItem,
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        textField, kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        editor, kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        textView, kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Text field", kTableItemCaptionKey,
+        textField2, kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"UISwitch", kTableItemCaptionKey,
+        switchy, kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"UISlider", kTableItemCaptionKey,
+        slider, kTableItemControlKey,
+        nil]],
       nil];
   }
   return self;

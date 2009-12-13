@@ -22,38 +22,95 @@
 // TTModelViewController
 
 - (void)createModel {
-/* TODO: CLEANUP  self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
+  self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
     @"Photos",
-    [TTTableTextItem itemWithText:@"Photo Browser" URL:@"tt://photoTest1"],
-    [TTTableTextItem itemWithText:@"Photo Thumbnails" URL:@"tt://photoTest2"],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Photo Browser", kTableItemTitleKey,
+        @"tt://photoTest1", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Photo Thumbnails", kTableItemTitleKey,
+        @"tt://photoTest2", kTableItemURLKey,
+        nil]],
 
     @"Styles",
-    [TTTableTextItem itemWithText:@"Styled Views" URL:@"tt://styleTest"],
-    [TTTableTextItem itemWithText:@"Styled Labels" URL:@"tt://styledTextTest"],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Styled Views", kTableItemTitleKey,
+        @"tt://styleTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Styled Labels", kTableItemTitleKey,
+        @"tt://styledTextTest", kTableItemURLKey,
+        nil]],
 
     @"Controls",
-    [TTTableTextItem itemWithText:@"Buttons" URL:@"tt://buttonTest"],
-    [TTTableTextItem itemWithText:@"Tabs" URL:@"tt://tabBarTest"],
-    [TTTableTextItem itemWithText:@"Composers" URL:@"tt://composerTest"],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Buttons", kTableItemTitleKey,
+        @"tt://buttonTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Tabs", kTableItemTitleKey,
+        @"tt://tabBarTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Composers", kTableItemTitleKey,
+        @"tt://composerTest", kTableItemURLKey,
+        nil]],
 
     @"Tables",
-    [TTTableTextItem itemWithText:@"Table Items" URL:@"tt://tableItemTest"],
-    [TTTableTextItem itemWithText:@"Table Controls" URL:@"tt://tableControlsTest"],
-    [TTTableTextItem itemWithText:@"Styled Labels in Table" URL:@"tt://styledTextTableTest"],
-    [TTTableTextItem itemWithText:@"Web Images in Table" URL:@"tt://imageTest2"],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Table Items", kTableItemTitleKey,
+        @"tt://tableItemTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Table Controls", kTableItemTitleKey,
+        @"tt://tableControlsTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Styled Labels in Table", kTableItemTitleKey,
+        @"tt://styledTextTableTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Web Images in Table", kTableItemTitleKey,
+        @"tt://imageTest2", kTableItemURLKey,
+        nil]],
   
     @"Models",
-    [TTTableTextItem itemWithText:@"Model Search" URL:@"tt://searchTest"],
-    [TTTableTextItem itemWithText:@"Model States" URL:@"tt://tableTest"],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Model Search", kTableItemTitleKey,
+        @"tt://searchTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Model States", kTableItemTitleKey,
+        @"tt://tableTest", kTableItemURLKey,
+        nil]],
     
     @"General",
-    [TTTableTextItem itemWithText:@"Web Image" URL:@"tt://imageTest1"],
-    [TTTableTextItem itemWithText:@"YouTube Player" URL:@"tt://youTubeTest"],
-    [TTTableTextItem itemWithText:@"Web Browser" URL:@"http://github.com/joehewitt/three20"],
-    [TTTableTextItem itemWithText:@"Activity Labels" URL:@"tt://activityTest"],
-    [TTTableTextItem itemWithText:@"Scroll View" URL:@"tt://scrollViewTest"],
-    [TTTableTextItem itemWithText:@"Launcher" URL:@"tt://launcherTest"],
-    nil];*/
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Web Image", kTableItemTitleKey,
+        @"tt://imageTest1", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"YouTube Player", kTableItemTitleKey,
+        @"tt://youTubeTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Web Browser", kTableItemTitleKey,
+        @"http://github.com/facebook/three20", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Activity Labels", kTableItemTitleKey,
+        @"tt://activityTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Scroll View", kTableItemTitleKey,
+        @"tt://scrollViewTest", kTableItemURLKey,
+        nil]],
+    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Launcher", kTableItemTitleKey,
+        @"tt://launcherTest", kTableItemURLKey,
+        nil]],
+    nil];
 }
 
 @end

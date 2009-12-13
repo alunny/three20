@@ -395,44 +395,6 @@ characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKe
         [[[UISlider alloc] init] autorelease], kTableItemControlKey,
         nil]],
 
-/* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
-      [TTTableButton itemWithText:@"TTTableButton"],
-      [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"
-                             URL:@"tt://tableItemTest"],
-      [TTTableSubtitleItem itemWithText:@"TTTableSubtitleItem" subtitle:kLoremIpsum
-                            URL:@"tt://tableItemTest"],
-      [TTTableMessageItem itemWithTitle:@"Bob Jones" caption:@"TTTableMessageItem"
-                          text:kLoremIpsum timestamp:[NSDate date] URL:@"tt://tableItemTest"],
-      [TTTableMoreButton itemWithText:@"TTTableMoreButton"],
-
-      @"Images",
-      [TTTableImageItem itemWithText:@"TTTableImageItem" imageURL:localImage
-                        URL:@"tt://tableItemTest"],
-      [TTTableRightImageItem itemWithText:@"TTTableRightImageItem" imageURL:localImage
-                        defaultImage:nil imageStyle:TTSTYLE(rounded)
-                        URL:@"tt://tableItemTest"],
-      [TTTableSubtitleItem itemWithText:@"TTTableSubtitleItem" subtitle:kLoremIpsum
-                            imageURL:remoteImage defaultImage:defaultPerson
-                            URL:@"tt://tableItemTest" accessoryURL:nil],
-      [TTTableMessageItem itemWithTitle:@"Bob Jones" caption:@"TTTableMessageItem"
-                          text:kLoremIpsum timestamp:[NSDate date]
-                          imageURL:remoteImage URL:@"tt://tableItemTest"],
-
-      @"Static Text",
-      [TTTableTextItem itemWithText:@"TTTableItem"],
-      [TTTableCaptionItem itemWithText:@"TTTableCaptionItem which wraps to several lines"
-                            caption:@"Text"],
-      [TTTableSubtextItem itemWithText:@"TTTableSubtextItem"
-                                 caption:kLoremIpsum],
-      [TTTableLongTextItem itemWithText:[@"TTTableLongTextItem "
-                                         stringByAppendingString:kLoremIpsum]],
-      [TTTableGrayTextItem itemWithText:[@"TTTableGrayTextItem "
-                                         stringByAppendingString:kLoremIpsum]],
-      [TTTableSummaryItem itemWithText:@"TTTableSummaryItem"],
-
-      @"",
-      [TTTableActivityItem itemWithText:@"TTTableActivityItem"],
-*/
       nil];
   }
   return self;
@@ -445,7 +407,7 @@ characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKe
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
 
-  [self.tableView scrollToLastRow:animated];
+  //[self.tableView scrollToLastRow:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

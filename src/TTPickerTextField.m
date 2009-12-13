@@ -22,6 +22,7 @@
 
 #import "Three20/TTTableViewDataSource.h"
 #import "Three20/TTPickerViewCell.h"
+#import "Three20/TTTableItem.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -302,7 +303,10 @@ static CGFloat kMinCursorWidth = 50;
   [_tableView deselectRowAtIndexPath:indexPath animated:NO];
 
   id object = [_dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
-  [self addCellWithObject:object];
+  if ([object isKindOfClass:[TTTableTitleItem class]]) {
+    TTTableTitleItem* item = object;
+    [self addCellWithObject:item.title];
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
