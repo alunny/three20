@@ -64,65 +64,173 @@
   if (_page == MenuPageBreakfast) {
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"Food",
-      [TTTableTextItem itemWithText:@"Porridge" URL:@"tt://food/porridge"],
-      [TTTableTextItem itemWithText:@"Bacon & Eggs" URL:@"tt://food/baconeggs"],
-      [TTTableTextItem itemWithText:@"French Toast" URL:@"tt://food/frenchtoast"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Porridge", kTableItemTitleKey,
+        @"tt://food/porridge", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Bacon & Eggs", kTableItemTitleKey,
+        @"tt://food/baconeggs", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"French Toast", kTableItemTitleKey,
+        @"tt://food/frenchtoast", kTableItemURLKey,
+        nil]],
       @"Drinks",
-      [TTTableTextItem itemWithText:@"Coffee" URL:@"tt://food/coffee"],
-      [TTTableTextItem itemWithText:@"Orange Juice" URL:@"tt://food/oj"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Coffee", kTableItemTitleKey,
+        @"tt://food/coffee", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Orange Juice", kTableItemTitleKey,
+        @"tt://food/oj", kTableItemURLKey,
+        nil]],
       @"Other",
-      [TTTableTextItem itemWithText:@"Just Desserts" URL:@"tt://menu/4"],
-      [TTTableTextItem itemWithText:@"Complaints" URL:@"tt://about/complaints"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Just Desserts", kTableItemTitleKey,
+        @"tt://menu/4", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Complaints", kTableItemTitleKey,
+        @"tt://about/complaints", kTableItemURLKey,
+        nil]],
       nil];
   } else if (_page == MenuPageLunch) {
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"Menu",
-      [TTTableTextItem itemWithText:@"Mac & Cheese" URL:@"tt://food/macncheese"],
-      [TTTableTextItem itemWithText:@"Ham Sandwich" URL:@"tt://food/hamsam"],
-      [TTTableTextItem itemWithText:@"Salad" URL:@"tt://food/salad"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Mac & Cheese", kTableItemTitleKey,
+        @"tt://food/macncheese", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Ham Sandwich", kTableItemTitleKey,
+        @"tt://food/hamsam", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Salad", kTableItemTitleKey,
+        @"tt://food/salad", kTableItemURLKey,
+        nil]],
       @"Drinks",
-      [TTTableTextItem itemWithText:@"Coke" URL:@"tt://food/coke"],
-      [TTTableTextItem itemWithText:@"Sprite" URL:@"tt://food/sprite"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Coke", kTableItemTitleKey,
+        @"tt://food/coke", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Sprite", kTableItemTitleKey,
+        @"tt://food/sprite", kTableItemURLKey,
+        nil]],
       @"Other",
-      [TTTableTextItem itemWithText:@"Just Desserts" URL:@"tt://menu/4"],
-      [TTTableTextItem itemWithText:@"Complaints" URL:@"tt://about/complaints"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Just Desserts", kTableItemTitleKey,
+        @"tt://menu/4", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Complaints", kTableItemTitleKey,
+        @"tt://about/complaints", kTableItemURLKey,
+        nil]],
       nil];
   } else if (_page == MenuPageDinner) {
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"Appetizers",
-      [TTTableTextItem itemWithText:@"Potstickers" URL:@"tt://food/potstickers"],
-      [TTTableTextItem itemWithText:@"Egg Rolls" URL:@"tt://food/eggrolls"],
-      [TTTableTextItem itemWithText:@"Buffalo Wings" URL:@"tt://food/wings"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Potstickers", kTableItemTitleKey,
+        @"tt://food/potstickers", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Egg Rolls", kTableItemTitleKey,
+        @"tt://food/eggrolls", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Buffalo Wings", kTableItemTitleKey,
+        @"tt://food/wings", kTableItemURLKey,
+        nil]],
       @"Entrees",
-      [TTTableTextItem itemWithText:@"Steak" URL:@"tt://food/steak"],
-      [TTTableTextItem itemWithText:@"Chicken Marsala" URL:@"tt://food/marsala"],
-      [TTTableTextItem itemWithText:@"Cobb Salad" URL:@"tt://food/cobbsalad"],
-      [TTTableTextItem itemWithText:@"Green Salad" URL:@"tt://food/greensalad"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Steak", kTableItemTitleKey,
+        @"tt://food/steak", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Chicken Marsala", kTableItemTitleKey,
+        @"tt://food/marsala", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Cobb Salad", kTableItemTitleKey,
+        @"tt://food/cobbsalad", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Green Salad", kTableItemTitleKey,
+        @"tt://food/greensalad", kTableItemURLKey,
+        nil]],
       @"Drinks",
-      [TTTableTextItem itemWithText:@"Red Wine" URL:@"tt://food/redwine"],
-      [TTTableTextItem itemWithText:@"White Wine" URL:@"tt://food/whitewhine"],
-      [TTTableTextItem itemWithText:@"Beer" URL:@"tt://food/beer"],
-      [TTTableTextItem itemWithText:@"Coke" URL:@"tt://food/coke"],
-      [TTTableTextItem itemWithText:@"Sparkling Water" URL:@"tt://food/coke"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Red Wine", kTableItemTitleKey,
+        @"tt://food/redwine", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"White Wine", kTableItemTitleKey,
+        @"tt://food/whitewhine", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Beer", kTableItemTitleKey,
+        @"tt://food/beer", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Coke", kTableItemTitleKey,
+        @"tt://food/coke", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Sparkling Water", kTableItemTitleKey,
+        @"tt://food/coke", kTableItemURLKey,
+        nil]],
       @"Other",
-      [TTTableTextItem itemWithText:@"Just Desserts" URL:@"tt://menu/4"],
-      [TTTableTextItem itemWithText:@"Complaints" URL:@"tt://about/complaints"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Just Desserts", kTableItemTitleKey,
+        @"tt://menu/4", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Complaints", kTableItemTitleKey,
+        @"tt://about/complaints", kTableItemURLKey,
+        nil]],
       nil];
   } else if (_page == MenuPageDessert) {
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"Yum",
-      [TTTableTextItem itemWithText:@"Chocolate Cake" URL:@"tt://food/cake"],
-      [TTTableTextItem itemWithText:@"Apple Pie" URL:@"tt://food/pie"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Chocolate Cake", kTableItemTitleKey,
+        @"tt://food/cake", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Apple Pie", kTableItemTitleKey,
+        @"tt://food/pie", kTableItemURLKey,
+        nil]],
       @"Other",
-      [TTTableTextItem itemWithText:@"Complaints" URL:@"tt://about/complaints"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Complaints", kTableItemTitleKey,
+        @"tt://about/complaints", kTableItemURLKey,
+        nil]],
       nil];
   } else if (_page == MenuPageAbout) {
     self.dataSource = [TTListDataSource dataSourceWithObjects:
-      [TTTableTextItem itemWithText:@"Our Story" URL:@"tt://about/story"],
-      [TTTableTextItem itemWithText:@"Call Us" URL:@"tel:5555555"],
-      [TTTableTextItem itemWithText:@"Text Us" URL:@"sms:5555555"],
-      [TTTableTextItem itemWithText:@"Website" URL:@"http://www.melsdrive-in.com"],
-      [TTTableTextItem itemWithText:@"Complaints Dept." URL:@"tt://about/complaints"],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Our Story", kTableItemTitleKey,
+        @"tt://about/story", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Call Us", kTableItemTitleKey,
+        @"tel:5555555", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Text Us", kTableItemTitleKey,
+        @"sms:5555555", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Website", kTableItemTitleKey,
+        @"http://www.melsdrive-in.com", kTableItemURLKey,
+        nil]],
+      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        @"Complaints Dept.", kTableItemTitleKey,
+        @"tt://about/complaints", kTableItemURLKey,
+        nil]],
       nil];
   }
 }
