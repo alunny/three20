@@ -23,6 +23,7 @@
 @class TTTableActivityItem;
 @class TTActivityLabel;
 @class TTStyledTextLabel;
+@class TTTableControlItem;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,49 +126,19 @@
 @end
 
 
-/* TODO: CLEANUP
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTStyledTextTableItemCell : TTTableLinkedItemCell {
-  TTStyledTextLabel* _label;
-}
-
-@property(nonatomic,readonly) TTStyledTextLabel* label;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTStyledTextTableCell : TTTableViewCell {
-  TTStyledTextLabel* _label;
-}
-
-@property(nonatomic,readonly) TTStyledTextLabel* label;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableActivityItemCell : TTTableViewCell {
-  TTTableActivityItem* _item;
-  TTActivityLabel* _activityLabel;
-}
-
-@property(nonatomic,readonly,retain) TTActivityLabel* activityLabel;
-
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableControlCell : TTTableViewCell {
+@interface TTTableControlItemCell : TTTableViewCell {
   TTTableControlItem* _item;
-  UIControl* _control;
+  UIControl*          _control;
 }
 
-@property(nonatomic,readonly,retain) TTTableControlItem* item;
-@property(nonatomic,readonly,retain) UIControl* control;
+@property(nonatomic,readonly,retain) TTTableControlItem*  item;
+@property(nonatomic,readonly,retain) UIControl*           control;
 
 @end
+
+
+/* TODO: CLEANUP
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

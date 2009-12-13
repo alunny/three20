@@ -379,6 +379,29 @@ extern NSString* kTableItemStyledTextKey;
 @end
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableControlItem : TTTableItem {
+@private
+  NSString*   _caption;
+  UIControl*  _control;
+}
+
+@property(nonatomic,copy)   NSString*   caption;
+@property(nonatomic,retain) UIControl*  control;
+
+/**
+ * Properties:
+ *
+ * * kTableItemCaptionKey
+ * * kTableItemControlKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+
 /* TODO: CLEANUP
 */
 #if 0
@@ -421,29 +444,6 @@ extern NSString* kTableItemStyledTextKey;
  * * kTableItemImageURLKey
  * * kTableItemImageStyleKey
  */
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableControlItem : TTTableItem {
-@private
-  NSString*   _caption;
-  UIControl*  _control;
-}
-
-@property(nonatomic,copy) NSString* caption;
-@property(nonatomic,retain) UIControl* control;
-
-/**
- * Properties:
- *
- * * kTableItemCaptionKey
- * * kTableItemControlKey
- */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
-
 @end
 
 

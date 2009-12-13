@@ -688,6 +688,68 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 @end
 
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableControlItem
+
+@synthesize caption = _caption;
+@synthesize control = _control;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super init] ) {
+    self.caption = [properties objectForKey:kTableItemCaptionKey];
+    self.control = [properties objectForKey:kTableItemControlKey];
+  }
+
+  return self;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_caption);
+  TT_RELEASE_SAFELY(_control);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableControlItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
+    self.control = [decoder decodeObjectForKey:kTableItemControlKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.caption) {
+    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
+  }
+  if (self.control) {
+    [encoder encodeObject:self.control forKey:kTableItemControlKey];
+  }
+}
+
+@end
+
+
 /* TODO: CLEANUP
 
 
@@ -809,68 +871,6 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableGrayTextItem
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableControlItem
-
-@synthesize caption = _caption;
-@synthesize control = _control;
-
-+ (id)itemWithProperties:(NSDictionary*)properties {
-  return [[[self alloc] initWithProperties:properties] autorelease];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super init] ) {
-    self.caption = [properties objectForKey:kTableItemCaptionKey];
-    self.control = [properties objectForKey:kTableItemControlKey];
-  }
-
-  return self;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_caption);
-  TT_RELEASE_SAFELY(_control);
-  [super dealloc];
-}
-
--(Class)cellClass {
-  return [TTTableControlCell class];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.caption = [decoder decodeObjectForKey:kTableItemCaptionKey];
-    self.control = [decoder decodeObjectForKey:kTableItemControlKey];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.caption) {
-    [encoder encodeObject:self.caption forKey:kTableItemCaptionKey];
-  }
-  if (self.control) {
-    [encoder encodeObject:self.control forKey:kTableItemControlKey];
-  }
-}
-
 @end
 
 

@@ -376,6 +376,25 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         [TTStyledText textFromXHTML:@"This is a whole bunch of text made from \
 characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKey,
         nil]],
+
+      @"TTTableControlItem",
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemCaptionKey,
+        [[[UISwitch alloc] init] autorelease], kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemCaptionKey,
+        [[[UITextView alloc] init] autorelease], kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemCaptionKey,
+        [[[TTTextEditor alloc] init] autorelease], kTableItemControlKey,
+        nil]],
+      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        kLoremIpsum, kTableItemCaptionKey,
+        [[[UISlider alloc] init] autorelease], kTableItemControlKey,
+        nil]],
+
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"

@@ -1285,85 +1285,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 @end
 
 
-/* TODO: CLEANUP
-#pragma mark -
-
-
 #pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTStyledTextTableCell
-
-@synthesize label = _label;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  TTStyledText* text = object;
-  if (!text.font) {
-    text.font = TTSTYLEVAR(font);
-  }
-  text.width = tableView.width - [tableView tableCellMargin]*2;
-  return text.height;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
-    _label = [[TTStyledTextLabel alloc] init];
-    _label.contentMode = UIViewContentModeLeft;
-    [self.contentView addSubview:_label];
-
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_label);
-  [super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark UIView
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-  _label.frame = self.contentView.bounds;
-}
-
-- (void)didMoveToSuperview {
-  [super didMoveToSuperview];
-  if (self.superview) {
-    _label.backgroundColor = self.backgroundColor;
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell
-
-- (id)object {
-  return _label.text;
-}
-
-- (void)setObject:(id)object {
-  if (self.object != object) {
-    _label.text = object;
-  }  
-}
-
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableControlCell
+@implementation TTTableControlItemCell
 
 @synthesize item = _item, control = _control;
 
@@ -1376,7 +1302,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 + (BOOL)shouldSizeControlToFit:(UIView*)view {
   return [view isKindOfClass:[UITextView class]]
-         || [view isKindOfClass:[TTTextEditor class]];
+         || [view isKindOfClass:[TTTextEditor class]]
+         || [view isKindOfClass:[UISlider class]];
 }
 
 + (BOOL)shouldRespectControlPadding:(UIView*)view {
@@ -1384,16 +1311,80 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
+#pragma mark NSObject
 
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
+    _item = nil;
+    _control = nil;
+	}
+	return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_item);
+  TT_RELEASE_SAFELY(_control);
+	[super dealloc];
+}
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  if ([TTTableControlItemCell shouldSizeControlToFit:_control]) {
+    if ([_control isKindOfClass:[UISlider class]]) {
+      _control.frame = CGRectInset(self.contentView.bounds, kControlPadding, 0);
+    } else {
+      _control.frame = CGRectInset(self.contentView.bounds, 2, kSpacing/2);
+    }
+  } else {
+    CGFloat minX = kControlPadding;
+    CGFloat contentWidth = self.contentView.width - kControlPadding;
+    if (![TTTableControlItemCell shouldRespectControlPadding:_control]) {
+      contentWidth -= kControlPadding;
+    }
+    if (self.textLabel.text.length) {
+      CGSize textSize = [self.textLabel sizeThatFits:self.contentView.bounds.size];
+      contentWidth -= textSize.width + kSpacing;
+      minX += textSize.width + kSpacing;
+    }
+
+    if (!_control.height) {
+      [_control sizeToFit];
+    }
+    
+    if ([TTTableControlItemCell shouldConsiderControlIntrinsicSize:_control]) {
+      minX += contentWidth - _control.width;
+    }
+    
+    // XXXjoe For some reason I need to re-add the control as a subview or else
+    // the re-use of the cell will cause the control to fail to paint itself on occasion
+    [self.contentView addSubview:_control];
+    _control.frame = CGRectMake(minX, floor((self.contentView.height - _control.height) / 2),
+                                contentWidth, _control.height);
+  }
+
+  CGFloat contentWidth = self.contentView.width - TTSTYLEVAR(tableHPadding) * 2;
+  CGFloat textContentWidth = contentWidth - _control.width;
+
+  CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
+
+  self.textLabel.frame =
+    CGRectMake(TTSTYLEVAR(tableHPadding), floor((self.contentView.height - titleHeight) / 2),
+               textContentWidth, titleHeight);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   UIView* view = nil;
 
-  if ([object isKindOfClass:[UIView class]]) {
-    view = object;
+  if ([_item isKindOfClass:[UIView class]]) {
+    view = (UIView*)_item;
   } else {
-    TTTableControlItem* controlItem = object;
-    view = controlItem.control;
+    view = _item.control;
   }
   
   CGFloat height = view.height;
@@ -1415,68 +1406,21 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       height = view.height;
     }
   }
-  
-  if (height < TT_ROW_HEIGHT) {
-    return TT_ROW_HEIGHT;
+
+  CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
+  CGFloat textContentWidth = contentWidth - _control.width;
+
+  CGFloat titleHeight;
+
+  if ([TTTableControlItemCell shouldSizeControlToFit:_control]) {
+    titleHeight = 0;
   } else {
-    return height;
+    titleHeight = [self.textLabel heightWithWidth:textContentWidth];
   }
+  return MAX(TT_ROW_HEIGHT, MAX(titleHeight, height) + TTSTYLEVAR(tableVPadding) * 2) +
+         [tableView tableCellExtraHeight];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
-    _item = nil;
-    _control = nil;
-    
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-	}
-	return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_item);
-  TT_RELEASE_SAFELY(_control);
-	[super dealloc];
-}
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-  
-  if ([TTTableControlCell shouldSizeControlToFit:_control]) {
-    _control.frame = CGRectInset(self.contentView.bounds, 2, kSpacing/2);
-  } else {
-    CGFloat minX = kControlPadding;
-    CGFloat contentWidth = self.contentView.width - kControlPadding;
-    if (![TTTableControlCell shouldRespectControlPadding:_control]) {
-      contentWidth -= kControlPadding;
-    }
-    if (self.textLabel.text.length) {
-      CGSize textSize = [self.textLabel sizeThatFits:self.contentView.bounds.size];
-      contentWidth -= textSize.width + kSpacing;
-      minX += textSize.width + kSpacing;
-    }
-
-    if (!_control.height) {
-      [_control sizeToFit];
-    }
-    
-    if ([TTTableControlCell shouldConsiderControlIntrinsicSize:_control]) {
-      minX += contentWidth - _control.width;
-    }
-    
-    // XXXjoe For some reason I need to re-add the control as a subview or else
-    // the re-use of the cell will cause the control to fail to paint itself on occasion
-    [self.contentView addSubview:_control];
-    _control.frame = CGRectMake(minX, floor(self.contentView.height/2 - _control.height/2),
-                                contentWidth, _control.height);
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell
 
 - (id)object {
   return _item ? _item : (id)_control;
@@ -1494,17 +1438,22 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       _item = [object retain];
       _control = [_item.control retain];
     }
-    
+
     _control.backgroundColor = [UIColor clearColor];
     self.textLabel.text = _item.caption;
-    
+
     if (_control) {
       [self.contentView addSubview:_control];
     }
-  }  
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+  }
 }
 
 @end
+
+
+/* TODO: CLEANUP
 
 
 #pragma mark -
