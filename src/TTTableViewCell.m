@@ -30,12 +30,18 @@ const CGFloat kReorderButtonWidth = 32;
 
 @implementation TTTableViewCell
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   return TT_ROW_HEIGHT;
 }
 
-- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat width = tableView.width - TTSTYLEVAR(tableHPadding) * 2 - [tableView tableCellMargin] * 2;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)contentWidthWithTableView: (UITableView*)tableView
+                           indexPath: (NSIndexPath*)indexPath
+                             padding: (UIEdgeInsets)padding {
+  CGFloat width = tableView.width - padding.left - padding.right - [tableView tableCellMargin] * 2;
 
   if (tableView.editing) {
     UITableViewCellEditingStyle editingStyle;
@@ -94,6 +100,15 @@ const CGFloat kReorderButtonWidth = 32;
   }
 
   return width;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGFloat padding = TTSTYLEVAR(tableHPadding);
+  return [self contentWidthWithTableView: tableView
+                               indexPath: indexPath
+                                 padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
 }
 
 

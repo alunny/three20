@@ -96,6 +96,9 @@ extern NSString* kTableItemControlKey;
 // Anything, really
 extern NSString* kTableItemViewKey;
 
+// A TTStyledText object
+extern NSString* kTableItemStyledTextKey;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableItem : NSObject <NSCoding> {
 @private
@@ -347,6 +350,35 @@ extern NSString* kTableItemViewKey;
 @end
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableStyledTextItem : TTTableImageLinkedItem {
+@private
+  TTStyledText* _text;
+  UIEdgeInsets  _margin;
+  UIEdgeInsets  _padding;
+}
+
+@property(nonatomic,retain) TTStyledText* text;
+@property(nonatomic)        UIEdgeInsets  margin;
+@property(nonatomic)        UIEdgeInsets  padding;
+
+/**
+ * Properties:
+ *
+ * * kTableItemStyledTextKey
+ * * kTableItemURLKey
+ * * kTableItemAccessoryURLKey
+ * * kTableItemImageKey
+ * * kTableItemImageURLKey
+ * * kTableItemImageStyleKey
+ */
++ (id)itemWithProperties:(NSDictionary*)properties;
+
+- (id)initWithProperties:(NSDictionary*)properties;
+
+@end
+
+
 /* TODO: CLEANUP
 */
 #if 0
@@ -389,35 +421,6 @@ extern NSString* kTableItemViewKey;
  * * kTableItemImageURLKey
  * * kTableItemImageStyleKey
  */
-@end
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableStyledTextItem : TTTableLinkedItem {
-@private
-  TTStyledText* _text;
-  UIEdgeInsets  _margin;
-  UIEdgeInsets  _padding;
-}
-
-@property(nonatomic,retain) TTStyledText* text;
-@property(nonatomic) UIEdgeInsets margin;
-@property(nonatomic) UIEdgeInsets padding;
-
-/**
- * Properties:
- *
- * * kTableItemTextKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
-
 @end
 
 

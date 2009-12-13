@@ -22,6 +22,7 @@
 @class TTTableMoreButtonItem;
 @class TTTableActivityItem;
 @class TTActivityLabel;
+@class TTStyledTextLabel;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +111,16 @@
 }
 
 @property(nonatomic,readonly,retain) TTActivityLabel* activityLabel;
+
+@end
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface TTTableStyledTextItemCell : TTTableLinkedItemCell {
+  TTStyledTextLabel* _label;
+}
+
+@property(nonatomic,readonly) TTStyledTextLabel* label;
 
 @end
 

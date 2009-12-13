@@ -19,6 +19,8 @@
 
 extern const CGFloat kDisclosureIndicatorWidth;
 extern const CGFloat kDetailDisclosureButtonWidth;
+extern const CGFloat kEditingIndentationWidth;
+extern const CGFloat kReorderButtonWidth;
 
 /**
  * The base class for table cells which are single-object based.
@@ -45,6 +47,13 @@ extern const CGFloat kDetailDisclosureButtonWidth;
  * Calculate the width of the row with the given table view and considering accessory types.
  */
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
+
+/**
+ * Calculate the width of the row with the given table view and considering accessory types.
+ */
+- (CGFloat)contentWidthWithTableView: (UITableView*)tableView
+                           indexPath: (NSIndexPath*)indexPath
+                             padding: (UIEdgeInsets)padding;
 
 /**
  * Calculate the best label heights for this cell's current height.

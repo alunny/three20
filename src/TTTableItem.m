@@ -37,6 +37,10 @@ NSString* kTableItemTimestampKey      = @"timestamp";
 NSString* kTableItemControlKey        = @"control";
 NSString* kTableItemViewKey           = @"view";
 
+NSString* kTableItemStyledTextKey     = @"styledText";
+
+static const CGFloat kDefaultStyledTextPadding = 6;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -623,6 +627,67 @@ NSString* kTableItemViewKey           = @"view";
 
 @end
 
+
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableStyledTextItem
+
+@synthesize text    = _text;
+@synthesize margin  = _margin;
+@synthesize padding = _padding;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text = [properties objectForKey:kTableItemStyledTextKey];
+    _margin = UIEdgeInsetsMake(
+      kDefaultStyledTextPadding,
+      kDefaultStyledTextPadding,
+      kDefaultStyledTextPadding,
+      kDefaultStyledTextPadding);
+    _padding = UIEdgeInsetsZero;
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_text);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableStyledTextItemCell class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.text = [decoder decodeObjectForKey:kTableItemStyledTextKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.text) {
+    [encoder encodeObject:self.text forKey:kTableItemStyledTextKey];
+  }
+}
+
+@end
+
+
 /* TODO: CLEANUP
 
 
@@ -744,62 +809,6 @@ NSString* kTableItemViewKey           = @"view";
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableGrayTextItem
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableStyledTextItem
-
-@synthesize text    = _text;
-@synthesize margin  = _margin;
-@synthesize padding = _padding;
-
-+ (id)itemWithProperties:(NSDictionary*)properties {
-  return [[[self alloc] initWithProperties:properties] autorelease];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super initWithProperties:properties] ) {
-    self.text = [properties objectForKey:kTableItemTextKey];
-    _margin = UIEdgeInsetsZero;
-    _padding = UIEdgeInsetsMake(6, 6, 6, 6);
-  }
-
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_text);
-  [super dealloc];
-}
-
--(Class)cellClass {
-  return [TTStyledTextTableItemCell class];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.text) {
-    [encoder encodeObject:self.text forKey:kTableItemTextKey];
-  }
-}
-
 @end
 
 

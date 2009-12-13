@@ -1195,34 +1195,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 @end
 
 
-
-/* TODO: CLEANUP
-#pragma mark -
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTStyledTextTableItemCell
+@implementation TTTableStyledTextItemCell
 
 @synthesize label = _label;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark TTTableViewCell class public
-
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-  TTTableStyledTextItem* item = object;
-  if (!item.text.font) {
-    item.text.font = TTSTYLEVAR(font);
-  }
-  
-  CGFloat padding = [tableView tableCellMargin]*2 + item.padding.left + item.padding.right;
-  if (item.URL) {
-    padding += kDisclosureIndicatorWidth;
-  }
-  
-  item.text.width = tableView.width - padding;
-  
-  return item.text.height + item.padding.top + item.padding.bottom;
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSObject
@@ -1232,24 +1211,34 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     _label = [[TTStyledTextLabel alloc] init];
     _label.contentMode = UIViewContentModeLeft;
     [self.contentView addSubview:_label];
+
+    // We need to clip this cell's contents because switching from the editing mode causes
+    // the text to temporarily be larger than the cell.
+    [self.contentView setClipsToBounds:YES];
   }
   return self;
 }
+
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_label);
   [super dealloc];
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UIView
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-  
+
   TTTableStyledTextItem* item = self.object;
-  _label.frame = CGRectOffset(self.contentView.bounds, item.margin.left, item.margin.top);
+  _label.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, item.margin);
+
+  // Necessary to force the label to redraw its new layout.
+  [_label setNeedsDisplay];
 }
+
 
 - (void)didMoveToSuperview {
   [super didMoveToSuperview];
@@ -1258,21 +1247,46 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   }
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  TTTableStyledTextItem* item = self.object;
+  CGFloat contentWidth = [self contentWidthWithTableView: tableView
+                                               indexPath: indexPath
+                                                 padding: item.margin];
+  _label.text.width = contentWidth;
+
+  return
+    _label.text.height +
+    item.padding.top + item.padding.bottom +
+    item.margin.top + item.margin.bottom +
+    [tableView tableCellExtraHeight];
+}
+
 
 - (void)setObject:(id)object {
   if (_item != object) {
     [super setObject:object];
-    
+
     TTTableStyledTextItem* item = object;
     _label.text = item.text;
     _label.contentInset = item.padding;
-    [self setNeedsLayout];
+
+    if (!_label.text.font) {
+      _label.text.font = TTSTYLEVAR(font);
+    }
   }  
 }
 
 @end
+
+
+/* TODO: CLEANUP
+#pragma mark -
 
 
 #pragma mark -

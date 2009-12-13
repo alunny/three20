@@ -370,6 +370,12 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       [TTTableActivityItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         kLoremIpsum, kTableItemTitleKey,
         nil]],
+
+      @"TTTableStyledTextItem",
+      [TTTableStyledTextItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+        [TTStyledText textFromXHTML:@"This is a whole bunch of text made from \
+characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKey,
+        nil]],
 /* TODO: CLEANUP      [TTTableLink itemWithText:@"TTTableLink" URL:@"tt://tableItemTest"],
       [TTTableButton itemWithText:@"TTTableButton"],
       [TTTableCaptionItem itemWithText:@"TTTableCaptionItem" caption:@"caption"
