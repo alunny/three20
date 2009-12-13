@@ -62,6 +62,8 @@
 @property(nonatomic,readonly) UIColor* tableMoreButtonHighlightedColor;
 @property(nonatomic,readonly) UIColor* tableMoreButtonSubtitleColor;
 @property(nonatomic,readonly) UIColor* tableMoreButtonSubtitleHighlightedColor;
+@property(nonatomic,readonly) UIColor* tableLongTextColor;
+@property(nonatomic,readonly) UIColor* tableLongTextHighlightedColor;
 
 @property(nonatomic,readonly) UIColor* tableActivityTextColor;
 @property(nonatomic,readonly) UIColor* tableErrorTextColor;
@@ -99,6 +101,7 @@
 @property(nonatomic,readonly) UIFont* tableButtonFont;
 @property(nonatomic,readonly) UIFont* tableMoreButtonFont;
 @property(nonatomic,readonly) UIFont* tableMoreButtonSubtitleFont;
+@property(nonatomic,readonly) UIFont* tableLongTextFont;
 
 @property(nonatomic,readonly) UIFont* tableFont;
 @property(nonatomic,readonly) UIFont* tableSmallFont;
@@ -158,6 +161,10 @@
 @property(nonatomic,readonly) UILineBreakMode tableMoreButtonSubtitleLineBreakMode;
 @property(nonatomic,readonly) NSInteger       tableMoreButtonSubtitleNumberOfLines;
 @property(nonatomic,readonly) UITextAlignment tableMoreButtonSubtitleTextAlignment;
+
+@property(nonatomic,readonly) UILineBreakMode tableLongTextLineBreakMode;
+@property(nonatomic,readonly) NSInteger       tableLongTextNumberOfLines;
+@property(nonatomic,readonly) UITextAlignment tableLongTextTextAlignment;
 
 @property(nonatomic,readonly) TTActivityLabelStyle tableActivityLabelStyle;
 

@@ -750,6 +750,58 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 @end
 
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableLongTextItem
+
+@synthesize text = _text;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super initWithProperties:properties] ) {
+    self.text = [properties objectForKey:kTableItemTextKey];
+  }
+
+  return self;
+}
+
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_text);
+  [super dealloc];
+}
+
+-(Class)cellClass {
+  return [TTTableLongTextItem class];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder*)decoder {
+  if (self = [super initWithCoder:decoder]) {
+    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder*)encoder {
+  [super encodeWithCoder:encoder];
+  if (self.text) {
+    [encoder encodeObject:self.text forKey:kTableItemTextKey];
+  }
+}
+
+@end
+
+
 /* TODO: CLEANUP
 
 
@@ -815,54 +867,6 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableRightImageItem
-@end
-
-
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTTableTextItem
-
-@synthesize text = _text;
-
-+ (id)itemWithProperties:(NSDictionary*)properties {
-  return [[[self alloc] initWithProperties:properties] autorelease];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
-
-- (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super initWithProperties:properties] ) {
-    self.text = [properties objectForKey:kTableItemTextKey];
-  }
-
-  return self;
-}
-
-- (void)dealloc {
-  TT_RELEASE_SAFELY(_text);
-  [super dealloc];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSCoding
-
-- (id)initWithCoder:(NSCoder*)decoder {
-  if (self = [super initWithCoder:decoder]) {
-    self.text = [decoder decodeObjectForKey:kTableItemTextKey];
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)encoder {
-  [super encodeWithCoder:encoder];
-  if (self.text) {
-    [encoder encodeObject:self.text forKey:kTableItemTextKey];
-  }
-}
-
 @end
 
 

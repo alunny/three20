@@ -402,13 +402,8 @@ extern NSString* kTableItemStyledTextKey;
 @end
 
 
-/* TODO: CLEANUP
-*/
-#if 0
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTableTextItem : TTTableLinkedItem {
+@interface TTTableLongTextItem : TTTableLinkedItem {
 @private
   NSString* _text;
 }
@@ -430,6 +425,11 @@ extern NSString* kTableItemStyledTextKey;
 - (id)initWithProperties:(NSDictionary*)properties;
 
 @end
+
+
+/* TODO: CLEANUP
+*/
+#if 0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

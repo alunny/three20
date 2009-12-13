@@ -1457,6 +1457,94 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 @end
 
 
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableLongTextItemCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
+    self.textLabel.font                 = TTSTYLEVAR(tableLongTextFont);
+    self.textLabel.textColor            = TTSTYLEVAR(tableLongTextColor);
+    self.textLabel.highlightedTextColor = TTSTYLEVAR(tableLongTextHighlightedColor);
+    self.textLabel.lineBreakMode        = TTSTYLEVAR(tableLongTextLineBreakMode);
+    self.textLabel.numberOfLines        = TTSTYLEVAR(tableLongTextNumberOfLines);
+    self.textLabel.textAlignment        = TTSTYLEVAR(tableLongTextTextAlignment);
+	}
+	return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UIView
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  const CGFloat paddedCellHeight = self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
+
+  CGSize imageSize;
+  UIEdgeInsets imagePadding;
+  CGFloat contentWidth = [self
+    calculateContentWidthWithImageSize: &imageSize
+                          imagePadding: &imagePadding];
+  CGFloat imageWidth = imageSize.width + imagePadding.left + imagePadding.right;
+
+  _styledImageView.frame =
+    CGRectMake(imagePadding.left,
+               floor(self.contentView.height -
+                     MIN(self.contentView.height, imageSize.height)) / 2,
+               imageSize.width, imageSize.height);
+
+  self.textLabel.frame =
+    CGRectMake(imageWidth + TTSTYLEVAR(tableHPadding),
+               TTSTYLEVAR(tableVPadding),
+               contentWidth, paddedCellHeight);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark TTTableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
+  CGSize imageSize;
+  UIEdgeInsets imagePadding;
+  CGFloat contentWidth = [self
+    calculateContentWidthWithTableView: tableView
+                             indexPath: indexPath
+                             imageSize: &imageSize
+                          imagePadding: &imagePadding];
+
+  CGFloat height = [self.textLabel heightWithWidth:contentWidth];
+  return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
+             height + TTSTYLEVAR(tableVPadding) * 2) + [tableView tableCellExtraHeight];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setObject:(id)object {
+  if (_item != object) {
+    [super setObject:object];
+
+    TTTableLongTextItem* item = object;
+    self.textLabel.text = item.text;
+  }  
+}
+
+@end
+
+
 /* TODO: CLEANUP
 
 

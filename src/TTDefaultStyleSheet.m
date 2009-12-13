@@ -721,6 +721,14 @@
   return [UIColor whiteColor];
 }
 
+- (UIColor*)tableLongTextColor {
+  return [UIColor blackColor];
+}
+
+- (UIColor*)tableLongTextHighlightedColor {
+  return [UIColor whiteColor];
+}
+
 - (UIColor*)tableHeaderTextColor {
   return nil;
 }
@@ -829,6 +837,10 @@
 }
 
 - (UIFont*)tableMoreButtonSubtitleFont {
+  return [UIFont systemFontOfSize:14];
+}
+
+- (UIFont*)tableLongTextFont {
   return [UIFont systemFontOfSize:14];
 }
 
@@ -1013,6 +1025,18 @@
 }
 
 - (UITextAlignment)tableMoreButtonSubtitleTextAlignment {
+  return UITextAlignmentLeft;
+}
+
+- (UILineBreakMode)tableLongTextLineBreakMode {
+  return UILineBreakModeTailTruncation;
+}
+
+- (NSInteger)tableLongTextNumberOfLines {
+  return 0;
+}
+
+- (UITextAlignment)tableLongTextTextAlignment {
   return UITextAlignmentLeft;
 }
 
