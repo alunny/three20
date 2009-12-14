@@ -176,7 +176,7 @@ static CGFloat kProgressMargin = 6;
     padding = kBannerPadding;
     bezelWidth = self.width;
     bezelHeight = self.height;
-    contentWidth = MIN(self.width, contentWidth);
+    contentWidth = MIN(self.width - kPadding, contentWidth);
   }
 
   CGFloat maxBevelWidth = TTScreenBounds().size.width - margin*2;

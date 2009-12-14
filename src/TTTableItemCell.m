@@ -1229,16 +1229,6 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 #pragma mark NSObject
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
-  if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
-    _activityLabel = [[TTActivityLabel alloc] initWithStyle:[_item.styleSheet activityLabelStyle]];
-    [self.contentView addSubview:_activityLabel];
-	}
-	return self;
-}
-
-
 - (void)dealloc {
   TT_RELEASE_SAFELY(_activityLabel);
   [super dealloc];
@@ -1283,11 +1273,21 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     [_item release];
     _item = [object retain];
 
-    TTTableActivityItem* item = object;
-    self.activityLabel.text = item.title;
+    if (nil != object) {
+      TTTableActivityItem* item = object;
 
-    self.accessoryType = UITableViewCellAccessoryNone;
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
+      self.accessoryType = UITableViewCellAccessoryNone;
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
+
+      TTDASSERT(nil != _item.styleSheet);
+
+      [_activityLabel removeFromSuperview];
+      TT_RELEASE_SAFELY(_activityLabel);
+      _activityLabel = [[TTActivityLabel alloc] initWithStyle:[_item.styleSheet activityLabelStyle]];
+      [self.contentView addSubview:_activityLabel];
+
+      self.activityLabel.text = item.title;
+    }
   }  
 }
 

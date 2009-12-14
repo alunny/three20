@@ -52,7 +52,7 @@
   [map from:@"tt://launcherTest" toViewController:[LauncherViewTestController class]];
 
   if (![navigator restoreViewControllers]) {
-    [navigator openURL:@"tt://catalog" animated:NO];
+    [navigator openURL:@"tt://tableItemTest" animated:NO];
   }
 }
 
