@@ -27,6 +27,8 @@
 
 #define TTSTYLESHEET ((id)[TTStyleSheet globalStyleSheet])
 
+#define TTTABLESTYLESHEET ((id)[TTStyleSheet globalTableStyleSheet])
+
 #define TTSTYLEVAR(_VARNAME) [TTSTYLESHEET _VARNAME]
 
 typedef enum {

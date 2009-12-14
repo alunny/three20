@@ -17,7 +17,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class TTStyledText, TTStyle;
+@class TTStyledText;
+@class TTStyle;
+@class TTStyleSheet;
+@class TTTableStyleSheet;
 
 /**
  * TTTableItems define the data used to create TTTableItemCells. Each item has a
@@ -102,13 +105,18 @@ extern NSString* kTableItemViewKey;
 // A TTStyledText object
 extern NSString* kTableItemStyledTextKey;
 
+// A TTTableStyleSheet object
+extern NSString* kTableItemStyleSheetKey;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableItem : NSObject <NSCoding> {
 @private
-  id _userInfo;
+  id                  _userInfo;
+  TTTableStyleSheet*  _styleSheet;
 }
 
-@property(nonatomic,retain) id userInfo;
+@property(nonatomic,retain) id                  userInfo;
+@property(nonatomic,assign) TTTableStyleSheet*  styleSheet;
 
 /**
  * @return The class name used to instantiate the table view cell for this item.

@@ -17,8 +17,10 @@
 #import "Three20/TTTableItem.h"
 
 #import "Three20/TTGlobalCore.h"
+#import "Three20/TTGlobalStyle.h"
 
 #import "Three20/TTTableItemCell.h"
+#import "Three20/TTTableStyleSheet.h"
 
 NSString* kTableItemTitleKey              = @"title";
 NSString* kTableItemSubtitleKey           = @"subtitle";
@@ -40,6 +42,8 @@ NSString* kTableItemViewKey               = @"view";
 
 NSString* kTableItemStyledTextKey         = @"styledText";
 
+NSString* kTableItemStyleSheetKey         = @"styleSheet";
+
 static const CGFloat kDefaultStyledTextPadding = 6;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,18 +51,37 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableItem
 
-@synthesize userInfo = _userInfo;
+@synthesize userInfo    = _userInfo;
+@synthesize styleSheet  = _styleSheet;
+
++ (id)itemWithProperties:(NSDictionary*)properties {
+  return [[[self alloc] initWithProperties:properties] autorelease];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSObject
 
+- (id)initWithProperties:(NSDictionary*)properties {
+  if( self = [super init] ) {
+    self.styleSheet = [properties objectForKey:kTableItemStyleSheetKey];
+  }
+
+  return self;
+}
+
 - (void)dealloc {
   TT_RELEASE_SAFELY(_userInfo);
+  _styleSheet = nil;
+
   [super dealloc];
 }
 
--(Class)cellClass {
+- (Class)cellClass {
   return nil;
+}
+
+- (TTTableStyleSheet*)styleSheet {
+  return nil != _styleSheet ? _styleSheet : TTTABLESTYLESHEET;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +114,7 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 #pragma mark NSObject
 
 - (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super init] ) {
+  if( self = [super initWithProperties:properties] ) {
     self.URL          = [properties objectForKey:kTableItemURLKey];
     self.accessoryURL = [properties objectForKey:kTableItemAccessoryURLKey];
   }
@@ -421,7 +444,7 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 #pragma mark NSObject
 
 - (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super init] ) {
+  if( self = [super initWithProperties:properties] ) {
     self.title = [properties objectForKey:kTableItemTitleKey];
   }
 
@@ -595,7 +618,7 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 #pragma mark NSObject
 
 - (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super init] ) {
+  if( self = [super initWithProperties:properties] ) {
     self.title = [properties objectForKey:kTableItemTitleKey];
   }
 
@@ -708,7 +731,7 @@ static const CGFloat kDefaultStyledTextPadding = 6;
 #pragma mark NSObject
 
 - (id)initWithProperties:(NSDictionary*)properties {
-  if( self = [super init] ) {
+  if( self = [super initWithProperties:properties] ) {
     self.caption = [properties objectForKey:kTableItemCaptionKey];
     self.control = [properties objectForKey:kTableItemControlKey];
   }

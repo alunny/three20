@@ -104,17 +104,9 @@ const CGFloat kReorderButtonWidth = 32;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat padding = TTSTYLEVAR(tableHPadding);
-  return [self contentWidthWithTableView: tableView
-                               indexPath: indexPath
-                                 padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)optimizeLabels: (NSArray*)labels
-               heights: (NSMutableArray*)calculatedLabelHeights {
+               heights: (NSMutableArray*)calculatedLabelHeights
+               padding: (UIEdgeInsets)padding {
 
   static const NSInteger kMaxNumberOfLabels = 10;
 
@@ -137,7 +129,7 @@ const CGFloat kReorderButtonWidth = 32;
   }
 
   const CGFloat paddedCellHeight =
-    self.contentView.height - TTSTYLEVAR(tableVPadding) * 2;
+    self.contentView.height - padding.top - padding.bottom;
 
   if (height > paddedCellHeight) {
     NSInteger labelRowCounts[kMaxNumberOfLabels];

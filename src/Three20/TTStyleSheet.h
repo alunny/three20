@@ -18,6 +18,7 @@
 #import <UIKit/UIKit.h>
 
 @class TTStyle;
+@class TTTableStyleSheet;
 
 @interface TTStyleSheet : NSObject {
   NSMutableDictionary* _styles;
@@ -25,6 +26,9 @@
 
 + (TTStyleSheet*)globalStyleSheet;
 + (void)setGlobalStyleSheet:(TTStyleSheet*)styleSheet;
+
++ (TTTableStyleSheet*)globalTableStyleSheet;
++ (void)setGlobalTableStyleSheet:(TTTableStyleSheet*)styleSheet;
 
 - (TTStyle*)styleWithSelector:(NSString*)selector;
 - (TTStyle*)styleWithSelector:(NSString*)selector forState:(UIControlState)state;

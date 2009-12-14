@@ -18,11 +18,13 @@
 
 #import "Three20/TTGlobalCore.h"
 #import "Three20/TTDefaultStyleSheet.h"
+#import "Three20/TTTableStyleSheet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // global
 
 static TTStyleSheet* gStyleSheet = nil;
+static TTTableStyleSheet* gTableStyleSheet = nil;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,15 +34,29 @@ static TTStyleSheet* gStyleSheet = nil;
 // class public
 
 + (TTStyleSheet*)globalStyleSheet {
-  if (!gStyleSheet) {
+  if (nil == gStyleSheet) {
     gStyleSheet = [[TTDefaultStyleSheet alloc] init];
   }
   return gStyleSheet;
 }
 
 + (void)setGlobalStyleSheet:(TTStyleSheet*)styleSheet {
+  [styleSheet retain];
   [gStyleSheet release];
-  gStyleSheet = [styleSheet retain];
+  gStyleSheet = styleSheet;
+}
+
++ (TTTableStyleSheet*)globalTableStyleSheet {
+  if (nil == gTableStyleSheet) {
+    gTableStyleSheet = [[TTTableStyleSheet alloc] init];
+  }
+  return gTableStyleSheet;
+}
+
++ (void)setGlobalTableStyleSheet:(TTTableStyleSheet*)styleSheet {
+  [styleSheet retain];
+  [gTableStyleSheet release];
+  gTableStyleSheet = styleSheet;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

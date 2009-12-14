@@ -46,11 +46,6 @@ extern const CGFloat kReorderButtonWidth;
 /**
  * Calculate the width of the row with the given table view and considering accessory types.
  */
-- (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
-
-/**
- * Calculate the width of the row with the given table view and considering accessory types.
- */
 - (CGFloat)contentWidthWithTableView: (UITableView*)tableView
                            indexPath: (NSIndexPath*)indexPath
                              padding: (UIEdgeInsets)padding;
@@ -62,6 +57,7 @@ extern const CGFloat kReorderButtonWidth;
  * Replaces the calculatedLabelHeights values with the calculated label heights.
  */
 - (void)optimizeLabels: (NSArray*)labels
-               heights: (NSMutableArray*)calculatedLabelHeights;
+               heights: (NSMutableArray*)calculatedLabelHeights
+               padding: (UIEdgeInsets)padding;
 
 @end
