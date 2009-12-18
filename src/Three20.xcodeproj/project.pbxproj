@@ -218,12 +218,10 @@
 		EBAE96A610D1F3C700F497CA /* UILabelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE96A510D1F3C700F497CA /* UILabelAdditions.m */; };
 		EBAE96B010D1F3D000F497CA /* UILabelAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE96AF10D1F3D000F497CA /* UILabelAdditions.h */; };
 		EBBB349710B36CCE00AD5BCF /* TTDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBB349610B36CCE00AD5BCF /* TTDebug.h */; };
-		EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */; };
-		EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */; };
-		EBDC845310C4493200257247 /* UILabelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDC845110C4493200257247 /* UILabelAdditions.m */; };
-		EBDC847A10C44AD400257247 /* UILabelAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC847910C44AD400257247 /* UILabelAdditions.h */; };
 		EBC60EDF10D5AA9300D1997B /* TTTableStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC60EDD10D5AA9300D1997B /* TTTableStyleSheet.m */; };
 		EBC60EE110D5AAA400D1997B /* TTTableStyleSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC60EE010D5AAA400D1997B /* TTTableStyleSheet.h */; };
+		EBC6184010D850E000D1997B /* TTRecursiveProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */; };
+		EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */; };
 		EBDC8EB610C5CCB000257247 /* TTDebugFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */; };
 /* End PBXBuildFile section */
 
@@ -431,12 +429,10 @@
 		EBAE96A510D1F3C700F497CA /* UILabelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelAdditions.m; sourceTree = "<group>"; };
 		EBAE96AF10D1F3D000F497CA /* UILabelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILabelAdditions.h; path = Three20/UILabelAdditions.h; sourceTree = "<group>"; };
 		EBBB349610B36CCE00AD5BCF /* TTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebug.h; path = Three20/TTDebug.h; sourceTree = "<group>"; };
-		EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRecursiveProgress.m; sourceTree = "<group>"; };
-		EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTRecursiveProgress.h; path = Three20/TTRecursiveProgress.h; sourceTree = "<group>"; };
-		EBDC845110C4493200257247 /* UILabelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelAdditions.m; sourceTree = "<group>"; };
-		EBDC847910C44AD400257247 /* UILabelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILabelAdditions.h; path = Three20/UILabelAdditions.h; sourceTree = "<group>"; };
 		EBC60EDD10D5AA9300D1997B /* TTTableStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTableStyleSheet.m; sourceTree = "<group>"; };
 		EBC60EE010D5AAA400D1997B /* TTTableStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTableStyleSheet.h; path = Three20/TTTableStyleSheet.h; sourceTree = "<group>"; };
+		EBC6183E10D850E000D1997B /* TTRecursiveProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRecursiveProgress.m; sourceTree = "<group>"; };
+		EBC6184110D850FC00D1997B /* TTRecursiveProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTRecursiveProgress.h; path = Three20/TTRecursiveProgress.h; sourceTree = "<group>"; };
 		EBDC8EB510C5CCB000257247 /* TTDebugFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTDebugFlags.h; path = Three20/TTDebugFlags.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1032,7 +1028,6 @@
 				EB4CDBA410CAE0E300A856E5 /* TTGlobalStyle.h in Headers */,
 				EB4CE18A10CF19FE00A856E5 /* TTCorePreprocessorMacros.h in Headers */,
 				EBC6184210D850FC00D1997B /* TTRecursiveProgress.h in Headers */,
-				EBDC847A10C44AD400257247 /* UILabelAdditions.h in Headers */,
 				EBAE96B010D1F3D000F497CA /* UILabelAdditions.h in Headers */,
 				EBC60EE110D5AAA400D1997B /* TTTableStyleSheet.h in Headers */,
 			);

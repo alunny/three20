@@ -7,11 +7,10 @@
 // private
 
 - (TTTableTitleItem*)itemForURL:(NSString*)URL {
-  return [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-    @"Table Row", kTableItemTitleKey,
-    TTIMAGE(@"bundle://defaultMusic.png"), kTableItemImageKey,
-    URL, kTableItemImageURLKey,
-    nil]];
+  return (TTTableTitleItem*)[[[[TTTableTitleItem item]
+    applyTitle:@"Table Row"]
+    applyImage:TTIMAGE(@"bundle://defaultMusic.png")]
+    applyImageURLPath:URL];
 }
 
 - (id)init {

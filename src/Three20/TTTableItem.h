@@ -19,8 +19,6 @@
 
 @class TTStyledText;
 @class TTStyle;
-@class TTStyleSheet;
-@class TTTableStyleSheet;
 
 /**
  * TTTableItems define the data used to create TTTableItemCells. Each item has a
@@ -55,68 +53,26 @@
  *
  */
 
-// /-----------------------------\
-// | Title title title title ... |
-// | Subtitle subtitle subtit... |
-// | Text text text text text te |
-// | xt text text text text text |
-// \-----------------------------/
-extern NSString* kTableItemTitleKey;
-extern NSString* kTableItemSubtitleKey;
-extern NSString* kTableItemTextKey;
-
-// /-----------------------------\
-// | Caption:                    |
-// \-----------------------------/
-extern NSString* kTableItemCaptionKey;
-
-// The URL to navigate to upon tapping the row
-extern NSString* kTableItemURLKey;
-
-// The URL to navigate to upon tapping the accessory
-extern NSString* kTableItemAccessoryURLKey;
-
-// An image that is replaced by the URL image if/when it is downloaded.
-extern NSString* kTableItemImageKey;
-
-// Where to download the image from
-extern NSString* kTableItemImageURLKey;
-
-// Styling applied to the image (here's where you can set borders,
-// padding, size, etc...)
-extern NSString* kTableItemImageStyleKey;
-
-// A bool NSNumber that states whether or not the image is right-aligned.
-extern NSString* kTableItemImageRightAlignedKey;
-
-// /-----------------------------\
-// |                   timestamp |
-// | Text text text text text te |
-// | xt text text text text text |
-// \-----------------------------/
-extern NSString* kTableItemTimestampKey;
-
-// A control as seen in the Preferences app
-extern NSString* kTableItemControlKey;
-
-// Anything, really
-extern NSString* kTableItemViewKey;
-
-// A TTStyledText object
-extern NSString* kTableItemStyledTextKey;
-
-// A TTTableStyleSheet object
-extern NSString* kTableItemStyleSheetKey;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableItem : NSObject <NSCoding> {
 @private
-  id                  _userInfo;
-  TTTableStyleSheet*  _styleSheet;
+  id _userInfo;
 }
 
-@property(nonatomic,retain) id                  userInfo;
-@property(nonatomic,assign) TTTableStyleSheet*  styleSheet;
+@property (nonatomic, retain) id userInfo;
+
+/**
+ * @return An autoreleased instance of this object.
+ */
++ (id)item;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  userInfo           An NSObject that will be retained for the lifespan of this cell.
+ * @return self
+ */
+- (TTTableItem*)applyUserInfo:(id)userInfo;
 
 /**
  * @return The class name used to instantiate the table view cell for this item.
@@ -130,12 +86,28 @@ extern NSString* kTableItemStyleSheetKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkedItem : TTTableItem {
 @private
-  NSString* _URL;
-  NSString* _accessoryURL;
+  NSString* _urlPath;
+  NSString* _accessoryURLPath;
 }
 
-@property(nonatomic,copy) NSString* URL;
-@property(nonatomic,copy) NSString* accessoryURL;
+@property (nonatomic, copy) NSString* urlPath;
+@property (nonatomic, copy) NSString* accessoryURLPath;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  userURLPath        The URL accessed when this cell is tapped.
+ * @return self
+ */
+- (TTTableLinkedItem*)applyURLPath:(NSString*)urlPath;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  userURLPath        The URL accessed when this cell is tapped.
+ * @return self
+ */
+- (TTTableLinkedItem*)applyAccessoryURLPath:(NSString*)accessoryURLPath;
 
 @end
 
@@ -144,15 +116,49 @@ extern NSString* kTableItemStyleSheetKey;
 @interface TTTableImageLinkedItem : TTTableLinkedItem {
 @private
   UIImage*  _image;
-  NSString* _imageURL;
+  NSString* _imageURLPath;
   TTStyle*  _imageStyle;
   BOOL      _imageRightAligned;
 }
 
-@property(nonatomic,retain) UIImage*  image;
-@property(nonatomic,copy)   NSString* imageURL;
-@property(nonatomic,retain) TTStyle*  imageStyle;
-@property(nonatomic)        BOOL      imageRightAligned;
+@property (nonatomic, retain) UIImage*  image;
+@property (nonatomic, copy)   NSString* imageURLPath;
+@property (nonatomic, retain) TTStyle*  imageStyle;
+@property (nonatomic)         BOOL      imageRightAligned;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  image              An image that is displayed immediately and replaced by any image
+ *                            downloaded from imageURLPath.
+ * @return self
+ */
+- (TTTableImageLinkedItem*)applyImage:(UIImage*)image;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  imageURLPath       Path to a URL of an image. This image will be asynchronously
+ *                            downloaded.
+ * @return self
+ */
+- (TTTableImageLinkedItem*)applyImageURLPath:(NSString*)imageURLPath;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  imageStyle         A style to apply to the image item.
+ * @return self
+ */
+- (TTTableImageLinkedItem*)applyImageStyle:(TTStyle*)imageStyle;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  imageRightAligned  A style to apply to the image item.
+ * @return self
+ */
+- (TTTableImageLinkedItem*)applyImageRightAligned:(BOOL)imageRightAligned;
 
 @end
 
@@ -163,21 +169,15 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _title;
 }
 
-@property(nonatomic,copy) NSString* title;
+@property (nonatomic, copy) NSString* title;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
+ * @param  title              The title text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableTitleItem*)applyTitle:(NSString*)title;
 
 @end
 
@@ -188,22 +188,15 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _subtitle;
 }
 
-@property(nonatomic,copy) NSString* subtitle;
+@property (nonatomic, copy) NSString* subtitle;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemSubtitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
+ * @param  subtitle           The subtitle text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableSubtitleItem*)applySubtitle:(NSString*)title;
 
 @end
 
@@ -211,29 +204,28 @@ extern NSString* kTableItemStyleSheetKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItem : TTTableSubtitleItem {
 @private
-  NSString* _text;
+  NSString* _message;
   NSDate*   _timestamp;
 }
 
-@property(nonatomic,copy) NSString* text;
-@property(nonatomic,retain) NSDate* timestamp;
+@property (nonatomic, copy)   NSString* message;
+@property (nonatomic, retain) NSDate*   timestamp;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemSubtitleKey
- * * kTableItemTextKey
- * * kTableItemTimestampKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
+ * @param  message            The message text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
+- (TTTableMessageItem*)applyMessage:(NSString*)message;
 
-- (id)initWithProperties:(NSDictionary*)properties;
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  timestamp          The timestamp of this message.
+ * @return self
+ */
+- (TTTableMessageItem*)applyTimestamp:(NSDate*)timestamp;
 
 @end
 
@@ -245,20 +237,24 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _title;
 }
 
-@property(nonatomic,copy) NSString* caption;
-@property(nonatomic,copy) NSString* title;
+@property (nonatomic, copy) NSString* caption;
+@property (nonatomic, copy) NSString* title;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemCaptionKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
+ * @param  caption            The caption text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
+- (TTTableCaptionItem*)applyCaption:(NSString*)caption;
 
-- (id)initWithProperties:(NSDictionary*)properties;
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  title              The title text.
+ * @return self
+ */
+- (TTTableCaptionItem*)applyTitle:(NSString*)title;
 
 @end
 
@@ -269,32 +265,21 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _title;
 }
 
-@property(nonatomic,copy) NSString* title;
+@property (nonatomic, copy) NSString* title;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
+ * @param  title              The title text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableSummaryItem*)applyTitle:(NSString*)title;
 
 @end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableLinkItem : TTTableTitleItem
-/**
- * Properties:
- *
- * * kTableItemTitleKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
- */
 @end
 
 
@@ -304,17 +289,15 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _title;
 }
 
-@property(nonatomic,copy) NSString* title;
+@property (nonatomic, copy) NSString* title;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemURLKey
+ * @param  title              The title text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableButtonItem*)applyTitle:(NSString*)title;
 
 @end
 
@@ -323,22 +306,27 @@ extern NSString* kTableItemStyleSheetKey;
 @interface TTTableMoreButtonItem : TTTableButtonItem {
 @private
   NSString* _subtitle;
-  BOOL _isLoading;
+  BOOL      _isLoading;
 }
 
-@property(nonatomic,copy) NSString* subtitle;
-@property(nonatomic) BOOL isLoading;
+@property (nonatomic, copy) NSString* subtitle;
+@property (nonatomic)       BOOL      isLoading;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
- * * kTableItemSubtitleKey
- * * kTableItemURLKey
+ * @param  subtitle           The subtitle text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
+- (TTTableMoreButtonItem*)applySubtitle:(NSString*)subtitle;
 
-- (id)initWithProperties:(NSDictionary*)properties;
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  isLoading          Whether or not the button is loading.
+ * @return self
+ */
+- (TTTableMoreButtonItem*)applyIsLoading:(BOOL)isLoading;
 
 @end
 
@@ -349,16 +337,15 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _title;
 }
 
-@property(nonatomic,copy) NSString* title;
+@property (nonatomic, copy) NSString* title;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTitleKey
+ * @param  title              The title text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableActivityItem*)applyTitle:(NSString*)title;
 
 @end
 
@@ -366,28 +353,38 @@ extern NSString* kTableItemStyleSheetKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableStyledTextItem : TTTableImageLinkedItem {
 @private
-  TTStyledText* _text;
+  TTStyledText* _styledText;
   UIEdgeInsets  _margin;
   UIEdgeInsets  _padding;
 }
 
-@property(nonatomic,retain) TTStyledText* text;
-@property(nonatomic)        UIEdgeInsets  margin;
-@property(nonatomic)        UIEdgeInsets  padding;
+@property (nonatomic, retain) TTStyledText* styledText;
+@property (nonatomic)         UIEdgeInsets  margin;
+@property (nonatomic)         UIEdgeInsets  padding;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemStyledTextKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
+ * @param  styledText         The styled text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
+- (TTTableStyledTextItem*)applyStyledText:(TTStyledText*)styledText;
 
-- (id)initWithProperties:(NSDictionary*)properties;
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  margin             The margin of the cell.
+ * @return self
+ */
+- (TTTableStyledTextItem*)applyMargin:(UIEdgeInsets)margin;
+
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  padding            The padding of the cell.
+ * @return self
+ */
+- (TTTableStyledTextItem*)applyPadding:(UIEdgeInsets)padding;
 
 @end
 
@@ -399,18 +396,24 @@ extern NSString* kTableItemStyleSheetKey;
   UIControl*  _control;
 }
 
-@property(nonatomic,copy)   NSString*   caption;
-@property(nonatomic,retain) UIControl*  control;
+@property (nonatomic, copy)   NSString*   caption;
+@property (nonatomic, retain) UIControl*  control;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemCaptionKey
- * * kTableItemControlKey
+ * @param  caption            The caption text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
+- (TTTableControlItem*)applyCaption:(NSString*)caption;
 
-- (id)initWithProperties:(NSDictionary*)properties;
+/**
+ * A chaining method. Designed to return self so that you can apply more properties.
+ *
+ * @param  control            The control.
+ * @return self
+ */
+- (TTTableControlItem*)applyControl:(UIControl*)control;
 
 @end
 
@@ -421,21 +424,15 @@ extern NSString* kTableItemStyleSheetKey;
   NSString* _text;
 }
 
-@property(nonatomic,copy) NSString* text;
+@property (nonatomic, copy) NSString* text;
 
 /**
- * Properties:
+ * A chaining method. Designed to return self so that you can apply more properties.
  *
- * * kTableItemTextKey
- * * kTableItemURLKey
- * * kTableItemAccessoryURLKey
- * * kTableItemImageKey
- * * kTableItemImageURLKey
- * * kTableItemImageStyleKey
+ * @param  text              The message text.
+ * @return self
  */
-+ (id)itemWithProperties:(NSDictionary*)properties;
-
-- (id)initWithProperties:(NSDictionary*)properties;
+- (TTTableLongTextItem*)applyText:(NSString*)text;
 
 @end
 
@@ -450,7 +447,7 @@ extern NSString* kTableItemStyleSheetKey;
 /**
  * Properties:
  *
- * * kTableItemTextKey
+ * * kTableItemMessageKey
  * * kTableItemURLKey
  * * kTableItemAccessoryURLKey
  * * kTableItemImageKey
@@ -467,8 +464,8 @@ extern NSString* kTableItemStyleSheetKey;
   UIView*   _view;
 }
 
-@property(nonatomic,copy) NSString* caption;
-@property(nonatomic,retain) UIView* view;
+@property (nonatomic, copy) NSString* caption;
+@property (nonatomic, retain) UIView* view;
 
 /**
  * Properties:

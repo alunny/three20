@@ -85,8 +85,8 @@ static const CGFloat kSectionHeaderHeight = 35;
   id object = [dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
   if ([object isKindOfClass:[TTTableLinkedItem class]]) {
     TTTableLinkedItem* item = object;
-    if (item.URL && [_controller shouldOpenURL:item.URL]) {
-      TTOpenURL(item.URL);
+    if (item.urlPath && [_controller shouldOpenURL:item.urlPath]) {
+      TTOpenURL(item.urlPath);
     }
 
     if ([object isKindOfClass:[TTTableMoreButtonItem class]]) {
@@ -112,8 +112,8 @@ static const CGFloat kSectionHeaderHeight = 35;
   id object = [dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
   if ([object isKindOfClass:[TTTableLinkedItem class]]) {
     TTTableLinkedItem* item = object;
-    if (item.accessoryURL && [_controller shouldOpenURL:item.accessoryURL]) {
-      TTOpenURL(item.accessoryURL);
+    if (item.accessoryURLPath && [_controller shouldOpenURL:item.accessoryURLPath]) {
+      TTOpenURL(item.accessoryURLPath);
     }
   }
 }

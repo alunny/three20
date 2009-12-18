@@ -480,10 +480,7 @@
       [groups setObject:section forKey:letter];
     }
 
-    TTTableItem* item = [TTTableTitleItem
-      itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        name, kTableItemTitleKey,
-        nil]];
+    TTTableItem* item = [[TTTableTitleItem item] applyTitle:name];
     [section addObject:item];
   }
 
@@ -531,11 +528,8 @@
   self.items = [NSMutableArray array];
     
   for (NSString* name in _addressBook.names) {
-    TTTableItem* item = [TTTableTitleItem
-      itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        name, kTableItemTitleKey,
-        @"http://google.com", kTableItemURLKey,
-        nil]];
+    TTTableItem* item = [[[TTTableTitleItem item] applyTitle:name]
+                                                  applyURLPath:@"http://google.com"];
     [_items addObject:item];
   }
 }

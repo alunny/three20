@@ -36,27 +36,12 @@
     UISlider* slider = [[[UISlider alloc] init] autorelease];
     
     self.dataSource = [TTListDataSource dataSourceWithObjects:
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        textField, kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        editor, kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        textView, kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Text field", kTableItemCaptionKey,
-        textField2, kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"UISwitch", kTableItemCaptionKey,
-        switchy, kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"UISlider", kTableItemCaptionKey,
-        slider, kTableItemControlKey,
-        nil]],
+      [[TTTableControlItem item] applyControl:textField],
+      [[TTTableControlItem item] applyControl:(UIControl*)editor],
+      [[TTTableControlItem item] applyControl:(UIControl*)textView],
+      [[[TTTableControlItem item] applyControl:textField2] applyCaption:@"Text field"],
+      [[[TTTableControlItem item] applyControl:switchy] applyCaption:@"UISwitch"],
+      [[[TTTableControlItem item] applyControl:slider] applyCaption:@"UISlider"],
       nil];
   }
   return self;

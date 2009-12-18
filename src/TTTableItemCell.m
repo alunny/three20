@@ -74,7 +74,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat padding = [_item.styleSheet paddingH];
+  CGFloat padding = [self.styleSheet paddingH];
   return [self contentWidthWithTableView: tableView
                                indexPath: indexPath
                                  padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
@@ -101,14 +101,14 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       return;
     }
 
-    // accessoryURL takes priority over URL when setting the accessory type because
+    // accessoryURLPath takes priority over URL when setting the accessory type because
     // you can still access URL by tapping the row if there is an accessory button.
-    if (nil != item.accessoryURL) {
+    if (nil != item.accessoryURLPath) {
       self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 
-    } else if (nil != item.URL) {
+    } else if (nil != item.urlPath) {
       TTNavigationMode navigationMode = [[TTNavigator navigator].URLMap
-        navigationModeForURL:item.URL];
+        navigationModeForURL:item.urlPath];
 
       if (navigationMode == TTNavigationModeCreate ||
           navigationMode == TTNavigationModeShare) {
@@ -119,13 +119,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     }
 
     // Any URL can be tapped and accessed.
-    if (nil != item.URL) {
-      self.selectionStyle = [_item.styleSheet selectionStyle];
+    if (nil != item.urlPath) {
+      self.selectionStyle = [self.styleSheet selectionStyle];
     } else {
       self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
-    if (nil == item.URL && nil == item.accessoryURL) {
+    if (nil == item.urlPath && nil == item.accessoryURLPath) {
       self.accessoryType = UITableViewCellAccessoryNone;
       self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -168,14 +168,14 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)calculateContentWidthWithImageSize: (CGSize*)pImageSize
                                  imagePadding: (UIEdgeInsets*)pImagePadding {
-  CGFloat contentWidth = self.contentView.width - [_item.styleSheet paddingH] * 2;
+  CGFloat contentWidth = self.contentView.width - [self.styleSheet paddingH] * 2;
 
   CGSize imageSize;
   UIEdgeInsets imagePadding;
 
   if (nil != _styledImageView) {
-    imageSize = [_item.styleSheet imageSize];
-    imagePadding = [_item.styleSheet imagePadding];
+    imageSize = [self.styleSheet imageSize];
+    imagePadding = [self.styleSheet imagePadding];
     contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
 
     CGFloat imageHeight = imageSize.height + imagePadding.top + imagePadding.bottom;
@@ -216,8 +216,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   UIEdgeInsets imagePadding;
 
   if (nil != _styledImageView) {
-    imageSize = [_item.styleSheet imageSize];
-    imagePadding = [_item.styleSheet imagePadding];
+    imageSize = [self.styleSheet imageSize];
+    imagePadding = [self.styleSheet imagePadding];
     contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
   } else {
     imageSize = CGSizeZero;
@@ -242,10 +242,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
     TTTableImageLinkedItem* item = object;
 
-    if (nil != item.image || TTIsStringWithAnyText(item.imageURL)) {
+    if (nil != item.image || TTIsStringWithAnyText(item.imageURLPath)) {
       _styledImageView = [[TTImageView alloc] init];
       _styledImageView.defaultImage = item.image;
-      _styledImageView.URL          = item.imageURL;
+      _styledImageView.URL          = item.imageURLPath;
       _styledImageView.style        = item.imageStyle;
       [self.contentView addSubview:_styledImageView];
     }
@@ -270,10 +270,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)optimizeLabels: (NSArray*)labels
                heights: (NSMutableArray*)calculatedLabelHeights {
   UIEdgeInsets padding = UIEdgeInsetsMake(
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH],
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH]);
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH],
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH]);
   [self optimizeLabels:labels heights:calculatedLabelHeights padding:padding];
 }
 
@@ -282,7 +282,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  const CGFloat paddedCellHeight = self.contentView.height - [_item.styleSheet paddingV] * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - [self.styleSheet paddingV] * 2;
 
   CGSize imageSize;
   UIEdgeInsets imagePadding;
@@ -302,8 +302,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake((isImageRightAligned ? 0 : imageWidth) + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV],
+    CGRectMake((isImageRightAligned ? 0 : imageWidth) + [self.styleSheet paddingH],
+               [self.styleSheet paddingV],
                contentWidth, paddedCellHeight);
 }
 
@@ -324,7 +324,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
-             height + [_item.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
+             height + [self.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
 }
 
 
@@ -338,15 +338,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
       self.textLabel.text = item.title;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.titleFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [_item.styleSheet titleFont];
-      self.textLabel.textColor            = [_item.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet titleTextAlignment];
+      self.textLabel.font                 = [self.styleSheet titleFont];
+      self.textLabel.textColor            = [self.styleSheet titleColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
     }
   }  
 }
@@ -382,10 +382,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)optimizeLabels: (NSArray*)labels
                heights: (NSMutableArray*)calculatedLabelHeights {
   UIEdgeInsets padding = UIEdgeInsetsMake(
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH],
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH]);
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH],
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH]);
   [self optimizeLabels:labels heights:calculatedLabelHeights padding:padding];
 }
 
@@ -425,11 +425,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH], [_item.styleSheet paddingV],
+    CGRectMake(imageWidth + [self.styleSheet paddingH], [self.styleSheet paddingV],
                contentWidth, titleHeight);
 
   self.detailTextLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH], [_item.styleSheet paddingV] + titleHeight,
+    CGRectMake(imageWidth + [self.styleSheet paddingH], [self.styleSheet paddingV] + titleHeight,
                contentWidth, subtitleHeight);
 }
 
@@ -451,7 +451,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat titleHeight = [self.textLabel heightWithWidth:contentWidth];
   CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:contentWidth];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
-             titleHeight + subtitleHeight + [_item.styleSheet paddingV] * 2) +
+             titleHeight + subtitleHeight + [self.styleSheet paddingV] * 2) +
          [tableView tableCellExtraHeight];
 }
 
@@ -466,24 +466,24 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       self.textLabel.text = item.title;
       self.detailTextLabel.text = item.subtitle;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.titleFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [_item.styleSheet titleFont];
-      self.textLabel.textColor            = [_item.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet titleTextAlignment];
+      self.textLabel.font                 = [self.styleSheet titleFont];
+      self.textLabel.textColor            = [self.styleSheet titleColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
 
-      TTDASSERT(nil != _item.styleSheet.subtitleFont);
+      TTDASSERT(nil != self.styleSheet.subtitleFont);
 
-      self.detailTextLabel.font                 = [_item.styleSheet subtitleFont];
-      self.detailTextLabel.textColor            = [_item.styleSheet subtitleColor];
-      self.detailTextLabel.highlightedTextColor = [_item.styleSheet subtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [_item.styleSheet subtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [_item.styleSheet subtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [_item.styleSheet subtitleTextAlignment];
+      self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
+      self.detailTextLabel.textColor            = [self.styleSheet subtitleColor];
+      self.detailTextLabel.highlightedTextColor = [self.styleSheet subtitleHighlightedColor];
+      self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
+      self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
+      self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
     }
   }  
 }
@@ -533,10 +533,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)optimizeLabels: (NSArray*)labels
                heights: (NSMutableArray*)calculatedLabelHeights {
   UIEdgeInsets padding = UIEdgeInsetsMake(
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH],
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH]);
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH],
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH]);
   [self optimizeLabels:labels heights:calculatedLabelHeights padding:padding];
 }
 
@@ -587,25 +587,25 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV],
+    CGRectMake(imageWidth + [self.styleSheet paddingH],
+               [self.styleSheet paddingV],
                contentWidth - timestampSize.width, titleHeight);
 
   self.detailTextLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV] + titleHeight,
+    CGRectMake(imageWidth + [self.styleSheet paddingH],
+               [self.styleSheet paddingV] + titleHeight,
                contentWidth - ((titleHeight > 0) ? 0 : timestampSize.width), subtitleHeight);
 
   self.messageLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV] + titleHeight + subtitleHeight,
+    CGRectMake(imageWidth + [self.styleSheet paddingH],
+               [self.styleSheet paddingV] + titleHeight + subtitleHeight,
                contentWidth - ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width),
                messageHeight);
 
-  CGFloat entireContentWidth = imageWidth + [_item.styleSheet paddingH] + contentWidth;
+  CGFloat entireContentWidth = imageWidth + [self.styleSheet paddingH] + contentWidth;
   self.timestampLabel.frame =
     CGRectMake(entireContentWidth - timestampSize.width,
-               [_item.styleSheet paddingV],
+               [self.styleSheet paddingV],
                timestampSize.width, timestampSize.height);
 }
 
@@ -645,7 +645,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth -
                               ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width)];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
-             titleHeight + subtitleHeight + messageHeight + [_item.styleSheet paddingV] * 2) +
+             titleHeight + subtitleHeight + messageHeight + [self.styleSheet paddingV] * 2) +
     [tableView tableCellExtraHeight];
 }
 
@@ -659,43 +659,43 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       TTTableMessageItem* item = object;
       self.textLabel.text = item.title;
       self.detailTextLabel.text = item.subtitle;
-      self.messageLabel.text = item.text;
+      self.messageLabel.text = item.message;
       self.timestampLabel.text = [item.timestamp formatShortTime];
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.titleFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [_item.styleSheet titleFont];
-      self.textLabel.textColor            = [_item.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet titleTextAlignment];
+      self.textLabel.font                 = [self.styleSheet titleFont];
+      self.textLabel.textColor            = [self.styleSheet titleColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
 
-      TTDASSERT(nil != _item.styleSheet.subtitleFont);
+      TTDASSERT(nil != self.styleSheet.subtitleFont);
 
-      self.detailTextLabel.font                 = [_item.styleSheet subtitleFont];
-      self.detailTextLabel.textColor            = [_item.styleSheet messageSubtitleColor];
-      self.detailTextLabel.highlightedTextColor = [_item.styleSheet messageSubtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [_item.styleSheet subtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [_item.styleSheet subtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [_item.styleSheet subtitleTextAlignment];
+      self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
+      self.detailTextLabel.textColor            = [self.styleSheet messageSubtitleColor];
+      self.detailTextLabel.highlightedTextColor = [self.styleSheet messageSubtitleHighlightedColor];
+      self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
+      self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
+      self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
 
-      TTDASSERT(nil != _item.styleSheet.messageFont);
+      TTDASSERT(nil != self.styleSheet.messageFont);
 
-      self.messageLabel.font                 = [_item.styleSheet messageFont];
-      self.messageLabel.textColor            = [_item.styleSheet messageColor];
-      self.messageLabel.highlightedTextColor = [_item.styleSheet messageHighlightedColor];
-      self.messageLabel.lineBreakMode        = [_item.styleSheet messageLineBreakMode];
-      self.messageLabel.numberOfLines        = [_item.styleSheet messageNumberOfLines];
-      self.messageLabel.textAlignment        = [_item.styleSheet messageTextAlignment];
+      self.messageLabel.font                 = [self.styleSheet messageFont];
+      self.messageLabel.textColor            = [self.styleSheet messageColor];
+      self.messageLabel.highlightedTextColor = [self.styleSheet messageHighlightedColor];
+      self.messageLabel.lineBreakMode        = [self.styleSheet messageLineBreakMode];
+      self.messageLabel.numberOfLines        = [self.styleSheet messageNumberOfLines];
+      self.messageLabel.textAlignment        = [self.styleSheet messageTextAlignment];
 
-      TTDASSERT(nil != _item.styleSheet.timestampFont);
+      TTDASSERT(nil != self.styleSheet.timestampFont);
 
-      self.timestampLabel.font                 = [_item.styleSheet timestampFont];
-      self.timestampLabel.textColor            = [_item.styleSheet timestampColor];
-      self.timestampLabel.highlightedTextColor = [_item.styleSheet timestampHighlightedColor];
-      self.timestampLabel.textAlignment        = [_item.styleSheet timestampTextAlignment];
+      self.timestampLabel.font                 = [self.styleSheet timestampFont];
+      self.timestampLabel.textColor            = [self.styleSheet timestampColor];
+      self.timestampLabel.highlightedTextColor = [self.styleSheet timestampHighlightedColor];
+      self.timestampLabel.textAlignment        = [self.styleSheet timestampTextAlignment];
     }
   }
 }
@@ -733,18 +733,18 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   CGFloat captionWidth = kKeyWidth;
   CGFloat captionHeight = MIN(
-    self.contentView.height - [_item.styleSheet paddingV] * 2,
+    self.contentView.height - [self.styleSheet paddingV] * 2,
     [self.textLabel heightWithWidth:captionWidth]);
 
-  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + [_item.styleSheet paddingH] * 2);
+  CGFloat titleWidth = self.contentView.width - (kKeyWidth + kKeySpacing + [self.styleSheet paddingH] * 2);
   CGFloat titleHeight = MIN(
-    self.contentView.height - [_item.styleSheet paddingV] * 2,
+    self.contentView.height - [self.styleSheet paddingV] * 2,
     [self.detailTextLabel heightWithWidth:titleWidth]);
 
-  self.textLabel.frame = CGRectMake([_item.styleSheet paddingH], [_item.styleSheet paddingV],
+  self.textLabel.frame = CGRectMake([self.styleSheet paddingH], [self.styleSheet paddingV],
                                     captionWidth, captionHeight);
 
-  self.detailTextLabel.frame = CGRectMake([_item.styleSheet paddingH] + kKeyWidth + kKeySpacing, [_item.styleSheet paddingV],
+  self.detailTextLabel.frame = CGRectMake([self.styleSheet paddingH] + kKeyWidth + kKeySpacing, [self.styleSheet paddingV],
                                           titleWidth, titleHeight);
 }
 
@@ -763,7 +763,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat titleWidth = contentWidth - (kKeyWidth + kKeySpacing);
   CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
 
-  return MAX(captionHeight, titleHeight) + [_item.styleSheet paddingV] * 2 +
+  return MAX(captionHeight, titleHeight) + [self.styleSheet paddingV] * 2 +
     [tableView tableCellExtraHeight];
 }
 
@@ -778,26 +778,26 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       self.textLabel.text = item.caption;
       self.detailTextLabel.text = item.title;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.captionFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.captionFont);
 
-      self.textLabel.font                      = [_item.styleSheet captionFont];
-      self.textLabel.textColor                 = [_item.styleSheet captionColor];
-      self.textLabel.highlightedTextColor      = [_item.styleSheet captionHighlightedColor];
-      self.textLabel.lineBreakMode             = [_item.styleSheet captionLineBreakMode];
-      self.textLabel.numberOfLines             = [_item.styleSheet captionNumberOfLines];
-      self.textLabel.textAlignment             = [_item.styleSheet captionTextAlignment];
-      self.textLabel.adjustsFontSizeToFitWidth = [_item.styleSheet captionAdjustsFontSizeToFitWidth];
-      self.textLabel.minimumFontSize           = [_item.styleSheet captionMinimumFontSize];
+      self.textLabel.font                      = [self.styleSheet captionFont];
+      self.textLabel.textColor                 = [self.styleSheet captionColor];
+      self.textLabel.highlightedTextColor      = [self.styleSheet captionHighlightedColor];
+      self.textLabel.lineBreakMode             = [self.styleSheet captionLineBreakMode];
+      self.textLabel.numberOfLines             = [self.styleSheet captionNumberOfLines];
+      self.textLabel.textAlignment             = [self.styleSheet captionTextAlignment];
+      self.textLabel.adjustsFontSizeToFitWidth = [self.styleSheet captionAdjustsFontSizeToFitWidth];
+      self.textLabel.minimumFontSize           = [self.styleSheet captionMinimumFontSize];
 
-      TTDASSERT(nil != _item.styleSheet.captionTitleFont);
+      TTDASSERT(nil != self.styleSheet.captionTitleFont);
 
-      self.detailTextLabel.font                 = [_item.styleSheet captionTitleFont];
-      self.detailTextLabel.textColor            = [_item.styleSheet captionTitleColor];
-      self.detailTextLabel.highlightedTextColor = [_item.styleSheet captionTitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [_item.styleSheet captionTitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [_item.styleSheet captionTitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [_item.styleSheet captionTitleTextAlignment];
+      self.detailTextLabel.font                 = [self.styleSheet captionTitleFont];
+      self.detailTextLabel.textColor            = [self.styleSheet captionTitleColor];
+      self.detailTextLabel.highlightedTextColor = [self.styleSheet captionTitleHighlightedColor];
+      self.detailTextLabel.lineBreakMode        = [self.styleSheet captionTitleLineBreakMode];
+      self.detailTextLabel.numberOfLines        = [self.styleSheet captionTitleNumberOfLines];
+      self.detailTextLabel.textAlignment        = [self.styleSheet captionTitleTextAlignment];
     }
   }  
 }
@@ -820,12 +820,12 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  const CGFloat paddedCellHeight = self.contentView.height - [_item.styleSheet paddingV] * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - [self.styleSheet paddingV] * 2;
 
-  CGFloat contentWidth = self.contentView.width - [_item.styleSheet paddingH] * 2;
+  CGFloat contentWidth = self.contentView.width - [self.styleSheet paddingH] * 2;
 
   self.textLabel.frame =
-    CGRectMake([_item.styleSheet paddingH], [_item.styleSheet paddingV],
+    CGRectMake([self.styleSheet paddingH], [self.styleSheet paddingV],
                contentWidth, paddedCellHeight);
 }
 
@@ -836,7 +836,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat padding = [_item.styleSheet paddingH];
+  CGFloat padding = [self.styleSheet paddingH];
   return [self contentWidthWithTableView: tableView
                                indexPath: indexPath
                                  padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
@@ -847,7 +847,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
-  return height + [_item.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
+  return height + [self.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
 }
 
 
@@ -870,17 +870,17 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
       self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.summaryFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.summaryFont);
 
-      self.textLabel.font                      = [_item.styleSheet summaryFont];
-      self.textLabel.textColor                 = [_item.styleSheet summaryColor];
-      self.textLabel.highlightedTextColor      = [_item.styleSheet summaryHighlightedColor];
-      self.textLabel.lineBreakMode             = [_item.styleSheet summaryLineBreakMode];
-      self.textLabel.numberOfLines             = [_item.styleSheet summaryNumberOfLines];
-      self.textLabel.textAlignment             = [_item.styleSheet summaryTextAlignment];
-      self.textLabel.adjustsFontSizeToFitWidth = [_item.styleSheet summaryAdjustsFontSizeToFitWidth];
-      self.textLabel.minimumFontSize           = [_item.styleSheet summaryMinimumFontSize];
+      self.textLabel.font                      = [self.styleSheet summaryFont];
+      self.textLabel.textColor                 = [self.styleSheet summaryColor];
+      self.textLabel.highlightedTextColor      = [self.styleSheet summaryHighlightedColor];
+      self.textLabel.lineBreakMode             = [self.styleSheet summaryLineBreakMode];
+      self.textLabel.numberOfLines             = [self.styleSheet summaryNumberOfLines];
+      self.textLabel.textAlignment             = [self.styleSheet summaryTextAlignment];
+      self.textLabel.adjustsFontSizeToFitWidth = [self.styleSheet summaryAdjustsFontSizeToFitWidth];
+      self.textLabel.minimumFontSize           = [self.styleSheet summaryMinimumFontSize];
     }
   }  
 }
@@ -903,7 +903,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  const CGFloat paddedCellHeight = self.contentView.height - [_item.styleSheet paddingV] * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - [self.styleSheet paddingV] * 2;
 
   CGSize imageSize;
   UIEdgeInsets imagePadding;
@@ -919,8 +919,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV],
+    CGRectMake(imageWidth + [self.styleSheet paddingH],
+               [self.styleSheet paddingV],
                contentWidth, paddedCellHeight);
 }
 
@@ -941,7 +941,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
-             height + [_item.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
+             height + [self.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
 }
 
 
@@ -954,15 +954,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       TTTableTitleItem* item = object;
       self.textLabel.text = item.title;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.linkFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.linkFont);
 
-      self.textLabel.font                 = [_item.styleSheet linkFont];
-      self.textLabel.textColor            = [_item.styleSheet linkColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet linkHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet linkLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet linkNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet linkTextAlignment];
+      self.textLabel.font                 = [self.styleSheet linkFont];
+      self.textLabel.textColor            = [self.styleSheet linkColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet linkHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet linkLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet linkNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet linkTextAlignment];
     }
   }
 }
@@ -985,11 +985,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  const CGFloat paddedCellHeight = self.contentView.height - [_item.styleSheet paddingV] * 2;
-  CGFloat contentWidth = self.contentView.width - [_item.styleSheet paddingH] * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - [self.styleSheet paddingV] * 2;
+  CGFloat contentWidth = self.contentView.width - [self.styleSheet paddingH] * 2;
 
   self.textLabel.frame =
-    CGRectMake([_item.styleSheet paddingH], [_item.styleSheet paddingV],
+    CGRectMake([self.styleSheet paddingH], [self.styleSheet paddingV],
                contentWidth, paddedCellHeight);
 }
 
@@ -1002,7 +1002,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
-  return height + [_item.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
+  return height + [self.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
 }
 
 
@@ -1016,21 +1016,21 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       self.textLabel.text = item.title;
 
       self.accessoryType = UITableViewCellAccessoryNone;
-      if (TTIsStringWithAnyText(item.URL)) {
-        self.selectionStyle = [_item.styleSheet selectionStyle];
+      if (TTIsStringWithAnyText(item.urlPath)) {
+        self.selectionStyle = [self.styleSheet selectionStyle];
       } else {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
       }
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.buttonFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.buttonFont);
 
-      self.textLabel.font                      = [_item.styleSheet buttonFont];
-      self.textLabel.textColor                 = [_item.styleSheet buttonColor];
-      self.textLabel.highlightedTextColor      = [_item.styleSheet buttonHighlightedColor];
-      self.textLabel.lineBreakMode             = [_item.styleSheet buttonLineBreakMode];
-      self.textLabel.numberOfLines             = [_item.styleSheet buttonNumberOfLines];
-      self.textLabel.textAlignment             = [_item.styleSheet buttonTextAlignment];
+      self.textLabel.font                      = [self.styleSheet buttonFont];
+      self.textLabel.textColor                 = [self.styleSheet buttonColor];
+      self.textLabel.highlightedTextColor      = [self.styleSheet buttonHighlightedColor];
+      self.textLabel.lineBreakMode             = [self.styleSheet buttonLineBreakMode];
+      self.textLabel.numberOfLines             = [self.styleSheet buttonNumberOfLines];
+      self.textLabel.textAlignment             = [self.styleSheet buttonTextAlignment];
     }
   }
 }
@@ -1079,10 +1079,10 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)optimizeLabels: (NSArray*)labels
                heights: (NSMutableArray*)calculatedLabelHeights {
   UIEdgeInsets padding = UIEdgeInsetsMake(
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH],
-    [_item.styleSheet paddingV],
-    [_item.styleSheet paddingH]);
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH],
+    [self.styleSheet paddingV],
+    [self.styleSheet paddingH]);
   [self optimizeLabels:labels heights:calculatedLabelHeights padding:padding];
 }
 
@@ -1091,9 +1091,9 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  CGFloat contentWidth = self.contentView.width - [_item.styleSheet paddingH] * 2;
+  CGFloat contentWidth = self.contentView.width - [self.styleSheet paddingH] * 2;
   CGFloat textContentWidth =
-    contentWidth - self.activityIndicatorView.width - [_item.styleSheet paddingH];
+    contentWidth - self.activityIndicatorView.width - [self.styleSheet paddingH];
 
   CGFloat titleHeight     = [self.textLabel heightWithWidth:textContentWidth];
   CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:textContentWidth];
@@ -1114,19 +1114,19 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   TT_RELEASE_SAFELY(labelHeights);
 
-  self.activityIndicatorView.left = [_item.styleSheet paddingH];
+  self.activityIndicatorView.left = [self.styleSheet paddingH];
   self.activityIndicatorView.top =
     floor((self.contentView.height - self.activityIndicatorView.height) / 2);
 
   CGFloat centeredYOffset = floor((self.contentView.height - (titleHeight + subtitleHeight)) / 2);
 
   self.textLabel.frame =
-    CGRectMake(self.activityIndicatorView.right + [_item.styleSheet paddingH],
+    CGRectMake(self.activityIndicatorView.right + [self.styleSheet paddingH],
                centeredYOffset,
                textContentWidth, titleHeight);
 
   self.detailTextLabel.frame =
-    CGRectMake(self.activityIndicatorView.right + [_item.styleSheet paddingH],
+    CGRectMake(self.activityIndicatorView.right + [self.styleSheet paddingH],
                centeredYOffset + titleHeight,
                textContentWidth, subtitleHeight);
 }
@@ -1138,7 +1138,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat padding = [_item.styleSheet paddingH];
+  CGFloat padding = [self.styleSheet paddingH];
   return [self contentWidthWithTableView: tableView
                                indexPath: indexPath
                                  padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
@@ -1149,13 +1149,13 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
   CGFloat textContentWidth =
-    contentWidth - self.activityIndicatorView.width - [_item.styleSheet paddingH];
+    contentWidth - self.activityIndicatorView.width - [self.styleSheet paddingH];
 
   CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
   CGFloat subtitleHeight = [self.detailTextLabel heightWithWidth:textContentWidth];
   return MAX(self.activityIndicatorView.height,
              MAX(TT_ROW_HEIGHT * 3/2, titleHeight + subtitleHeight)) +
-         [_item.styleSheet paddingV] * 2 +
+         [self.styleSheet paddingV] * 2 +
          [tableView tableCellExtraHeight];
 }
 
@@ -1174,26 +1174,26 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       self.animating = item.isLoading;
 
       self.accessoryType = UITableViewCellAccessoryNone;
-      self.selectionStyle = [_item.styleSheet selectionStyle];
+      self.selectionStyle = [self.styleSheet selectionStyle];
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.moreButtonFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.moreButtonFont);
 
-      self.textLabel.font                 = [_item.styleSheet moreButtonFont];
-      self.textLabel.textColor            = [_item.styleSheet moreButtonColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet moreButtonHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet moreButtonLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet moreButtonNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet moreButtonTextAlignment];
+      self.textLabel.font                 = [self.styleSheet moreButtonFont];
+      self.textLabel.textColor            = [self.styleSheet moreButtonColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet moreButtonHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet moreButtonLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet moreButtonNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet moreButtonTextAlignment];
 
-      TTDASSERT(nil != _item.styleSheet.moreButtonSubtitleFont);
+      TTDASSERT(nil != self.styleSheet.moreButtonSubtitleFont);
 
-      self.detailTextLabel.font                 = [_item.styleSheet moreButtonSubtitleFont];
-      self.detailTextLabel.textColor            = [_item.styleSheet moreButtonSubtitleColor];
-      self.detailTextLabel.highlightedTextColor = [_item.styleSheet moreButtonSubtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [_item.styleSheet moreButtonSubtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [_item.styleSheet moreButtonSubtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [_item.styleSheet moreButtonSubtitleTextAlignment];
+      self.detailTextLabel.font                 = [self.styleSheet moreButtonSubtitleFont];
+      self.detailTextLabel.textColor            = [self.styleSheet moreButtonSubtitleColor];
+      self.detailTextLabel.highlightedTextColor = [self.styleSheet moreButtonSubtitleHighlightedColor];
+      self.detailTextLabel.lineBreakMode        = [self.styleSheet moreButtonSubtitleLineBreakMode];
+      self.detailTextLabel.numberOfLines        = [self.styleSheet moreButtonSubtitleNumberOfLines];
+      self.detailTextLabel.textAlignment        = [self.styleSheet moreButtonSubtitleTextAlignment];
     }
   }  
 }
@@ -1256,7 +1256,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   [self.activityLabel sizeToFit];
   return
     self.activityLabel.height +
-    [_item.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
+    [self.styleSheet paddingV] * 2 + [tableView tableCellExtraHeight];
 }
 
 
@@ -1279,11 +1279,11 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       self.accessoryType = UITableViewCellAccessoryNone;
       self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-      TTDASSERT(nil != _item.styleSheet);
+      TTDASSERT(nil != self.styleSheet);
 
       [_activityLabel removeFromSuperview];
       TT_RELEASE_SAFELY(_activityLabel);
-      _activityLabel = [[TTActivityLabel alloc] initWithStyle:[_item.styleSheet activityLabelStyle]];
+      _activityLabel = [[TTActivityLabel alloc] initWithStyle:[self.styleSheet activityLabelStyle]];
       [self.contentView addSubview:_activityLabel];
 
       self.activityLabel.text = item.title;
@@ -1389,7 +1389,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
     if (nil != object) {
       TTTableStyledTextItem* item = object;
       if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
-        _label.text = item.text;
+        _label.text = item.styledText;
         _label.contentInset = item.padding;
       } else if ([item isKindOfClass:[TTStyledText class]]) {
         _label.text = (TTStyledText*)item;
@@ -1400,7 +1400,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       }
 
       if (!_label.text.font) {
-        _label.text.font = [_item.styleSheet styledTextFont];
+        _label.text.font = [self.styleSheet styledTextFont];
       }
     }
   }  
@@ -1487,7 +1487,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                                 contentWidth, _control.height);
   }
 
-  CGFloat contentWidth = self.contentView.width - [_item.styleSheet paddingH] * 2;
+  CGFloat contentWidth = self.contentView.width - [self.styleSheet paddingH] * 2;
   CGFloat textContentWidth = contentWidth - _control.width;
 
   if (![TTTableControlItemCell shouldRespectControlPadding:_control]) {
@@ -1497,7 +1497,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
 
   self.textLabel.frame =
-    CGRectMake([_item.styleSheet paddingH], floor((self.contentView.height - titleHeight) / 2),
+    CGRectMake([self.styleSheet paddingH], floor((self.contentView.height - titleHeight) / 2),
                textContentWidth, titleHeight);
 }
 
@@ -1507,7 +1507,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  CGFloat padding = [_item.styleSheet paddingH];
+  CGFloat padding = [self.styleSheet paddingH];
   return [self contentWidthWithTableView: tableView
                                indexPath: indexPath
                                  padding: UIEdgeInsetsMake(padding, padding, padding, padding)];
@@ -1554,7 +1554,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
   } else {
     titleHeight = [self.textLabel heightWithWidth:textContentWidth];
   }
-  return MAX(TT_ROW_HEIGHT, MAX(titleHeight, height) + [_item.styleSheet paddingV] * 2) +
+  return MAX(TT_ROW_HEIGHT, MAX(titleHeight, height) + [self.styleSheet paddingV] * 2) +
          [tableView tableCellExtraHeight];
 }
 
@@ -1605,7 +1605,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  const CGFloat paddedCellHeight = self.contentView.height - [_item.styleSheet paddingV] * 2;
+  const CGFloat paddedCellHeight = self.contentView.height - [self.styleSheet paddingV] * 2;
 
   CGSize imageSize;
   UIEdgeInsets imagePadding;
@@ -1621,8 +1621,8 @@ static const CGFloat kDefaultMessageImageHeight = 34;
                imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + [_item.styleSheet paddingH],
-               [_item.styleSheet paddingV],
+    CGRectMake(imageWidth + [self.styleSheet paddingH],
+               [self.styleSheet paddingV],
                contentWidth, paddedCellHeight);
 }
 
@@ -1643,7 +1643,7 @@ static const CGFloat kDefaultMessageImageHeight = 34;
 
   CGFloat height = [self.textLabel heightWithWidth:contentWidth];
   return MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
-             height + [_item.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
+             height + [self.styleSheet paddingV] * 2) + [tableView tableCellExtraHeight];
 }
 
 
@@ -1656,15 +1656,15 @@ static const CGFloat kDefaultMessageImageHeight = 34;
       TTTableLongTextItem* item = object;
       self.textLabel.text = item.text;
 
-      TTDASSERT(nil != _item.styleSheet);
-      TTDASSERT(nil != _item.styleSheet.longTextFont);
+      TTDASSERT(nil != self.styleSheet);
+      TTDASSERT(nil != self.styleSheet.longTextFont);
 
-      self.textLabel.font                 = [_item.styleSheet longTextFont];
-      self.textLabel.textColor            = [_item.styleSheet longTextColor];
-      self.textLabel.highlightedTextColor = [_item.styleSheet longTextHighlightedColor];
-      self.textLabel.lineBreakMode        = [_item.styleSheet longTextLineBreakMode];
-      self.textLabel.numberOfLines        = [_item.styleSheet longTextNumberOfLines];
-      self.textLabel.textAlignment        = [_item.styleSheet longTextTextAlignment];
+      self.textLabel.font                 = [self.styleSheet longTextFont];
+      self.textLabel.textColor            = [self.styleSheet longTextColor];
+      self.textLabel.highlightedTextColor = [self.styleSheet longTextHighlightedColor];
+      self.textLabel.lineBreakMode        = [self.styleSheet longTextLineBreakMode];
+      self.textLabel.numberOfLines        = [self.styleSheet longTextNumberOfLines];
+      self.textLabel.textAlignment        = [self.styleSheet longTextTextAlignment];
     }
   }  
 }

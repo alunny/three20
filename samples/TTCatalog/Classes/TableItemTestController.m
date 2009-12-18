@@ -49,6 +49,21 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 @end
 
 
+@interface TTLongLinesTableStyleSheet : TTTableStyleSheet
+
+@end
+
+@implementation TTLongLinesTableStyleSheet
+
+- (NSInteger)titleNumberOfLines {
+  return 0;
+}
+
+@end
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,7 +84,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
     // Uncomment this to see how the table looks with the grouped style
     self.tableViewStyle = UITableViewStyleGrouped;
-    
+
     //self.tableViewSeparatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Uncomment this to see how the table cells look against a custom background color 
@@ -89,39 +104,49 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     // fields with URLs that will be visited when the row is selected
     self.dataSource = [SectionedSortableDataSource dataSourceWithObjects:
       @"TTTableTitleItem",
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        defaultPerson, kTableItemImageKey,
-        localImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-
+      [[TTTableTitleItem item]
+        applyTitle:@"No URLs"],
+      [[[TTTableTitleItem item]
+        applyTitle:@"URL"]
+        applyURLPath:@"tt://tableItemTest"],
+      [[[TTTableTitleItem item]
+        applyTitle:@"accessoryURL"]
+        applyAccessoryURLPath:@"http://www.google.com"],
+      [[[[TTTableTitleItem item]
+        applyTitle:@"Both URLs"]
+        applyURLPath:@"tt://tableItemTest"]
+        applyAccessoryURLPath:@"http://www.google.com"],
+      [[[[[TTTableTitleItem item]
+        applyTitle:@"No URLs"]
+        applyImage:defaultPerson]
+        applyImageURLPath:remoteImage]
+        applyImageStyle:imageStyle],
+      [[[[[[TTTableTitleItem item]
+        applyTitle:@"URL"]
+        applyImage:defaultPerson]
+        applyImageURLPath:remoteImage]
+        applyImageStyle:imageStyle]
+        applyURLPath:@"tt://tableItemTest"],
+      [[[[[[TTTableTitleItem item]
+        applyTitle:@"accessoryURL"]
+        applyImage:defaultPerson]
+        applyImageURLPath:remoteImage]
+        applyImageStyle:imageStyle]
+        applyAccessoryURLPath:@"http://www.google.com"],
+      [[[[[[[TTTableTitleItem item]
+        applyTitle:@"Both URLs"]
+        applyImage:defaultPerson]
+        applyImageURLPath:remoteImage]
+        applyImageStyle:imageStyle]
+        applyURLPath:@"tt://tableItemTest"]
+        applyAccessoryURLPath:@"http://www.google.com"],
+      [[[[[[TTTableTitleItem item]
+        applyTitle:kLoremIpsum]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle]
+        applyURLPath:@"tt://tableItemTest"]
+        applyAccessoryURLPath:@"http://www.google.com"],
+/*
       @"TTTableSubtitleItem",
       [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         @"No URLs", kTableItemTitleKey,
@@ -393,7 +418,7 @@ characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKe
       [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
         kLoremIpsum, kTableItemCaptionKey,
         [[[UISlider alloc] init] autorelease], kTableItemControlKey,
-        nil]],
+        nil]],*/
 
       nil];
   }

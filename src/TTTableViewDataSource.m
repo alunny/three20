@@ -23,6 +23,7 @@
 #import "Three20/TTTableItemCell.h"
 #import "Three20/TTTextEditor.h"
 #import "Three20/TTStyledText.h"
+#import "Three20/TTStyleSheet.h"
 
 #import <objc/runtime.h>
 
@@ -31,6 +32,7 @@
 @implementation TTTableViewDataSource
 
 @synthesize model = _model;
+@synthesize styleSheet = _styleSheet;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // class public
@@ -65,8 +67,16 @@
 
 - (void)dealloc {
   TT_RELEASE_SAFELY(_model);
+  TT_RELEASE_SAFELY(_styleSheet);
   [super dealloc];
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (TTTableStyleSheet*)styleSheet {
+  return nil != _styleSheet ? _styleSheet : TTTABLESTYLESHEET;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // UITableViewDataSource
@@ -93,7 +103,9 @@
   [identifier release];
   
   if ([cell isKindOfClass:[TTTableViewCell class]]) {
-    [(TTTableViewCell*)cell setObject:object];
+    TTTableViewCell* ttCell = (TTTableViewCell*)cell;
+    [ttCell setStyleSheet:self.styleSheet];
+    [ttCell setObject:object];
   }
   
   [self tableView:tableView cell:cell willAppearAtIndexPath:indexPath];

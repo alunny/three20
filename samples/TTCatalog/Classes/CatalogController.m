@@ -24,92 +24,37 @@
 - (void)createModel {
   self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
     @"Photos",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Photo Browser", kTableItemTitleKey,
-        @"tt://photoTest1", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Photo Thumbnails", kTableItemTitleKey,
-        @"tt://photoTest2", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Photo Browser"]    applyURLPath:@"tt://photoTest1"],
+    [[[TTTableTitleItem item] applyTitle:@"Photo Thumbnails"] applyURLPath:@"tt://photoTest2"],
 
     @"Styles",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Styled Views", kTableItemTitleKey,
-        @"tt://styleTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Styled Labels", kTableItemTitleKey,
-        @"tt://styledTextTest", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Styled Views"]     applyURLPath:@"tt://styleTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Styled Labels"]    applyURLPath:@"tt://styledTextTest"],
 
     @"Controls",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Buttons", kTableItemTitleKey,
-        @"tt://buttonTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Tabs", kTableItemTitleKey,
-        @"tt://tabBarTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Composers", kTableItemTitleKey,
-        @"tt://composerTest", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Buttons"]          applyURLPath:@"tt://buttonTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Tabs"]             applyURLPath:@"tt://tabBarTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Composers"]        applyURLPath:@"tt://composerTest"],
 
     @"Tables",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Table Items", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Table Controls", kTableItemTitleKey,
-        @"tt://tableControlsTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Styled Labels in Table", kTableItemTitleKey,
-        @"tt://styledTextTableTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Web Images in Table", kTableItemTitleKey,
-        @"tt://imageTest2", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Table Items"]      applyURLPath:@"tt://tableItemTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Table Controls"]   applyURLPath:@"tt://tableControlsTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Styled Labels in Table"] applyURLPath:@"tt://styledTextTableTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Web Images in Table"] applyURLPath:@"tt://imageTest2"],
   
     @"Models",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Model Search", kTableItemTitleKey,
-        @"tt://searchTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Model States", kTableItemTitleKey,
-        @"tt://tableTest", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Table Items"]      applyURLPath:@"tt://tableItemTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Model Search"]     applyURLPath:@"tt://searchTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Model States"]     applyURLPath:@"tt://tableTest"],
     
     @"General",
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Web Image", kTableItemTitleKey,
-        @"tt://imageTest1", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"YouTube Player", kTableItemTitleKey,
-        @"tt://youTubeTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Web Browser", kTableItemTitleKey,
-        @"http://github.com/facebook/three20", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Activity Labels", kTableItemTitleKey,
-        @"tt://activityTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Scroll View", kTableItemTitleKey,
-        @"tt://scrollViewTest", kTableItemURLKey,
-        nil]],
-    [TTTableTitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Launcher", kTableItemTitleKey,
-        @"tt://launcherTest", kTableItemURLKey,
-        nil]],
+    [[[TTTableTitleItem item] applyTitle:@"Web Image"]        applyURLPath:@"tt://imageTest1"],
+    [[[TTTableTitleItem item] applyTitle:@"YouTube Player"]   applyURLPath:@"tt://youTubeTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Web Browser"]      applyURLPath:@"http://github.com/facebook/three20"],
+    [[[TTTableTitleItem item] applyTitle:@"Activity Labels"]  applyURLPath:@"tt://activityTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Scroll View"]      applyURLPath:@"tt://scrollViewTest"],
+    [[[TTTableTitleItem item] applyTitle:@"Launcher"]         applyURLPath:@"tt://launcherTest"],
+
     nil];
 }
 

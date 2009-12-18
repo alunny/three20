@@ -30,6 +30,16 @@ const CGFloat kReorderButtonWidth = 32;
 
 @implementation TTTableViewCell
 
+@synthesize styleSheet = _styleSheet;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  _styleSheet = nil;
+
+  [super dealloc];
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {

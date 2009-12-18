@@ -22,6 +22,8 @@ extern const CGFloat kDetailDisclosureButtonWidth;
 extern const CGFloat kEditingIndentationWidth;
 extern const CGFloat kReorderButtonWidth;
 
+@class TTTableStyleSheet;
+
 /**
  * The base class for table cells which are single-object based.
  *
@@ -34,9 +36,12 @@ extern const CGFloat kReorderButtonWidth;
  * Subclasses should implement the object getter and setter.  The base implementations do
  * nothing, allowing you to store the object yourself using the appropriate type.
  */
-@interface TTTableViewCell : UITableViewCell
+@interface TTTableViewCell : UITableViewCell {
+  TTTableStyleSheet* _styleSheet;
+}
 
 @property(nonatomic,retain) id object;
+@property(nonatomic,assign) TTTableStyleSheet* styleSheet;
 
 /**
  * Measure the height of the row with the given table view.
