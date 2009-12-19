@@ -97,6 +97,7 @@
 #import "Three20/TTPickerTextField.h"
 #import "Three20/TTSearchBar.h"
 
+#import "Three20/TTTableStyleSheet.h"
 #import "Three20/TTTableViewController.h"
 #import "Three20/TTSearchDisplayController.h"
 #import "Three20/TTTableView.h"

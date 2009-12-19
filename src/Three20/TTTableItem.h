@@ -23,36 +23,7 @@
 /**
  * TTTableItems define the data used to create TTTableItemCells. Each item has a
  * corresponding cell in TTTableItemCell.h/m.
- *
- * Here's a quick overview of the inheritance tree.
- *
- * TTTableItem
- *   \_ TTTableLinkedItem
- *   |   \_ TTTableTitleItem
- *   |   |   \_ TTTableSubtitleItem
- *   |   |   |   \_ TTTableMessageItem
- *   |   |   \_ TTTableCaptionItem
- *   |   |   \_ TTTableSubtextItem
- *   |   |   \_ TTTableSummaryItem
- *   |   |   \_ TTTableLink
- *   |   |   \_ TTTableButton
- *   |   |   |   \_ TTTableMoreButton
- *   |   |   \_ TTTableImageItem
- *   |   |   |   \_ TTTableRightImageItem
- *   |   |   \_ TTTableActivityItem
- *   |   \_ TTTableTextItem
- *   |   |   \_ TTTableGrayTextItem
- *   |   \_ TTTableStyledTextItem
- *   \_ TTTableControlItem
- *   \_ TTTableViewItem
- *
- * All table items are initialized with the itemWithProperties: or initWithProperties methods.
- * These methods accept an NSDictionary* parameter. See each class for the accepted properties.
- * Use the list of key definitions below to ensure consistency when setting the property
- * values.
- *
  */
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableItem : NSObject <NSCoding> {
 @private

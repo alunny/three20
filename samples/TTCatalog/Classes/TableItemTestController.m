@@ -1,6 +1,23 @@
+//
+// Copyright 2009 Facebook
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 #import "TableItemTestController.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+#import "LongLinesTableStyleSheet.h"
+#import "SectionedSortableDataSource.h"
 
 static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do\
  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\
@@ -9,69 +26,13 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt\
  mollit anim id est laborum.
 
-@interface TableViewVarHeightDelegate : TTTableViewVarHeightDelegate {
-}
-
-@end
-
-@implementation TableViewVarHeightDelegate
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.row % 2) {
-    return UITableViewCellEditingStyleDelete;
-  } else {
-    return UITableViewCellEditingStyleNone;
-  }
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-  return YES;
-}
-
-@end
-
-
-@interface SectionedSortableDataSource : TTSectionedDataSource {
-}
-
-@end
-
-@implementation SectionedSortableDataSource
-
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-  return YES;
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-
-}
-
-@end
-
-
-@interface TTLongLinesTableStyleSheet : TTTableStyleSheet
-
-@end
-
-@implementation TTLongLinesTableStyleSheet
-
-- (NSInteger)titleNumberOfLines {
-  return 0;
-}
-
-@end
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TableItemTestController
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// NSObject
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
   if (self = [super init]) {
     self.title = @"Table Items";
@@ -89,8 +50,8 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
     // Uncomment this to see how the table cells look against a custom background color 
     //self.tableView.backgroundColor = [UIColor yellowColor];
-      
-    NSString* localImage = @"bundle://tableIcon.png";
+
+    //NSString* localImage = @"bundle://tableIcon.png";
     NSString* remoteImage = @"http://profile.ak.fbcdn.net/v223/35/117/q223792_6978.jpg";
     UIImage* defaultPerson = TTIMAGE(@"bundle://defaultPerson.png");
     TTStyle* imageStyle = 
@@ -101,8 +62,24 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       [TTContentStyle styleWithNext:nil]]]]];
     
     // This demonstrates how to create a table with standard table "fields".  Many of these
-    // fields with URLs that will be visited when the row is selected
-    self.dataSource = [SectionedSortableDataSource dataSourceWithObjects:
+    // fields with URLs that will be visited when the row is selected.
+
+    // This block of code shows the new Table Cell Item creation pattern of chaining apply*
+    // methods on a table item object. This allows us to specify any number of objects, safely
+    // leave defaults as is, and avoid the complexities of managing ever growing method names.
+    //
+    // The basic form is this:
+    // [TableItem item]  <-- create an autoreleased table item
+    // [[TableItem item] applyTitle:@"title"]  <-- Apply a title to the object.
+    //
+    // And so on. You can chain any of the available inherited methods.
+
+    // You can now also apply stylesheets to individual tables. This makes it possible to customize
+    // tables individually. This also benefits from a better-defined TTTableStyleSheet object.
+    // Go ahead, check it out.
+    TTTableStyleSheet* styleSheet = [[LongLinesTableStyleSheet alloc] init];
+
+    TTSectionedDataSource* dataSource = [SectionedSortableDataSource dataSourceWithObjects:
       @"TTTableTitleItem",
       [[TTTableTitleItem item]
         applyTitle:@"No URLs"],
@@ -146,305 +123,102 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         applyImageStyle:imageStyle]
         applyURLPath:@"tt://tableItemTest"]
         applyAccessoryURLPath:@"http://www.google.com"],
-/*
+
       @"TTTableSubtitleItem",
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Subtitle", kTableItemSubtitleKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        @"Subtitle", kTableItemSubtitleKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"This is a really long subtitle that should span a few lines or truncate", kTableItemSubtitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"Subtitle", kTableItemSubtitleKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        defaultPerson, kTableItemImageKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"Subtitle", kTableItemSubtitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
-        @"This is a really long subtitle that should span a few lines or truncate", kTableItemSubtitleKey,
-        nil]],
-      [TTTableSubtitleItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some urls set so this should truncate or wrap", kTableItemTitleKey,
-        @"This is a really long subtitle that should span more than two lines which is the default max number of lines for the subtitle item", kTableItemSubtitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
+      [[TTTableSubtitleItem item]
+        applyTitle:@"No URLs"],
+      [[[TTTableSubtitleItem item]
+        applySubtitle:@"Subtitle"]
+        applyTitle:@"No URLs"],
 
       @"TTTableMessageItem",
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Title", kTableItemTitleKey,
-        [NSDate date], kTableItemTimestampKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemSubtitleKey,
-        [NSDate date], kTableItemTimestampKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTextKey,
-        [NSDate date], kTableItemTimestampKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Title", kTableItemTitleKey,
-        @"Subtitle", kTableItemSubtitleKey,
-        [NSDate date], kTableItemTimestampKey,
-        defaultPerson, kTableItemImageKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Title", kTableItemTitleKey,
-        @"Text", kTableItemTextKey,
-        remoteImage, kTableItemImageURLKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Subtitle", kTableItemSubtitleKey,
-        @"Text", kTableItemTextKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        kLoremIpsum, kTableItemSubtitleKey,
-        kLoremIpsum, kTableItemTextKey,
-        [NSDate date], kTableItemTimestampKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        @"Subtitle", kTableItemSubtitleKey,
-        kLoremIpsum, kTableItemTextKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No subtitle", kTableItemTitleKey,
-        kLoremIpsum, kTableItemTextKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableMessageItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Bob Jones", kTableItemTitleKey,
-        @"TTTableMessageItem", kTableItemSubtitleKey,
-        [NSDate date], kTableItemTimestampKey,
-        kLoremIpsum, kTableItemTextKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
+      [[[[[TTTableMessageItem item]
+        applyTimestamp:[NSDate date]]
+        applyMessage:@"Message"]
+        applySubtitle:@"Subtitle"]
+        applyTitle:@"Title"],
 
       @"TTTableCaptionItem",
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Caption", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        @"Caption", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"A normal caption", kTableItemCaptionKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"Caption", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with no urls set at all so this should truncate or wrap", kTableItemTitleKey,
-        @"A very long caption that realistically won't fit", kTableItemCaptionKey,
-        nil]],
-      [TTTableCaptionItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Long text with some ii", kTableItemTitleKey,
-        @"A normal caption", kTableItemCaptionKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
+      [[[TTTableCaptionItem item]
+        applyCaption:@"Caption"]
+        applyTitle:@"Title"],
 
       @"TTTableSummaryItem",
-      [TTTableSummaryItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"TTTableSummaryItem", kTableItemTitleKey,
-        nil]],
-      [TTTableSummaryItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        nil]],
+      [[TTTableSummaryItem item]
+        applyTitle:kLoremIpsum],
 
       @"TTTableLinkItem",
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        defaultPerson, kTableItemImageKey,
-        localImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableLinkItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
+      [[TTTableLinkItem item]
+        applyTitle:@"Title"],
 
       @"TTTableButtonItem",
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        remoteImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"URL", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        defaultPerson, kTableItemImageKey,
-        localImage, kTableItemImageURLKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"accessoryURL", kTableItemTitleKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"Both URLs", kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        @"http://www.google.com", kTableItemAccessoryURLKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        defaultPerson, kTableItemImageKey,
-        imageStyle, kTableItemImageStyleKey,
-        nil]],
-      [TTTableButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        @"tt://tableItemTest", kTableItemURLKey,
-        nil]],
+      [[TTTableButtonItem item]
+        applyTitle:@"Title"],
 
       @"TTTableMoreButtonItem",
-      [TTTableMoreButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableMoreButtonItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        kLoremIpsum, kTableItemSubtitleKey,
-        nil]],
+      [[TTTableMoreButtonItem item]
+        applyTitle:@"Title"],
 
       @"TTTableActivityItem",
-      [TTTableActivityItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"No URLs", kTableItemTitleKey,
-        nil]],
-      [TTTableActivityItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemTitleKey,
-        nil]],
+      [[TTTableActivityItem item]
+        applyTitle:@"Title"],
 
       @"TTTableStyledTextItem",
-      [TTTableStyledTextItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        [TTStyledText textFromXHTML:@"This is a whole bunch of text made from \
-characters and followed by this URL http://bit.ly/1234"], kTableItemStyledTextKey,
-        nil]],
+      [[TTTableStyledTextItem item]
+        applyStyledText:[TTStyledText textFromXHTML:@"This is a whole bunch of text made from \
+characters and followed by this URL http://bit.ly/1234"]],
 
       @"TTTableControlItem",
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemCaptionKey,
-        [[[UISwitch alloc] init] autorelease], kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemCaptionKey,
-        [[[UITextView alloc] init] autorelease], kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemCaptionKey,
-        [[[TTTextEditor alloc] init] autorelease], kTableItemControlKey,
-        nil]],
-      [TTTableControlItem itemWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-        kLoremIpsum, kTableItemCaptionKey,
-        [[[UISlider alloc] init] autorelease], kTableItemControlKey,
-        nil]],*/
+      [[[TTTableControlItem item]
+        applyControl:[[[UISwitch alloc] init] autorelease]]
+        applyCaption:@"Title"],
 
       nil];
+
+    dataSource.styleSheet = styleSheet;
+    TT_RELEASE_SAFELY(styleSheet);
+    self.dataSource = dataSource;
   }
   return self;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   [super dealloc];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
 
+  // For testing items at the end of the table view quickly.
   //[self.tableView scrollToLastRow:animated];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return TTIsSupportedOrientation(interfaceOrientation);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+  // This forces the table view to recalculate its cell heights on rotation.
   //[self.tableView reloadData];
 }
-/*
+
+// Enable this block to play with the table delegate.
+#if 0
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id<UITableViewDelegate>)createDelegate {
   return [[[TableViewVarHeightDelegate alloc] initWithController:self] autorelease];
-}*/
+}
+
+#endif
+
 
 @end

@@ -43,6 +43,9 @@
 		EBC60C7210D5044500D1997B /* MockDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE348AB0F490F43008C826E /* MockDataSource.m */; };
 		EBC60C7310D5044700D1997B /* SearchTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE346BB0F48F15C008C826E /* SearchTestController.m */; };
 		EBC60C7710D504C700D1997B /* MessageTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE341B30F480C76008C826E /* MessageTestController.m */; };
+		EBF5CAEE10DC775200A85F68 /* LongLinesTableStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = EBF5CAED10DC775200A85F68 /* LongLinesTableStyleSheet.m */; };
+		EBF5CAF810DC789C00A85F68 /* SectionedSortableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EBF5CAF710DC789C00A85F68 /* SectionedSortableDataSource.m */; };
+		EBF5CAFE10DC799500A85F68 /* TableViewVarHeightDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EBF5CAFD10DC799500A85F68 /* TableViewVarHeightDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +134,12 @@
 		BEF199210F818E720010D36E /* StyledTextTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyledTextTestController.m; sourceTree = "<group>"; };
 		BEF6EC350F280CB300CF4096 /* ScrollViewTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewTestController.h; sourceTree = "<group>"; };
 		BEF6EC360F280CB300CF4096 /* ScrollViewTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTestController.m; sourceTree = "<group>"; };
+		EBF5CAEC10DC775200A85F68 /* LongLinesTableStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongLinesTableStyleSheet.h; sourceTree = "<group>"; };
+		EBF5CAED10DC775200A85F68 /* LongLinesTableStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongLinesTableStyleSheet.m; sourceTree = "<group>"; };
+		EBF5CAF610DC789C00A85F68 /* SectionedSortableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedSortableDataSource.h; sourceTree = "<group>"; };
+		EBF5CAF710DC789C00A85F68 /* SectionedSortableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedSortableDataSource.m; sourceTree = "<group>"; };
+		EBF5CAFC10DC799500A85F68 /* TableViewVarHeightDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewVarHeightDelegate.h; sourceTree = "<group>"; };
+		EBF5CAFD10DC799500A85F68 /* TableViewVarHeightDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewVarHeightDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +423,9 @@
 		EA108168101B3A350098AAC2 /* Tables */ = {
 			isa = PBXGroup;
 			children = (
+				EBF5CAFB10DC798A00A85F68 /* Table Delegates */,
+				EBF5CAF310DC780200A85F68 /* Table Data Sources */,
+				EBF5CAEB10DC774000A85F68 /* Table Styles */,
 				EA108177101B3A630098AAC2 /* Table Items */,
 				EA108175101B3A5C0098AAC2 /* Table Controls */,
 				EA108172101B3A4A0098AAC2 /* Styled Labels in Table */,
@@ -456,6 +468,33 @@
 				BE6E4AA40F4655A4001CE9B4 /* TableItemTestController.m */,
 			);
 			name = "Table Items";
+			sourceTree = "<group>";
+		};
+		EBF5CAEB10DC774000A85F68 /* Table Styles */ = {
+			isa = PBXGroup;
+			children = (
+				EBF5CAEC10DC775200A85F68 /* LongLinesTableStyleSheet.h */,
+				EBF5CAED10DC775200A85F68 /* LongLinesTableStyleSheet.m */,
+			);
+			name = "Table Styles";
+			sourceTree = "<group>";
+		};
+		EBF5CAF310DC780200A85F68 /* Table Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				EBF5CAF610DC789C00A85F68 /* SectionedSortableDataSource.h */,
+				EBF5CAF710DC789C00A85F68 /* SectionedSortableDataSource.m */,
+			);
+			name = "Table Data Sources";
+			sourceTree = "<group>";
+		};
+		EBF5CAFB10DC798A00A85F68 /* Table Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				EBF5CAFC10DC799500A85F68 /* TableViewVarHeightDelegate.h */,
+				EBF5CAFD10DC799500A85F68 /* TableViewVarHeightDelegate.m */,
+			);
+			name = "Table Delegates";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -572,6 +611,9 @@
 				EBC60C7210D5044500D1997B /* MockDataSource.m in Sources */,
 				EBC60C7310D5044700D1997B /* SearchTestController.m in Sources */,
 				EBC60C7710D504C700D1997B /* MessageTestController.m in Sources */,
+				EBF5CAEE10DC775200A85F68 /* LongLinesTableStyleSheet.m in Sources */,
+				EBF5CAF810DC789C00A85F68 /* SectionedSortableDataSource.m in Sources */,
+				EBF5CAFE10DC799500A85F68 /* TableViewVarHeightDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
