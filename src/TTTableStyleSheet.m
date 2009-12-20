@@ -187,6 +187,14 @@
   return UITableViewCellSelectionStyleBlue;
 }
 
+- (CGFloat)captionWidth {
+  return 75;
+}
+
+- (CGFloat)captionSpacing {
+  return 12;
+}
+
 - (UILineBreakMode)titleLineBreakMode {
   return UILineBreakModeTailTruncation;
 }

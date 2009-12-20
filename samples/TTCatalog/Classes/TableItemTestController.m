@@ -157,6 +157,14 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         applyTitle:kLoremIpsum]
         applyImage:defaultPerson]
         applyImageStyle:imageStyle],
+      [[[[[[[[TTTableSubtitleItem item]
+        applySubtitle:kLoremIpsum]
+        applyTitle:kLoremIpsum]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle]
+        applyImageRightAligned:YES]
+        applyURLPath:@"tt://tableItemTest"]
+        applyAccessoryURLPath:@"http://www.google.com"],
 
       @"TTTableMessageItem",
       [[[[[TTTableMessageItem item]

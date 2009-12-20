@@ -74,6 +74,9 @@
 
 @property(nonatomic,readonly) UITableViewCellSelectionStyle selectionStyle;
 
+@property(nonatomic,readonly) CGFloat         captionWidth;
+@property(nonatomic,readonly) CGFloat         captionSpacing;
+
 // Formatting
 @property(nonatomic,readonly) UILineBreakMode titleLineBreakMode;
 @property(nonatomic,readonly) NSInteger       titleNumberOfLines;

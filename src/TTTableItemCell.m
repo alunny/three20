@@ -33,9 +33,6 @@ static const CGFloat kSpacing = 8;
 static const CGFloat kControlPadding = 8;
 static const CGFloat kDefaultTextViewLines = 5;
 
-static const CGFloat kKeySpacing = 12;
-
-static const CGFloat kKeyWidth = 75;
 static const CGFloat kMaxLabelHeight = 2000;
 
 
@@ -160,16 +157,20 @@ static const CGFloat kMaxLabelHeight = 2000;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)contentWidthWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  TTTableImageLinkedItem* imageItem = (TTTableImageLinkedItem*)_item;
+  BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
 
   UIEdgeInsets cellPadding = self.styleSheet.padding;
   UIEdgeInsets imagePadding = self.styleSheet.imagePadding;
+  CGFloat imageWidthWithPadding =
+    imagePadding.left
+    + self.styleSheet.imageSize.width
+    + imagePadding.right;
 
   UIEdgeInsets padding = UIEdgeInsetsMake(
     cellPadding.top,
-    imageItem.imageRightAligned ? imagePadding.left : cellPadding.left,
+    (isImageRightAligned || nil == _styledImageView) ? cellPadding.left : imageWidthWithPadding,
     cellPadding.bottom,
-    imageItem.imageRightAligned ? cellPadding.right : imagePadding.right);
+    (isImageRightAligned && nil != _styledImageView) ? imageWidthWithPadding : cellPadding.right);
   return [self contentWidthWithTableView: tableView
                                indexPath: indexPath
                                  padding: padding];
@@ -240,7 +241,7 @@ static const CGFloat kMaxLabelHeight = 2000;
   if (nil != _styledImageView) {
     imageSize     = self.styleSheet.imageSize;
     imagePadding  = self.styleSheet.imagePadding;
-    contentWidth -= imageSize.width + imagePadding.left + imagePadding.right;
+
   } else {
     imageSize     = CGSizeZero;
     imagePadding  = UIEdgeInsetsZero;
@@ -300,8 +301,7 @@ static const CGFloat kMaxLabelHeight = 2000;
   [super layoutSubviews];
 
   UIEdgeInsets padding = self.styleSheet.padding;
-  const CGFloat paddedCellHeight = self.contentView.height - padding.top - padding.bottom;
- 
+
   CGSize imageSize;
   UIEdgeInsets imagePadding;
   CGFloat contentWidth = [self
@@ -309,19 +309,37 @@ static const CGFloat kMaxLabelHeight = 2000;
                           imagePadding: &imagePadding];
   CGFloat imageWidth = imageSize.width + imagePadding.left + imagePadding.right;
 
+  CGFloat titleHeight = [self.textLabel heightWithWidth:contentWidth];
+
+  NSArray* labels = [[NSArray alloc] initWithObjects:
+    self.textLabel,
+    nil];
+  NSMutableArray* labelHeights = [[NSMutableArray alloc] initWithObjects:
+    [NSNumber numberWithFloat:titleHeight],
+    nil];
+  [self optimizeLabels:labels heights:labelHeights];
+  TT_RELEASE_SAFELY(labels);
+
+  titleHeight = [[labelHeights objectAtIndex:0] floatValue];
+
+  TT_RELEASE_SAFELY(labelHeights);
+
   BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
+
+  // Centered images.
+  // floor(self.contentView.height
+  //          - MIN(self.contentView.height, imageSize.height)) / 2
 
   _styledImageView.frame =
     CGRectMake((isImageRightAligned
         ? (self.contentView.width - imagePadding.right - imageSize.width)
         : imagePadding.left),
-      floor(self.contentView.height
-            - MIN(self.contentView.height, imageSize.height)) / 2,
+      imagePadding.top,
       imageSize.width, imageSize.height);
 
   self.textLabel.frame =
-    CGRectMake((isImageRightAligned ? padding.left : imageWidth),
-               padding.top, contentWidth, paddedCellHeight);
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top, contentWidth, titleHeight);
 }
 
 
@@ -433,17 +451,24 @@ static const CGFloat kMaxLabelHeight = 2000;
 
   TT_RELEASE_SAFELY(labelHeights);
 
+  BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
+
   _styledImageView.frame =
-    CGRectMake(imagePadding.left, imagePadding.top,
-               imageSize.width, imageSize.height);
+    CGRectMake((isImageRightAligned
+        ? (self.contentView.width - imagePadding.right - imageSize.width)
+        : imagePadding.left),
+      imagePadding.top,
+      imageSize.width, imageSize.height);
+
+  UIEdgeInsets padding = self.styleSheet.padding;
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left, self.styleSheet.padding.top,
-               contentWidth, titleHeight);
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top, contentWidth, titleHeight);
 
   self.detailTextLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left,
-               self.styleSheet.padding.top + titleHeight,
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top + titleHeight,
                contentWidth, subtitleHeight);
 }
 
@@ -745,13 +770,14 @@ static const CGFloat kMaxLabelHeight = 2000;
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  CGFloat captionWidth = kKeyWidth;
+  CGFloat captionWidth = self.styleSheet.captionWidth;
   CGFloat captionHeight = MIN(
     self.contentView.height - (self.styleSheet.padding.top + self.styleSheet.padding.bottom),
     [self.textLabel heightWithWidth:captionWidth]);
 
   CGFloat titleWidth = self.contentView.width
-    - (kKeyWidth + kKeySpacing + self.styleSheet.padding.left + self.styleSheet.padding.right);
+    - (self.styleSheet.captionWidth + self.styleSheet.captionSpacing
+       + self.styleSheet.padding.left + self.styleSheet.padding.right);
   CGFloat titleHeight = MIN(
     self.contentView.height - (self.styleSheet.padding.top + self.styleSheet.padding.bottom),
     [self.detailTextLabel heightWithWidth:titleWidth]);
@@ -762,13 +788,13 @@ static const CGFloat kMaxLabelHeight = 2000;
     self.detailTextLabel.font.ascender - self.textLabel.font.ascender;
 
   self.textLabel.frame = CGRectMake(
-    self.styleSheet.padding.left,
-    ceil(self.styleSheet.padding.top + MAX(0, fontCapHeightDifference)),
+    self.styleSheet.padding.left,         // Without the 0.5, this tends to be one pixel off.
+    round(self.styleSheet.padding.top + MAX(0, fontCapHeightDifference - 0.5)),
     captionWidth, captionHeight);
 
   self.detailTextLabel.frame = CGRectMake(
-    self.styleSheet.padding.left + kKeyWidth + kKeySpacing,
-    ceil(self.styleSheet.padding.top + MAX(0, -fontCapHeightDifference)),
+    self.styleSheet.padding.left + self.styleSheet.captionWidth + self.styleSheet.captionSpacing,
+    round(self.styleSheet.padding.top + MAX(0, -fontCapHeightDifference + 0.5)),
     titleWidth, titleHeight);
 }
 
@@ -781,10 +807,11 @@ static const CGFloat kMaxLabelHeight = 2000;
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
 
-  CGFloat captionWidth = kKeyWidth;
+  CGFloat captionWidth = self.styleSheet.captionWidth;
   CGFloat captionHeight = [self.textLabel heightWithWidth:captionWidth];
 
-  CGFloat titleWidth = contentWidth - (kKeyWidth + kKeySpacing);
+  CGFloat titleWidth = contentWidth
+    - (self.styleSheet.captionWidth + self.styleSheet.captionSpacing);
   CGFloat titleHeight = [self.detailTextLabel heightWithWidth:titleWidth];
 
   return MAX(captionHeight, titleHeight)
