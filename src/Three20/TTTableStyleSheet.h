@@ -65,8 +65,7 @@
 @property(nonatomic,readonly) UIFont* styledTextFont;
 
 // Table cell padding
-@property(nonatomic,readonly) CGFloat paddingH;
-@property(nonatomic,readonly) CGFloat paddingV;
+@property(nonatomic,readonly) UIEdgeInsets padding;
 
 @property(nonatomic,readonly) CGSize          imageSize;
 @property(nonatomic,readonly) UIEdgeInsets    imagePadding;

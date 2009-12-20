@@ -13,6 +13,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28C286E10D94DF7D0034E888 /* CatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* CatalogController.m */; };
+		6EE3738210DCA02300D833FA /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6EE3738110DCA02300D833FA /* Three20.bundle */; };
 		BE1288310F8973CD00F65EA2 /* StyleTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE1288300F8973CD00F65EA2 /* StyleTestController.m */; };
 		BE1289C20F91811E00F65EA2 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = BE1289C10F91811E00F65EA2 /* mask.png */; };
 		BE1D843A0F8D104B00EC8BB8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE1D84390F8D104B00EC8BB8 /* QuartzCore.framework */; };
@@ -31,7 +32,6 @@
 		BEC5EC680F8C307E007622CD /* ButtonTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5EC670F8C307E007622CD /* ButtonTestController.m */; };
 		BEC787631040A430005C00CF /* LauncherViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC787621040A430005C00CF /* LauncherViewTestController.m */; };
 		BECB1CC20F46AE9600AE5B52 /* person.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BECB1CC10F46AE9600AE5B52 /* person.jpg */; };
-		BEDCFBB40F4FFF820060B7D1 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */; };
 		BEE0FDDB0EB2A6850052C05F /* PhotoTest1Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE0FDDA0EB2A6850052C05F /* PhotoTest1Controller.m */; };
 		BEE38E810EB288BA00189902 /* ActivityTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE38E800EB288BA00189902 /* ActivityTestController.m */; };
 		BEE7FD150F3581C1002788A5 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE7FD130F358198002788A5 /* libThree20.a */; };
@@ -83,6 +83,7 @@
 		28C286DF0D94DF7D0034E888 /* CatalogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatalogController.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* CatalogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6EE3738110DCA02300D833FA /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../../src/Three20.bundle; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE12882F0F8973CD00F65EA2 /* StyleTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleTestController.h; sourceTree = "<group>"; };
 		BE1288300F8973CD00F65EA2 /* StyleTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleTestController.m; sourceTree = "<group>"; };
@@ -116,7 +117,6 @@
 		BEC787611040A430005C00CF /* LauncherViewTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LauncherViewTestController.h; sourceTree = "<group>"; };
 		BEC787621040A430005C00CF /* LauncherViewTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LauncherViewTestController.m; sourceTree = "<group>"; };
 		BECB1CC10F46AE9600AE5B52 /* person.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = person.jpg; sourceTree = "<group>"; };
-		BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../../src/Three20.bundle; sourceTree = SOURCE_ROOT; };
 		BEE0FDD90EB2A6850052C05F /* PhotoTest1Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTest1Controller.h; sourceTree = "<group>"; };
 		BEE0FDDA0EB2A6850052C05F /* PhotoTest1Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTest1Controller.m; sourceTree = "<group>"; };
 		BEE341B20F480C76008C826E /* MessageTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTestController.h; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BEDCFBB30F4FFF820060B7D1 /* Three20.bundle */,
+				6EE3738110DCA02300D833FA /* Three20.bundle */,
 				BE80E3B50EAF116700743358 /* Icon.png */,
 				BEA6BAAC101436AC00B83B3A /* defaultMusic.png */,
 				BEA6BA7E101431DA00B83B3A /* defaultPerson.png */,
@@ -573,11 +573,11 @@
 				BE80E3B60EAF116700743358 /* Icon.png in Resources */,
 				BE6E4DC00F46A352001CE9B4 /* tableIcon.png in Resources */,
 				BECB1CC20F46AE9600AE5B52 /* person.jpg in Resources */,
-				BEDCFBB40F4FFF820060B7D1 /* Three20.bundle in Resources */,
 				BE3188A10F822E2C00E3067D /* smiley.png in Resources */,
 				BE1289C20F91811E00F65EA2 /* mask.png in Resources */,
 				BEA6BA7F101431DA00B83B3A /* defaultPerson.png in Resources */,
 				BEA6BAAD101436AC00B83B3A /* defaultMusic.png in Resources */,
+				6EE3738210DCA02300D833FA /* Three20.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

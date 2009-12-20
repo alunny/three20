@@ -45,6 +45,10 @@ extern const CGFloat kReorderButtonWidth;
 
 /**
  * Measure the height of the row with the given table view.
+ *
+ * @param  tableView      Used to determine if we are editing.
+ * @return The necessary number of vertical pixels required to draw this cell.
+ * @default TT_ROW_HEIGHT
  */
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 

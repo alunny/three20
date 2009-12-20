@@ -56,6 +56,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableMessageItemCell : TTTableImageLinkedItemCell {
+@protected
   UILabel* _messageLabel;
   UILabel* _timestampLabel;
 }
@@ -118,6 +119,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableStyledTextItemCell : TTTableLinkedItemCell {
+@protected
   TTStyledTextLabel* _label;
 }
 
@@ -128,6 +130,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TTTableControlItemCell : TTTableViewCell {
+@protected
   TTTableControlItem* _item;
   UIControl*          _control;
 }

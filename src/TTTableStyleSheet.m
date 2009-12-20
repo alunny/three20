@@ -343,12 +343,8 @@
   return TTActivityLabelStyleGray;
 }
 
-- (CGFloat)paddingH {
-  return 10;
-}
-
-- (CGFloat)paddingV {
-  return 10;
+- (UIEdgeInsets)padding {
+  return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 - (CGSize)imageSize {
@@ -356,7 +352,7 @@
 }
 
 - (UIEdgeInsets)imagePadding {
-  return UIEdgeInsetsMake(10, 10, 10, 0);
+  return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 @end

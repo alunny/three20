@@ -65,7 +65,7 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
     // fields with URLs that will be visited when the row is selected.
 
     // This block of code shows the new Table Cell Item creation pattern of chaining apply*
-    // methods on a table item object. This allows us to specify any number of objects, safely
+    // methods on a table item object. This allows us to specify any number of properties, safely
     // leave defaults as is, and avoid the complexities of managing ever growing method names.
     //
     // The basic form is this:
@@ -123,6 +123,13 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
         applyImageStyle:imageStyle]
         applyURLPath:@"tt://tableItemTest"]
         applyAccessoryURLPath:@"http://www.google.com"],
+      [[[[[[[TTTableTitleItem item]
+        applyTitle:kLoremIpsum]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle]
+        applyImageRightAligned:YES]
+        applyURLPath:@"tt://tableItemTest"]
+        applyAccessoryURLPath:@"http://www.google.com"],
 
       @"TTTableSubtitleItem",
       [[TTTableSubtitleItem item]
@@ -130,6 +137,26 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
       [[[TTTableSubtitleItem item]
         applySubtitle:@"Subtitle"]
         applyTitle:@"No URLs"],
+      [[TTTableSubtitleItem item]
+        applySubtitle:@"Subtitle"],
+      [[[[TTTableSubtitleItem item]
+        applyTitle:@"No URLs"]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle],
+      [[[[[TTTableSubtitleItem item]
+        applySubtitle:@"Subtitle"]
+        applyTitle:@"No URLs"]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle],
+      [[[[TTTableSubtitleItem item]
+        applySubtitle:@"Subtitle"]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle],
+      [[[[[TTTableSubtitleItem item]
+        applySubtitle:kLoremIpsum]
+        applyTitle:kLoremIpsum]
+        applyImage:defaultPerson]
+        applyImageStyle:imageStyle],
 
       @"TTTableMessageItem",
       [[[[[TTTableMessageItem item]
