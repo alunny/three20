@@ -22,110 +22,110 @@
 @interface TTTableStyleSheet : TTStyleSheet
 
 // Text colors
-@property(nonatomic,readonly) UIColor* titleColor;
-@property(nonatomic,readonly) UIColor* titleHighlightedColor;
-@property(nonatomic,readonly) UIColor* subtitleColor;
-@property(nonatomic,readonly) UIColor* subtitleHighlightedColor;
-@property(nonatomic,readonly) UIColor* messageColor;
-@property(nonatomic,readonly) UIColor* messageHighlightedColor;
-@property(nonatomic,readonly) UIColor* messageSubtitleColor;
-@property(nonatomic,readonly) UIColor* messageSubtitleHighlightedColor;
-@property(nonatomic,readonly) UIColor* captionColor;
-@property(nonatomic,readonly) UIColor* captionHighlightedColor;
-@property(nonatomic,readonly) UIColor* captionTitleColor;
-@property(nonatomic,readonly) UIColor* captionTitleHighlightedColor;
-@property(nonatomic,readonly) UIColor* timestampColor;
-@property(nonatomic,readonly) UIColor* timestampHighlightedColor;
-@property(nonatomic,readonly) UIColor* summaryColor;
-@property(nonatomic,readonly) UIColor* summaryHighlightedColor;
-@property(nonatomic,readonly) UIColor* linkColor;
-@property(nonatomic,readonly) UIColor* linkHighlightedColor;
-@property(nonatomic,readonly) UIColor* buttonColor;
-@property(nonatomic,readonly) UIColor* buttonHighlightedColor;
-@property(nonatomic,readonly) UIColor* moreButtonColor;
-@property(nonatomic,readonly) UIColor* moreButtonHighlightedColor;
-@property(nonatomic,readonly) UIColor* moreButtonSubtitleColor;
-@property(nonatomic,readonly) UIColor* moreButtonSubtitleHighlightedColor;
-@property(nonatomic,readonly) UIColor* longTextColor;
-@property(nonatomic,readonly) UIColor* longTextHighlightedColor;
+-(UIColor*) titleColor;
+-(UIColor*) titleHighlightedColor;
+-(UIColor*) subtitleColor;
+-(UIColor*) subtitleHighlightedColor;
+-(UIColor*) messageColor;
+-(UIColor*) messageHighlightedColor;
+-(UIColor*) messageSubtitleColor;
+-(UIColor*) messageSubtitleHighlightedColor;
+-(UIColor*) captionColor;
+-(UIColor*) captionHighlightedColor;
+-(UIColor*) captionTitleColor;
+-(UIColor*) captionTitleHighlightedColor;
+-(UIColor*) timestampColor;
+-(UIColor*) timestampHighlightedColor;
+-(UIColor*) summaryColor;
+-(UIColor*) summaryHighlightedColor;
+-(UIColor*) linkColor;
+-(UIColor*) linkHighlightedColor;
+-(UIColor*) buttonColor;
+-(UIColor*) buttonHighlightedColor;
+-(UIColor*) moreButtonColor;
+-(UIColor*) moreButtonHighlightedColor;
+-(UIColor*) moreButtonSubtitleColor;
+-(UIColor*) moreButtonSubtitleHighlightedColor;
+-(UIColor*) longTextColor;
+-(UIColor*) longTextHighlightedColor;
 
 // Fonts
-@property(nonatomic,readonly) UIFont* titleFont;
-@property(nonatomic,readonly) UIFont* subtitleFont;
-@property(nonatomic,readonly) UIFont* messageFont;
-@property(nonatomic,readonly) UIFont* captionFont;
-@property(nonatomic,readonly) UIFont* captionTitleFont;
-@property(nonatomic,readonly) UIFont* timestampFont;
-@property(nonatomic,readonly) UIFont* summaryFont;
-@property(nonatomic,readonly) UIFont* linkFont;
-@property(nonatomic,readonly) UIFont* buttonFont;
-@property(nonatomic,readonly) UIFont* moreButtonFont;
-@property(nonatomic,readonly) UIFont* moreButtonSubtitleFont;
-@property(nonatomic,readonly) UIFont* longTextFont;
-@property(nonatomic,readonly) UIFont* styledTextFont;
+-(UIFont*) titleFont;
+-(UIFont*) subtitleFont;
+-(UIFont*) messageFont;
+-(UIFont*) captionFont;
+-(UIFont*) captionTitleFont;
+-(UIFont*) timestampFont;
+-(UIFont*) summaryFont;
+-(UIFont*) linkFont;
+-(UIFont*) buttonFont;
+-(UIFont*) moreButtonFont;
+-(UIFont*) moreButtonSubtitleFont;
+-(UIFont*) longTextFont;
+-(UIFont*) styledTextFont;
 
 // Table cell padding
-@property(nonatomic,readonly) UIEdgeInsets padding;
+-(UIEdgeInsets) padding;
 
-@property(nonatomic,readonly) CGSize          imageSize;
-@property(nonatomic,readonly) UIEdgeInsets    imagePadding;
+-(CGSize         ) imageSize;
+-(UIEdgeInsets   ) imagePadding;
 
-@property(nonatomic,readonly) TTActivityLabelStyle activityLabelStyle;
+-(TTActivityLabelStyle) activityLabelStyle;
 
-@property(nonatomic,readonly) UITableViewCellSelectionStyle selectionStyle;
+-(UITableViewCellSelectionStyle) selectionStyle;
 
-@property(nonatomic,readonly) CGFloat         captionWidth;
-@property(nonatomic,readonly) CGFloat         captionSpacing;
+-(CGFloat        ) captionWidth;
+-(CGFloat        ) captionSpacing;
 
 // Formatting
-@property(nonatomic,readonly) UILineBreakMode titleLineBreakMode;
-@property(nonatomic,readonly) NSInteger       titleNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment titleTextAlignment;
+-(UILineBreakMode) titleLineBreakMode;
+-(NSInteger      ) titleNumberOfLines;
+-(UITextAlignment) titleTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode subtitleLineBreakMode;
-@property(nonatomic,readonly) NSInteger       subtitleNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment subtitleTextAlignment;
+-(UILineBreakMode) subtitleLineBreakMode;
+-(NSInteger      ) subtitleNumberOfLines;
+-(UITextAlignment) subtitleTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode messageLineBreakMode;
-@property(nonatomic,readonly) NSInteger       messageNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment messageTextAlignment;
+-(UILineBreakMode) messageLineBreakMode;
+-(NSInteger      ) messageNumberOfLines;
+-(UITextAlignment) messageTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode captionLineBreakMode;
-@property(nonatomic,readonly) NSInteger       captionNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment captionTextAlignment;
-@property(nonatomic,readonly) BOOL            captionAdjustsFontSizeToFitWidth;
-@property(nonatomic,readonly) CGFloat         captionMinimumFontSize;
+-(UILineBreakMode) captionLineBreakMode;
+-(NSInteger      ) captionNumberOfLines;
+-(UITextAlignment) captionTextAlignment;
+-(BOOL           ) captionAdjustsFontSizeToFitWidth;
+-(CGFloat        ) captionMinimumFontSize;
 
-@property(nonatomic,readonly) UILineBreakMode captionTitleLineBreakMode;
-@property(nonatomic,readonly) NSInteger       captionTitleNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment captionTitleTextAlignment;
+-(UILineBreakMode) captionTitleLineBreakMode;
+-(NSInteger      ) captionTitleNumberOfLines;
+-(UITextAlignment) captionTitleTextAlignment;
 
-@property(nonatomic,readonly) UITextAlignment timestampTextAlignment;
+-(UITextAlignment) timestampTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode summaryLineBreakMode;
-@property(nonatomic,readonly) NSInteger       summaryNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment summaryTextAlignment;
-@property(nonatomic,readonly) BOOL            summaryAdjustsFontSizeToFitWidth;
-@property(nonatomic,readonly) CGFloat         summaryMinimumFontSize;
+-(UILineBreakMode) summaryLineBreakMode;
+-(NSInteger      ) summaryNumberOfLines;
+-(UITextAlignment) summaryTextAlignment;
+-(BOOL           ) summaryAdjustsFontSizeToFitWidth;
+-(CGFloat        ) summaryMinimumFontSize;
 
-@property(nonatomic,readonly) UILineBreakMode linkLineBreakMode;
-@property(nonatomic,readonly) NSInteger       linkNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment linkTextAlignment;
+-(UILineBreakMode) linkLineBreakMode;
+-(NSInteger      ) linkNumberOfLines;
+-(UITextAlignment) linkTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode buttonLineBreakMode;
-@property(nonatomic,readonly) NSInteger       buttonNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment buttonTextAlignment;
+-(UILineBreakMode) buttonLineBreakMode;
+-(NSInteger      ) buttonNumberOfLines;
+-(UITextAlignment) buttonTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode moreButtonLineBreakMode;
-@property(nonatomic,readonly) NSInteger       moreButtonNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment moreButtonTextAlignment;
+-(UILineBreakMode) moreButtonLineBreakMode;
+-(NSInteger      ) moreButtonNumberOfLines;
+-(UITextAlignment) moreButtonTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode moreButtonSubtitleLineBreakMode;
-@property(nonatomic,readonly) NSInteger       moreButtonSubtitleNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment moreButtonSubtitleTextAlignment;
+-(UILineBreakMode) moreButtonSubtitleLineBreakMode;
+-(NSInteger      ) moreButtonSubtitleNumberOfLines;
+-(UITextAlignment) moreButtonSubtitleTextAlignment;
 
-@property(nonatomic,readonly) UILineBreakMode longTextLineBreakMode;
-@property(nonatomic,readonly) NSInteger       longTextNumberOfLines;
-@property(nonatomic,readonly) UITextAlignment longTextTextAlignment;
+-(UILineBreakMode) longTextLineBreakMode;
+-(NSInteger      ) longTextNumberOfLines;
+-(UITextAlignment) longTextTextAlignment;
 
 @end

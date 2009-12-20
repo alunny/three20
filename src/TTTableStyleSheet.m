@@ -23,10 +23,30 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableStyleSheet
 
+// Private common colors
+
+// The standard highlighted color
 - (UIColor*)highlightedColor {
   return [UIColor whiteColor];
 }
 
+// A lighter gray used for subtitles
+- (UIColor*)secondaryColor {
+  return RGBCOLOR(79, 89, 105);
+}
+
+// Captions and timestamps
+- (UIColor*)blueCaptionColor {
+  return RGBCOLOR(36, 112, 216);
+}
+
+// Link and buttons
+- (UIColor*)blueLinkColor {
+  return RGBCOLOR(87, 107, 149);
+}
+
+
+// Public colors
 - (UIColor*)titleColor {
   return [UIColor blackColor];
 }
@@ -36,7 +56,7 @@
 }
 
 - (UIColor*)subtitleColor {
-  return RGBCOLOR(79, 89, 105);
+  return [self secondaryColor];
 }
 
 - (UIColor*)subtitleHighlightedColor {
@@ -44,7 +64,7 @@
 }
 
 - (UIColor*)messageColor {
-  return RGBCOLOR(79, 89, 105);
+  return [self secondaryColor];
 }
 
 - (UIColor*)messageHighlightedColor {
@@ -60,7 +80,7 @@
 }
 
 - (UIColor*)captionColor {
-  return RGBCOLOR(36, 112, 216);
+  return [self blueCaptionColor];
 }
 
 - (UIColor*)captionHighlightedColor {
@@ -76,7 +96,7 @@
 }
 
 - (UIColor*)timestampColor {
-  return RGBCOLOR(36, 112, 216);
+  return [self blueCaptionColor];
 }
 
 - (UIColor*)timestampHighlightedColor {
@@ -84,7 +104,7 @@
 }
 
 - (UIColor*)summaryColor {
-  return RGBCOLOR(79, 89, 105);
+  return [self secondaryColor];
 }
 
 - (UIColor*)summaryHighlightedColor {
@@ -92,7 +112,7 @@
 }
 
 - (UIColor*)linkColor {
-  return RGBCOLOR(87, 107, 149);
+  return [self blueLinkColor];
 }
 
 - (UIColor*)linkHighlightedColor {
@@ -100,7 +120,7 @@
 }
 
 - (UIColor*)buttonColor {
-  return RGBCOLOR(87, 107, 149);
+  return [self blueLinkColor];
 }
 
 - (UIColor*)buttonHighlightedColor {
@@ -108,7 +128,7 @@
 }
 
 - (UIColor*)moreButtonColor {
-  return RGBCOLOR(36, 112, 216);
+  return [self blueCaptionColor];
 }
 
 - (UIColor*)moreButtonHighlightedColor {
@@ -116,7 +136,7 @@
 }
 
 - (UIColor*)moreButtonSubtitleColor {
-  return RGBCOLOR(79, 89, 105);
+  return [self secondaryColor];
 }
 
 - (UIColor*)moreButtonSubtitleHighlightedColor {
