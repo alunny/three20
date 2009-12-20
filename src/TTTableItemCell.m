@@ -593,6 +593,8 @@ static const CGFloat kMaxLabelHeight = 2000;
     constrainedToSize: CGSizeMake(contentWidth, CGFLOAT_MAX)
         lineBreakMode: self.timestampLabel.lineBreakMode];
 
+  timestampSize.width += self.styleSheet.timestampSpacing;
+
   CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth - timestampSize.width];
   CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth -
                               ((titleHeight > 0) ? 0 : timestampSize.width)];
@@ -618,27 +620,35 @@ static const CGFloat kMaxLabelHeight = 2000;
 
   TT_RELEASE_SAFELY(labelHeights);
 
+  BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
+
   _styledImageView.frame =
-    CGRectMake(imagePadding.left, imagePadding.top,
-               imageSize.width, imageSize.height);
+    CGRectMake((isImageRightAligned
+        ? (self.contentView.width - imagePadding.right - imageSize.width)
+        : imagePadding.left),
+      imagePadding.top,
+      imageSize.width, imageSize.height);
+
+  UIEdgeInsets padding = self.styleSheet.padding;
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left,
-               self.styleSheet.padding.top,
-               contentWidth - timestampSize.width, titleHeight);
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top, contentWidth - timestampSize.width, titleHeight);
 
   self.detailTextLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left,
-               self.styleSheet.padding.top + titleHeight,
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top + titleHeight,
                contentWidth - ((titleHeight > 0) ? 0 : timestampSize.width), subtitleHeight);
 
   self.messageLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left,
-               self.styleSheet.padding.top + titleHeight + subtitleHeight,
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top + titleHeight + subtitleHeight,
                contentWidth - ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width),
                messageHeight);
 
-  CGFloat entireContentWidth = imageWidth + self.styleSheet.padding.left + contentWidth;
+  CGFloat entireContentWidth = ((isImageRightAligned || nil == _styledImageView)
+    ? padding.left
+    : imageWidth) + contentWidth;
   self.timestampLabel.frame =
     CGRectMake(entireContentWidth - timestampSize.width,
                self.styleSheet.padding.top,
@@ -674,6 +684,8 @@ static const CGFloat kMaxLabelHeight = 2000;
          sizeWithFont: self.timestampLabel.font
     constrainedToSize: CGSizeMake(contentWidth, CGFLOAT_MAX)
         lineBreakMode: self.timestampLabel.lineBreakMode];
+
+  timestampSize.width += self.styleSheet.timestampSpacing;
 
   CGFloat titleHeight     = [self.textLabel heightWithWidth:contentWidth - timestampSize.width];
   CGFloat subtitleHeight  = [self.detailTextLabel heightWithWidth:contentWidth -

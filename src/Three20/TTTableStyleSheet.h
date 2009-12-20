@@ -77,6 +77,8 @@
 -(CGFloat        ) captionWidth;
 -(CGFloat        ) captionSpacing;
 
+-(CGFloat        ) timestampSpacing;
+
 // Formatting
 -(UILineBreakMode) titleLineBreakMode;
 -(NSInteger      ) titleNumberOfLines;

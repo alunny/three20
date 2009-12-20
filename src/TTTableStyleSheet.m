@@ -215,6 +215,10 @@
   return 12;
 }
 
+- (CGFloat)timestampSpacing {
+  return 10;
+}
+
 - (UILineBreakMode)titleLineBreakMode {
   return UILineBreakModeTailTruncation;
 }
