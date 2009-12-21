@@ -622,6 +622,14 @@ static const CGFloat kMaxLabelHeight = 2000;
   subtitleHeight = [[labelHeights objectAtIndex:1] floatValue];
   messageHeight = [[labelHeights objectAtIndex:2] floatValue];
 
+  if (titleHeight > 0) {
+    titleHeight = MAX(titleHeight, timestampSize.height);
+  } else if (subtitleHeight > 0) {
+    subtitleHeight = MAX(subtitleHeight, timestampSize.height);
+  } else if (messageHeight > 0) {
+    messageHeight = MAX(messageHeight, timestampSize.height);
+  }
+
   TT_RELEASE_SAFELY(labelHeights);
 
   BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
@@ -696,6 +704,15 @@ static const CGFloat kMaxLabelHeight = 2000;
                               ((titleHeight > 0) ? 0 : timestampSize.width)];
   CGFloat messageHeight   = [self.messageLabel heightWithWidth:contentWidth -
                               ((titleHeight > 0 || subtitleHeight > 0) ? 0 : timestampSize.width)];
+
+  if (titleHeight > 0) {
+    titleHeight = MAX(titleHeight, timestampSize.height);
+  } else if (subtitleHeight > 0) {
+    subtitleHeight = MAX(subtitleHeight, timestampSize.height);
+  } else if (messageHeight > 0) {
+    messageHeight = MAX(messageHeight, timestampSize.height);
+  }
+
   return
     MAX(imageSize.height + imagePadding.top + imagePadding.bottom,
         titleHeight + subtitleHeight + messageHeight
@@ -1622,16 +1639,11 @@ static const CGFloat kMaxLabelHeight = 2000;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath {
-  UIView* view = nil;
+  UIView* view = _item.control;
 
-  if ([_item isKindOfClass:[UIView class]]) {
-    view = (UIView*)_item;
-  } else {
-    view = _item.control;
-  }
-  
+  [view sizeToFit];
   CGFloat height = view.height;
-  if (!height) {
+  if (0 == height) {
     if ([view isKindOfClass:[UITextView class]]) {
       UITextView* textView = (UITextView*)view;
       CGFloat ttLineHeight = textView.font.ttLineHeight;
@@ -1645,7 +1657,6 @@ static const CGFloat kMaxLabelHeight = 2000;
       CGFloat ttLineHeight = textField.font.ttLineHeight;
       height = ttLineHeight + kSmallMargin*2;
     } else {
-      [view sizeToFit];
       height = view.height;
     }
   }
@@ -1660,6 +1671,7 @@ static const CGFloat kMaxLabelHeight = 2000;
   } else {
     titleHeight = [self.textLabel heightWithWidth:textContentWidth];
   }
+
   return
     MAX(TT_ROW_HEIGHT, MAX(titleHeight, height)
     + (self.styleSheet.padding.top + self.styleSheet.padding.bottom))
