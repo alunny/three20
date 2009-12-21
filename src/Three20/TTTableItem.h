@@ -17,6 +17,27 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/**
+ * Inheritance tree
+ * ================
+ *
+ * TTTableItem
+ *  \- TTTableLinkedItem
+ *  |   \- TTTableImageLinkedItem
+ *  |   |   \- TTTableTitleItem
+ *  |   |   |   \- TTTableSubtitleItem
+ *  |   |   |   |   \- TTTableMessageItem
+ *  |   |   |   \- TTTableLinkItem
+ *  |   |   \- TTTableStyledTextItem
+ *  |   |   \- TTTableLongTextItem
+ *  |   \- TTTableCaptionItem
+ *  |   \- TTTableButtonItem
+ *  |       \- TTTableMoreButtonItem
+ *  \- TTTableSummaryItem
+ *  \- TTTableActivityItem
+ *  \- TTTableControlItem
+ */
+
 @class TTStyledText;
 @class TTStyle;
 
