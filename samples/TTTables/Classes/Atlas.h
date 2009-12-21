@@ -16,3 +16,4 @@
 
 extern NSString* kRootURLPath;
 extern NSString* kItemCatalogURLPath;
+extern NSString* kItemImageCatalogURLPath;

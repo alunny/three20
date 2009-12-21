@@ -18,6 +18,7 @@
 		6E14D32F10DF1AE000445222 /* Atlas.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D32E10DF1AE000445222 /* Atlas.m */; };
 		6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D37210DF20EE00445222 /* TableItemCatalogController.m */; };
 		6E14D4CB10DF369700445222 /* ScalableTableStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D4CA10DF369700445222 /* ScalableTableStyleSheet.m */; };
+		6E14D5AF10DF543300445222 /* TableImageItemCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D5AE10DF543300445222 /* TableImageItemCatalogController.m */; };
 		EB383B6510BBF62B0000B2D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,8 @@
 		6E14D37210DF20EE00445222 /* TableItemCatalogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableItemCatalogController.m; sourceTree = "<group>"; };
 		6E14D4C910DF369700445222 /* ScalableTableStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalableTableStyleSheet.h; sourceTree = "<group>"; };
 		6E14D4CA10DF369700445222 /* ScalableTableStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalableTableStyleSheet.m; sourceTree = "<group>"; };
+		6E14D5AD10DF543300445222 /* TableImageItemCatalogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableImageItemCatalogController.h; sourceTree = "<group>"; };
+		6E14D5AE10DF543300445222 /* TableImageItemCatalogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableImageItemCatalogController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TTTables-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TTTables-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -91,6 +94,7 @@
 				6E14D32E10DF1AE000445222 /* Atlas.m */,
 				6E14D33210DF209B00445222 /* Root Menu */,
 				6E14D33310DF20B400445222 /* Table Item Catalog */,
+				6E14D5AC10DF542300445222 /* Table Image Item Catalog */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 			);
@@ -184,6 +188,15 @@
 			name = "Scalable Stylesheet";
 			sourceTree = "<group>";
 		};
+		6E14D5AC10DF542300445222 /* Table Image Item Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				6E14D5AD10DF543300445222 /* TableImageItemCatalogController.h */,
+				6E14D5AE10DF543300445222 /* TableImageItemCatalogController.m */,
+			);
+			name = "Table Image Item Catalog";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -267,6 +280,7 @@
 				6E14D32F10DF1AE000445222 /* Atlas.m in Sources */,
 				6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */,
 				6E14D4CB10DF369700445222 /* ScalableTableStyleSheet.m in Sources */,
+				6E14D5AF10DF543300445222 /* TableImageItemCatalogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

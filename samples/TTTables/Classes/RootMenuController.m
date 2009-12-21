@@ -35,6 +35,9 @@
       [[[TTTableTitleItem item]
         applyTitle:@"Item Catalog"]
         applyURLPath:kItemCatalogURLPath],
+      [[[TTTableTitleItem item]
+        applyTitle:@"Image Item Catalog"]
+        applyURLPath:kItemImageCatalogURLPath],
       nil];
   }
   return self;

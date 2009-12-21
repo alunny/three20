@@ -20,6 +20,7 @@
 
 #import "RootMenuController.h"
 #import "TableItemCatalogController.h"
+#import "TableImageItemCatalogController.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +38,7 @@
   [map from:@"*" toViewController:[TTWebController class]];
   [map from:kRootURLPath toViewController:[RootMenuController class]];
   [map from:kItemCatalogURLPath toViewController:[TableItemCatalogController class]];
+  [map from:kItemImageCatalogURLPath toViewController:[TableImageItemCatalogController class]];
 
   if (![navigator restoreViewControllers]) {
     [navigator openURL:kRootURLPath animated:NO];

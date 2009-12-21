@@ -1747,16 +1747,20 @@ static const CGFloat kMaxLabelHeight = 2000;
                           imagePadding: &imagePadding];
   CGFloat imageWidth = imageSize.width + imagePadding.left + imagePadding.right;
 
+  BOOL isImageRightAligned = ((TTTableImageLinkedItem*)_item).imageRightAligned;
+
   _styledImageView.frame =
-    CGRectMake(imagePadding.left,
-               floor(self.contentView.height -
-                     MIN(self.contentView.height, imageSize.height)) / 2,
-               imageSize.width, imageSize.height);
+    CGRectMake((isImageRightAligned
+        ? (self.contentView.width - imagePadding.right - imageSize.width)
+        : imagePadding.left),
+      imagePadding.top,
+      imageSize.width, imageSize.height);
+
+  UIEdgeInsets padding = self.styleSheet.padding;
 
   self.textLabel.frame =
-    CGRectMake(imageWidth + self.styleSheet.padding.left,
-               self.styleSheet.padding.top,
-               contentWidth, paddedCellHeight);
+    CGRectMake(((isImageRightAligned || nil == _styledImageView) ? padding.left : imageWidth),
+               padding.top, contentWidth, paddedCellHeight);
 }
 
 
