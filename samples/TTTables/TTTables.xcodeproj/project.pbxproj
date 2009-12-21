@@ -284,6 +284,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = TTTables;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};
@@ -301,6 +302,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = TTTables;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Release;
 		};

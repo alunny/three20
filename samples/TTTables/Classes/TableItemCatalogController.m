@@ -33,8 +33,15 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
     self.variableHeightRows = YES;
 
+    UISwitch* groupedSwitch = [[UISwitch alloc] init];
+    [groupedSwitch addTarget:self
+                      action:@selector(didSwitchGroup:)
+            forControlEvents:UIControlEventValueChanged];
+
+    groupedSwitch.on = (self.tableViewStyle == UITableViewStyleGrouped) ? YES : NO;
+
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
-      @"",
+      @"The items",
       [[TTTableTitleItem item]
         applyTitle:@"TTTableTitleItem"],
       [[[TTTableSubtitleItem item]
@@ -70,9 +77,36 @@ characters and followed by this URL http://bit.ly/1234"]],
         applyCaption:@"TTTableControlItem"],
       [[TTTableLongTextItem item]
         applyText:kLoremIpsum],
+
+      @"Configuration",
+      [[[TTTableControlItem item]
+        applyControl:groupedSwitch]
+        applyCaption:@"Grouped"],
+
       nil];
+
+      TT_RELEASE_SAFELY(groupedSwitch);
   }
+
   return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)didSwitchGroup:(UISwitch*)theSwitch {
+  if (theSwitch.on) {
+    self.tableViewStyle = UITableViewStyleGrouped;
+  } else {
+    self.tableViewStyle = UITableViewStylePlain;
+  }
+
+  // Force the old table view out of existence.
+  [self setTableView:nil];
+
+  self.variableHeightRows = YES;
+
+  // And then create a new one.
+  [self showModel:YES];
 }
 
 
