@@ -63,8 +63,8 @@ static const CGFloat kBannerViewHeight = 22;
     _tableDelegate = [[self createDelegate] retain];
     
     // You need to set it to nil before changing it or it won't have any effect
-    _tableView.delegate = nil;
-    _tableView.delegate = _tableDelegate;
+    self.tableView.delegate = nil;
+    self.tableView.delegate = _tableDelegate;
   }
 }
 
@@ -313,11 +313,11 @@ static const CGFloat kBannerViewHeight = 22;
   [self hideMenu:YES];
   if (show) {
     [self updateTableDelegate];
-    _tableView.dataSource = _dataSource;
+    self.tableView.dataSource = _dataSource;
   } else {
-    _tableView.dataSource = nil;
+    self.tableView.dataSource = nil;
   }
-  [_tableView reloadData];
+  [self.tableView reloadData];
 }
 
 - (void)showLoading:(BOOL)show {
@@ -497,6 +497,7 @@ static const CGFloat kBannerViewHeight = 22;
 
 - (void)setTableView:(UITableView*)tableView {
   if (tableView != _tableView) {
+    [_tableView removeFromSuperview];
     [_tableView release];
     _tableView = [tableView retain];
     if (!_tableView) {
