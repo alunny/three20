@@ -21,10 +21,10 @@
 
 #import "Three20/TTDefaultStyleSheet.h"
 
-const CGFloat kDisclosureIndicatorWidth = 20;
-const CGFloat kDetailDisclosureButtonWidth = 33;
-const CGFloat kEditingIndentationWidth = 32;
-const CGFloat kReorderButtonWidth = 32;
+const CGFloat kDisclosureIndicatorWidth     = 20;
+const CGFloat kDetailDisclosureButtonWidth  = 33;
+const CGFloat kEditingIndentationWidth      = 32;
+const CGFloat kReorderButtonWidth           = 31;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,6 +53,19 @@ const CGFloat kReorderButtonWidth = 32;
                              padding: (UIEdgeInsets)padding {
   CGFloat width = tableView.width - padding.left - padding.right - [tableView tableCellMargin] * 2;
 
+  // This logic is rather obtuse. Here's the flow.
+  //
+  // If we're editing,
+  //   Get the editing style from the delegate.
+  //   If the style is None, it's possible to avoid indenting a cell.
+  //   If we can indent, we remove the indendation width from the content width.
+  //   Now we check if we can move the cell.
+  //     If we can move it, subtract the reorder button width.
+  // If we're not editing,
+  //   Depending on the disclosure indicator type, we subtract the disclosure width.
+  //   If we're in grouped mode, then we need an extra pixel (likely for the border width).
+  //
+
   if (tableView.editing) {
     UITableViewCellEditingStyle editingStyle;
     if ([tableView.delegate respondsToSelector:
@@ -60,6 +73,7 @@ const CGFloat kReorderButtonWidth = 32;
       editingStyle = [tableView.delegate
                             tableView: tableView
         editingStyleForRowAtIndexPath: indexPath];
+
     } else {
       editingStyle = UITableViewCellEditingStyleDelete;
     }
@@ -93,13 +107,10 @@ const CGFloat kReorderButtonWidth = 32;
       }
     }
 
-    if (canMoveRow) {
-      width++;
-    }
-
   } else {
     if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
       width -= kDisclosureIndicatorWidth;
+
     } else if (self.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
       width -= kDetailDisclosureButtonWidth;
     }
@@ -131,6 +142,7 @@ const CGFloat kReorderButtonWidth = 32;
   CGFloat labelHeights[kMaxNumberOfLabels];
   CGFloat maxNumberOfLines[kMaxNumberOfLabels];
 
+  // Cache the heights of the lines and calculate the overall height.
   for (int ix = 0; ix < [calculatedLabelHeights count]; ++ix) {
     labelHeights[ix] = [[calculatedLabelHeights objectAtIndex:ix] floatValue];
     height += labelHeights[ix];
@@ -141,6 +153,9 @@ const CGFloat kReorderButtonWidth = 32;
   const CGFloat paddedCellHeight =
     self.contentView.height - padding.top - padding.bottom;
 
+  // This giant block of logic will only occur if the cell is too tall.
+  // If we have variable height cells and are properly calculating the height, then the only time
+  // this will occur is when we enter editing mode.
   if (height > paddedCellHeight) {
     NSInteger labelRowCounts[kMaxNumberOfLabels];
     memset(labelRowCounts, 0, sizeof(NSInteger) * kMaxNumberOfLabels);
@@ -197,20 +212,26 @@ const CGFloat kReorderButtonWidth = 32;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// UITableViewCell
-
-- (void)prepareForReuse {
-  self.object = nil;
-  [super prepareForReuse];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 - (id)object {
   return nil;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark UITableViewCell
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)prepareForReuse {
+  self.object = nil;
+
+  [super prepareForReuse];
 }
 
 @end

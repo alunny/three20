@@ -18,6 +18,7 @@
 
 #import "LongLinesTableStyleSheet.h"
 #import "SectionedSortableDataSource.h"
+#import "TableViewVarHeightDelegate.h"
 
 static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do\
  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\
@@ -293,7 +294,7 @@ characters and followed by this URL http://bit.ly/1234"]],
 }
 
 // Enable this block to play with the table delegate.
-#if 0
+#if 1
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id<UITableViewDelegate>)createDelegate {

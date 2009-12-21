@@ -25,7 +25,7 @@ extern const CGFloat kReorderButtonWidth;
 @class TTTableStyleSheet;
 
 /**
- * The base class for table cells which are single-object based.
+ * The base class for Three20 table cells.
  *
  * TTTableViewDataSource initializes each cell that it creates by assigning it the object
  * that the data source returned for the row. The responsibility for initializing the table cell
@@ -35,25 +35,41 @@ extern const CGFloat kReorderButtonWidth;
  *
  * Subclasses should implement the object getter and setter.  The base implementations do
  * nothing, allowing you to store the object yourself using the appropriate type.
+ *
+ * Each table data source has its own style sheet. When cells are created, the stylesheet is set.
  */
 @interface TTTableViewCell : UITableViewCell {
   TTTableStyleSheet* _styleSheet;
 }
 
-@property(nonatomic,retain) id object;
-@property(nonatomic,assign) TTTableStyleSheet* styleSheet;
+@property (nonatomic, retain) id object;
+@property (nonatomic, assign) TTTableStyleSheet* styleSheet;
 
 /**
  * Measure the height of the row with the given table view.
  *
- * @param  tableView      Used to determine if we are editing.
+ * This method is designed to be overwritten.
+ *
+ * @param  tableView      Make it possible to query the table for state information.
+ * @param  indexPath      This cell's index path in the table.
+ *
  * @return The necessary number of vertical pixels required to draw this cell.
  * @default TT_ROW_HEIGHT
  */
 - (CGFloat)rowHeightWithTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath;
 
 /**
- * Calculate the width of the row with the given table view and considering accessory types.
+ * Calculate the width of the row with the given table view. Considers accessory types and
+ * indentation in the calculations.
+ *
+ * This method makes it possible to accurately predict the eventual size of the table view cell
+ * when layoutSubviews is called.
+ *
+ * @param  tableView      Make it possible to query the table for state information.
+ * @param  indexPath      This cell's index path in the table.
+ * @param  padding        The left and right padding are considered in the content width.
+ *
+ * @return The content width for this cell considering accessory types and state information.
  */
 - (CGFloat)contentWidthWithTableView: (UITableView*)tableView
                            indexPath: (NSIndexPath*)indexPath
