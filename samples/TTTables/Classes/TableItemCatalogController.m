@@ -104,6 +104,12 @@ characters and followed by this URL http://bit.ly/1234"]],
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return TTIsSupportedOrientation(interfaceOrientation);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didSwitchGroup:(UISwitch*)theSwitch {
   if (theSwitch.on) {
     self.tableViewStyle = UITableViewStyleGrouped;
