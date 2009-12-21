@@ -14,9 +14,15 @@
 // limitations under the License.
 //
 
-#import "Atlas.h"
+@class InsetItem;
 
-NSString* kRootURLPath              = @"tt://root";
-NSString* kItemCatalogURLPath       = @"tt://catalog/items";
-NSString* kItemImageCatalogURLPath  = @"tt://catalog/imageitems";
-NSString* kCustomTableItemURLPath   = @"tt://catalog/customtableitem";
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@interface InsetItemCell : TTTableViewCell {
+@protected
+  InsetItem*  _item;
+  TTView*     _insetView;
+}
+
+@end

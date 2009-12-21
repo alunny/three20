@@ -14,42 +14,42 @@
 // limitations under the License.
 //
 
-#import "RootMenuController.h"
+#import "CustomTableItemController.h"
 
-#import "Atlas.h"
+#import "InsetItem.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation RootMenuController
+@implementation CustomTableItemController
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
   if (self = [super init]) {
-    self.title = @"Table Catalog";
+    self.title = @"Table Item Catalog";
+
+    self.variableHeightRows = YES;
 
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
-      @"",
-      [[[TTTableTitleItem item]
-        applyTitle:@"Item Catalog"]
-        applyURLPath:kItemCatalogURLPath],
-      [[[TTTableTitleItem item]
-        applyTitle:@"Image Item Catalog"]
-        applyURLPath:kItemImageCatalogURLPath],
-      [[[TTTableTitleItem item]
-        applyTitle:@"Custom Table Item"]
-        applyURLPath:kCustomTableItemURLPath],
+      @"Inset Item",
+      [[TTTableTitleItem item]
+        applyTitle:@"TTTableTitleItem"],
+      [InsetItem item],
+      [[TTTableTitleItem item]
+        applyTitle:@"TTTableTitleItem"],
+      [InsetItem item],
+      [[TTTableTitleItem item]
+        applyTitle:@"TTTableTitleItem"],
+      [InsetItem item],
+      [[TTTableTitleItem item]
+        applyTitle:@"TTTableTitleItem"],
+      [InsetItem item],
       nil];
   }
+
   return self;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  return TTIsSupportedOrientation(interfaceOrientation);
 }
 
 

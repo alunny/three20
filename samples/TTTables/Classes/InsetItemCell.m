@@ -14,50 +14,47 @@
 // limitations under the License.
 //
 
-#import "AppDelegate.h"
+#import "InsetItemCell.h"
 
-#import "Atlas.h"
+#import "InsetItem.h"
 
-#import "RootMenuController.h"
-#import "TableItemCatalogController.h"
-#import "TableImageItemCatalogController.h"
-#import "CustomTableItemController.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation AppDelegate
+@implementation InsetItemCell
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-  TTNavigator* navigator = [TTNavigator navigator];
-  navigator.persistenceMode = TTNavigatorPersistenceModeAll;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
+  if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier]) {
+    _insetView = [[TTView alloc] init];
 
-  TTURLMap* map = navigator.URLMap;
+    _insetView.style = 
+      [TTShapeStyle styleWithShape:[TTRectangleShape shape] next:
+      [TTSolidFillStyle styleWithColor:[UIColor lightGrayColor] next:
+      [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.4) blur:3 offset:CGSizeMake(0, 2)
+        next:nil]]];
 
-  [map from:@"*" toViewController:[TTWebController class]];
-  [map from:kRootURLPath toViewController:[RootMenuController class]];
-  [map from:kItemCatalogURLPath toViewController:[TableItemCatalogController class]];
-  [map from:kItemImageCatalogURLPath toViewController:[TableImageItemCatalogController class]];
-  [map from:kCustomTableItemURLPath toViewController:[CustomTableItemController class]];
-
-  if (![navigator restoreViewControllers]) {
-    [navigator openURL:kRootURLPath animated:NO];
-  }
+    [self.contentView addSubview:_insetView];
+	}
+	return self;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (BOOL)navigator:(TTNavigator*)navigator shouldOpenURL:(NSURL*)URL {
-  return YES;
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_insetView);
+
+	[super dealloc];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)URL {
-  [[TTNavigator navigator] openURL:URL.absoluteString animated:NO];
-  return YES;
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  _insetView.frame = self.contentView.bounds;
 }
 
 

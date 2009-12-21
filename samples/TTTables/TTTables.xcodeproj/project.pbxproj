@@ -19,6 +19,9 @@
 		6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D37210DF20EE00445222 /* TableItemCatalogController.m */; };
 		6E14D4CB10DF369700445222 /* ScalableTableStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D4CA10DF369700445222 /* ScalableTableStyleSheet.m */; };
 		6E14D5AF10DF543300445222 /* TableImageItemCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D5AE10DF543300445222 /* TableImageItemCatalogController.m */; };
+		6E14D60A10DF641000445222 /* InsetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D60910DF641000445222 /* InsetItem.m */; };
+		6E14D60E10DF641C00445222 /* InsetItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D60D10DF641C00445222 /* InsetItemCell.m */; };
+		6E14D61610DF682F00445222 /* CustomTableItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D61510DF682F00445222 /* CustomTableItemController.m */; };
 		EB383B6510BBF62B0000B2D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +70,12 @@
 		6E14D4CA10DF369700445222 /* ScalableTableStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalableTableStyleSheet.m; sourceTree = "<group>"; };
 		6E14D5AD10DF543300445222 /* TableImageItemCatalogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableImageItemCatalogController.h; sourceTree = "<group>"; };
 		6E14D5AE10DF543300445222 /* TableImageItemCatalogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableImageItemCatalogController.m; sourceTree = "<group>"; };
+		6E14D60810DF641000445222 /* InsetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetItem.h; sourceTree = "<group>"; };
+		6E14D60910DF641000445222 /* InsetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetItem.m; sourceTree = "<group>"; };
+		6E14D60C10DF641C00445222 /* InsetItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetItemCell.h; sourceTree = "<group>"; };
+		6E14D60D10DF641C00445222 /* InsetItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetItemCell.m; sourceTree = "<group>"; };
+		6E14D61410DF682F00445222 /* CustomTableItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableItemController.h; sourceTree = "<group>"; };
+		6E14D61510DF682F00445222 /* CustomTableItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableItemController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TTTables-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TTTables-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -95,6 +104,7 @@
 				6E14D33210DF209B00445222 /* Root Menu */,
 				6E14D33310DF20B400445222 /* Table Item Catalog */,
 				6E14D5AC10DF542300445222 /* Table Image Item Catalog */,
+				6E14D60710DF63EC00445222 /* Custom Item */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 			);
@@ -197,6 +207,27 @@
 			name = "Table Image Item Catalog";
 			sourceTree = "<group>";
 		};
+		6E14D60710DF63EC00445222 /* Custom Item */ = {
+			isa = PBXGroup;
+			children = (
+				6E14D60B10DF641300445222 /* Inset */,
+				6E14D61410DF682F00445222 /* CustomTableItemController.h */,
+				6E14D61510DF682F00445222 /* CustomTableItemController.m */,
+			);
+			name = "Custom Item";
+			sourceTree = "<group>";
+		};
+		6E14D60B10DF641300445222 /* Inset */ = {
+			isa = PBXGroup;
+			children = (
+				6E14D60810DF641000445222 /* InsetItem.h */,
+				6E14D60910DF641000445222 /* InsetItem.m */,
+				6E14D60C10DF641C00445222 /* InsetItemCell.h */,
+				6E14D60D10DF641C00445222 /* InsetItemCell.m */,
+			);
+			name = Inset;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -281,6 +312,9 @@
 				6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */,
 				6E14D4CB10DF369700445222 /* ScalableTableStyleSheet.m in Sources */,
 				6E14D5AF10DF543300445222 /* TableImageItemCatalogController.m in Sources */,
+				6E14D60A10DF641000445222 /* InsetItem.m in Sources */,
+				6E14D60E10DF641C00445222 /* InsetItemCell.m in Sources */,
+				6E14D61610DF682F00445222 /* CustomTableItemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
