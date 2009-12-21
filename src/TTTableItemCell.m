@@ -1390,6 +1390,9 @@ static const CGFloat kMaxLabelHeight = 2000;
     [self.contentView addSubview:_activityLabel];
 
     self.activityLabel.text = item.title;
+
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.titleFont);
   }  
 }
 
@@ -1596,7 +1599,7 @@ static const CGFloat kMaxLabelHeight = 2000;
 
   CGFloat contentWidth = self.contentView.width
     - self.styleSheet.padding.left - self.styleSheet.padding.right;
-  CGFloat textContentWidth = contentWidth - _item.control.width;
+  CGFloat textContentWidth = contentWidth - _item.control.width - kControlPadding - kControlPadding;
 
   if (![TTTableControlItemCell shouldRespectControlPadding:_item.control]) {
     textContentWidth += kControlPadding;
@@ -1662,7 +1665,7 @@ static const CGFloat kMaxLabelHeight = 2000;
   }
 
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
-  CGFloat textContentWidth = contentWidth - _item.control.width;
+  CGFloat textContentWidth = contentWidth - _item.control.width - kControlPadding;
 
   CGFloat titleHeight;
 

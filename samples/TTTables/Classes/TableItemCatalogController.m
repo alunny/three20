@@ -103,6 +103,8 @@ characters and followed by this URL http://bit.ly/1234"]],
       [[[TTTableControlItem item]
         applyControl:editingSwitch]
         applyCaption:@"Editing"],
+
+      @"Font scale",
       [[[TTTableControlItem item]
         applyControl:fontMultiplierSlider]
         applyCaption:@"Font scale"],
@@ -138,6 +140,8 @@ characters and followed by this URL http://bit.ly/1234"]],
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didSwitchGroup:(UISwitch*)theSwitch {
+  BOOL wasEditing = self.editing;
+
   if (theSwitch.on) {
     self.tableViewStyle = UITableViewStyleGrouped;
   } else {
@@ -151,6 +155,8 @@ characters and followed by this URL http://bit.ly/1234"]],
 
   // And then create a new one.
   [self showModel:YES];
+
+  self.editing = wasEditing;
 }
 
 
@@ -164,6 +170,7 @@ characters and followed by this URL http://bit.ly/1234"]],
 - (void)didChangeFontMultiplier:(UISlider*)slider {
   _styleSheet.scale = slider.value;
   [self.tableView reloadData];
+  [self.tableView scrollToLastRow:NO];
 }
 
 

@@ -37,55 +37,55 @@
 }
 
 - (UIFont*)subtitleFont {
-  return [UIFont systemFontOfSize:14];
+  return [[super subtitleFont] fontWithSize:14 * _scale];
 }
 
 - (UIFont*)messageFont {
-  return [UIFont systemFontOfSize:14];
+  return [[super messageFont] fontWithSize:14 * _scale];
 }
 
 - (UIFont*)captionFont {
-  return [UIFont boldSystemFontOfSize:13];
+  return [[super captionFont] fontWithSize:13 * _scale];
 }
 
 - (UIFont*)captionTitleFont {
-  return [UIFont boldSystemFontOfSize:15];
+  return [[super captionTitleFont] fontWithSize:15 * _scale];
 }
 
 - (UIFont*)timestampFont {
-  return [UIFont systemFontOfSize:13];
+  return [[super timestampFont] fontWithSize:13 * _scale];
 }
 
 - (UIFont*)summaryFont {
-  return [UIFont systemFontOfSize:17];
+  return [[super summaryFont] fontWithSize:17 * _scale];
 }
 
 - (UIFont*)linkFont {
-  return [UIFont boldSystemFontOfSize:17];
+  return [[super linkFont] fontWithSize:17 * _scale];
 }
 
 - (UIFont*)buttonFont {
-  return [UIFont boldSystemFontOfSize:13];
+  return [[super buttonFont] fontWithSize:13 * _scale];
 }
 
 - (UIFont*)moreButtonFont {
-  return [UIFont boldSystemFontOfSize:15];
+  return [[super moreButtonFont] fontWithSize:15 * _scale];
 }
 
 - (UIFont*)moreButtonSubtitleFont {
-  return [UIFont systemFontOfSize:14];
+  return [[super moreButtonSubtitleFont] fontWithSize:14 * _scale];
 }
 
 - (UIFont*)controlCaptionFont {
-  return [UIFont boldSystemFontOfSize:17];
+  return [[super controlCaptionFont] fontWithSize:17 * _scale];
 }
 
 - (UIFont*)longTextFont {
-  return [UIFont systemFontOfSize:14];
+  return [[super longTextFont] fontWithSize:14 * _scale];
 }
 
 - (UIFont*)styledTextFont {
-  return [UIFont systemFontOfSize:14];
+  return [[super styledTextFont] fontWithSize:14 * _scale];
 }
 
 @end

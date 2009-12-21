@@ -37,7 +37,7 @@
 
 // Captions and timestamps
 - (UIColor*)blueCaptionColor {
-  return RGBCOLOR(36, 112, 216);
+  return RGBCOLOR(103, 121, 159);
 }
 
 // Link and buttons
