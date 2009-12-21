@@ -15,6 +15,8 @@
 		6E14D2F710DF159C00445222 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E14D2F410DF159700445222 /* libThree20.a */; };
 		6E14D30010DF15C700445222 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E14D2FF10DF15C700445222 /* Three20.bundle */; };
 		6E14D31D10DF167700445222 /* RootMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D31C10DF167700445222 /* RootMenuController.m */; };
+		6E14D32F10DF1AE000445222 /* Atlas.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D32E10DF1AE000445222 /* Atlas.m */; };
+		6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E14D37210DF20EE00445222 /* TableItemCatalogController.m */; };
 		EB383B6510BBF62B0000B2D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,10 @@
 		6E14D2FF10DF15C700445222 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../../src/Three20.bundle; sourceTree = SOURCE_ROOT; };
 		6E14D31B10DF167700445222 /* RootMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootMenuController.h; sourceTree = "<group>"; };
 		6E14D31C10DF167700445222 /* RootMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMenuController.m; sourceTree = "<group>"; };
+		6E14D32D10DF1AE000445222 /* Atlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlas.h; sourceTree = "<group>"; };
+		6E14D32E10DF1AE000445222 /* Atlas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atlas.m; sourceTree = "<group>"; };
+		6E14D37110DF20EE00445222 /* TableItemCatalogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableItemCatalogController.h; sourceTree = "<group>"; };
+		6E14D37210DF20EE00445222 /* TableItemCatalogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableItemCatalogController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TTTables-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TTTables-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		EB383B6410BBF62B0000B2D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -78,10 +84,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6E14D32D10DF1AE000445222 /* Atlas.h */,
+				6E14D32E10DF1AE000445222 /* Atlas.m */,
+				6E14D33210DF209B00445222 /* Root Menu */,
+				6E14D33310DF20B400445222 /* Table Item Catalog */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
-				6E14D31B10DF167700445222 /* RootMenuController.h */,
-				6E14D31C10DF167700445222 /* RootMenuController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -143,6 +151,24 @@
 				6E14D2F610DF159700445222 /* UnitTests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6E14D33210DF209B00445222 /* Root Menu */ = {
+			isa = PBXGroup;
+			children = (
+				6E14D31B10DF167700445222 /* RootMenuController.h */,
+				6E14D31C10DF167700445222 /* RootMenuController.m */,
+			);
+			name = "Root Menu";
+			sourceTree = "<group>";
+		};
+		6E14D33310DF20B400445222 /* Table Item Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				6E14D37110DF20EE00445222 /* TableItemCatalogController.h */,
+				6E14D37210DF20EE00445222 /* TableItemCatalogController.m */,
+			);
+			name = "Table Item Catalog";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +251,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				6E14D31D10DF167700445222 /* RootMenuController.m in Sources */,
+				6E14D32F10DF1AE000445222 /* Atlas.m in Sources */,
+				6E14D37310DF20EE00445222 /* TableItemCatalogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

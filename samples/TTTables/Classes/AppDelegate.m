@@ -16,7 +16,10 @@
 
 #import "AppDelegate.h"
 
+#import "Atlas.h"
+
 #import "RootMenuController.h"
+#import "TableItemCatalogController.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,10 +35,11 @@
   TTURLMap* map = navigator.URLMap;
 
   [map from:@"*" toViewController:[TTWebController class]];
-  [map from:@"tt://root" toSharedViewController:[RootMenuController class]];
+  [map from:kRootURLPath toViewController:[RootMenuController class]];
+  [map from:kItemCatalogURLPath toViewController:[TableItemCatalogController class]];
 
   if (![navigator restoreViewControllers]) {
-    [navigator openURL:@"tt://root" animated:NO];
+    [navigator openURL:kRootURLPath animated:NO];
   }
 }
 
