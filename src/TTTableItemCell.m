@@ -75,6 +75,8 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableLinkedItem class]]);
+
     // We've just ensured that _item != object, so a release/retain is fine here.
     [_item release];
     _item = [object retain];
@@ -257,6 +259,8 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableImageLinkedItem class]]);
+
     // We've just ensured that _item != object, so a release/retain is fine here.
     [super setObject:object];
 
@@ -367,23 +371,23 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableTitleItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableTitleItem* item = object;
+    TTTableTitleItem* item = object;
 
-      self.textLabel.text = item.title;
+    self.textLabel.text = item.title;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.titleFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [self.styleSheet titleFont];
-      self.textLabel.textColor            = [self.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
-    }
+    self.textLabel.font                 = [self.styleSheet titleFont];
+    self.textLabel.textColor            = [self.styleSheet titleColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
   }  
 }
 
@@ -499,32 +503,32 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableSubtitleItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableSubtitleItem* item = object;
-      self.textLabel.text = item.title;
-      self.detailTextLabel.text = item.subtitle;
+    TTTableSubtitleItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.titleFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [self.styleSheet titleFont];
-      self.textLabel.textColor            = [self.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
+    self.textLabel.font                 = [self.styleSheet titleFont];
+    self.textLabel.textColor            = [self.styleSheet titleColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
 
-      TTDASSERT(nil != self.styleSheet.subtitleFont);
+    TTDASSERT(nil != self.styleSheet.subtitleFont);
 
-      self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
-      self.detailTextLabel.textColor            = [self.styleSheet subtitleColor];
-      self.detailTextLabel.highlightedTextColor = [self.styleSheet subtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
-    }
+    self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
+    self.detailTextLabel.textColor            = [self.styleSheet subtitleColor];
+    self.detailTextLabel.highlightedTextColor = [self.styleSheet subtitleHighlightedColor];
+    self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
+    self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
+    self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
   }  
 }
 
@@ -703,51 +707,51 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableMessageItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableMessageItem* item = object;
-      self.textLabel.text = item.title;
-      self.detailTextLabel.text = item.subtitle;
-      self.messageLabel.text = item.message;
-      self.timestampLabel.text = [item.timestamp formatShortTime];
+    TTTableMessageItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
+    self.messageLabel.text = item.message;
+    self.timestampLabel.text = [item.timestamp formatShortTime];
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.titleFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.titleFont);
 
-      self.textLabel.font                 = [self.styleSheet titleFont];
-      self.textLabel.textColor            = [self.styleSheet titleColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
+    self.textLabel.font                 = [self.styleSheet titleFont];
+    self.textLabel.textColor            = [self.styleSheet titleColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet titleHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet titleLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet titleNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet titleTextAlignment];
 
-      TTDASSERT(nil != self.styleSheet.subtitleFont);
+    TTDASSERT(nil != self.styleSheet.subtitleFont);
 
-      self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
-      self.detailTextLabel.textColor            = [self.styleSheet messageSubtitleColor];
-      self.detailTextLabel.highlightedTextColor =
-        [self.styleSheet messageSubtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
+    self.detailTextLabel.font                 = [self.styleSheet subtitleFont];
+    self.detailTextLabel.textColor            = [self.styleSheet messageSubtitleColor];
+    self.detailTextLabel.highlightedTextColor =
+      [self.styleSheet messageSubtitleHighlightedColor];
+    self.detailTextLabel.lineBreakMode        = [self.styleSheet subtitleLineBreakMode];
+    self.detailTextLabel.numberOfLines        = [self.styleSheet subtitleNumberOfLines];
+    self.detailTextLabel.textAlignment        = [self.styleSheet subtitleTextAlignment];
 
-      TTDASSERT(nil != self.styleSheet.messageFont);
+    TTDASSERT(nil != self.styleSheet.messageFont);
 
-      self.messageLabel.font                 = [self.styleSheet messageFont];
-      self.messageLabel.textColor            = [self.styleSheet messageColor];
-      self.messageLabel.highlightedTextColor = [self.styleSheet messageHighlightedColor];
-      self.messageLabel.lineBreakMode        = [self.styleSheet messageLineBreakMode];
-      self.messageLabel.numberOfLines        = [self.styleSheet messageNumberOfLines];
-      self.messageLabel.textAlignment        = [self.styleSheet messageTextAlignment];
+    self.messageLabel.font                 = [self.styleSheet messageFont];
+    self.messageLabel.textColor            = [self.styleSheet messageColor];
+    self.messageLabel.highlightedTextColor = [self.styleSheet messageHighlightedColor];
+    self.messageLabel.lineBreakMode        = [self.styleSheet messageLineBreakMode];
+    self.messageLabel.numberOfLines        = [self.styleSheet messageNumberOfLines];
+    self.messageLabel.textAlignment        = [self.styleSheet messageTextAlignment];
 
-      TTDASSERT(nil != self.styleSheet.timestampFont);
+    TTDASSERT(nil != self.styleSheet.timestampFont);
 
-      self.timestampLabel.font                 = [self.styleSheet timestampFont];
-      self.timestampLabel.textColor            = [self.styleSheet timestampColor];
-      self.timestampLabel.highlightedTextColor = [self.styleSheet timestampHighlightedColor];
-      self.timestampLabel.textAlignment        = [self.styleSheet timestampTextAlignment];
-    }
+    self.timestampLabel.font                 = [self.styleSheet timestampFont];
+    self.timestampLabel.textColor            = [self.styleSheet timestampColor];
+    self.timestampLabel.highlightedTextColor = [self.styleSheet timestampHighlightedColor];
+    self.timestampLabel.textAlignment        = [self.styleSheet timestampTextAlignment];
   }
 }
 
@@ -835,35 +839,35 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableCaptionItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableCaptionItem* item = object;
-      self.textLabel.text = item.caption;
-      self.detailTextLabel.text = item.title;
+    TTTableCaptionItem* item = object;
+    self.textLabel.text = item.caption;
+    self.detailTextLabel.text = item.title;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.captionFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.captionFont);
 
-      self.textLabel.font                      = [self.styleSheet captionFont];
-      self.textLabel.textColor                 = [self.styleSheet captionColor];
-      self.textLabel.highlightedTextColor      = [self.styleSheet captionHighlightedColor];
-      self.textLabel.lineBreakMode             = [self.styleSheet captionLineBreakMode];
-      self.textLabel.numberOfLines             = [self.styleSheet captionNumberOfLines];
-      self.textLabel.textAlignment             = [self.styleSheet captionTextAlignment];
-      self.textLabel.adjustsFontSizeToFitWidth =
-        [self.styleSheet captionAdjustsFontSizeToFitWidth];
-      self.textLabel.minimumFontSize           = [self.styleSheet captionMinimumFontSize];
+    self.textLabel.font                      = [self.styleSheet captionFont];
+    self.textLabel.textColor                 = [self.styleSheet captionColor];
+    self.textLabel.highlightedTextColor      = [self.styleSheet captionHighlightedColor];
+    self.textLabel.lineBreakMode             = [self.styleSheet captionLineBreakMode];
+    self.textLabel.numberOfLines             = [self.styleSheet captionNumberOfLines];
+    self.textLabel.textAlignment             = [self.styleSheet captionTextAlignment];
+    self.textLabel.adjustsFontSizeToFitWidth =
+      [self.styleSheet captionAdjustsFontSizeToFitWidth];
+    self.textLabel.minimumFontSize           = [self.styleSheet captionMinimumFontSize];
 
-      TTDASSERT(nil != self.styleSheet.captionTitleFont);
+    TTDASSERT(nil != self.styleSheet.captionTitleFont);
 
-      self.detailTextLabel.font                 = [self.styleSheet captionTitleFont];
-      self.detailTextLabel.textColor            = [self.styleSheet captionTitleColor];
-      self.detailTextLabel.highlightedTextColor = [self.styleSheet captionTitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        = [self.styleSheet captionTitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        = [self.styleSheet captionTitleNumberOfLines];
-      self.detailTextLabel.textAlignment        = [self.styleSheet captionTitleTextAlignment];
-    }
+    self.detailTextLabel.font                 = [self.styleSheet captionTitleFont];
+    self.detailTextLabel.textColor            = [self.styleSheet captionTitleColor];
+    self.detailTextLabel.highlightedTextColor = [self.styleSheet captionTitleHighlightedColor];
+    self.detailTextLabel.lineBreakMode        = [self.styleSheet captionTitleLineBreakMode];
+    self.detailTextLabel.numberOfLines        = [self.styleSheet captionTitleNumberOfLines];
+    self.detailTextLabel.textAlignment        = [self.styleSheet captionTitleTextAlignment];
   }  
 }
 
@@ -928,29 +932,29 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableSummaryItem class]]);
+
     // We've just ensured that _item != object, so a release/retain is fine here.
     [_item release];
     _item = [object retain];
 
-    if (nil != object) {
-      TTTableSummaryItem* item = object;
-      self.textLabel.text = item.title;
+    TTTableSummaryItem* item = object;
+    self.textLabel.text = item.title;
 
-      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.summaryFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.summaryFont);
 
-      self.textLabel.font                      = [self.styleSheet summaryFont];
-      self.textLabel.textColor                 = [self.styleSheet summaryColor];
-      self.textLabel.highlightedTextColor      = [self.styleSheet summaryHighlightedColor];
-      self.textLabel.lineBreakMode             = [self.styleSheet summaryLineBreakMode];
-      self.textLabel.numberOfLines             = [self.styleSheet summaryNumberOfLines];
-      self.textLabel.textAlignment             = [self.styleSheet summaryTextAlignment];
-      self.textLabel.adjustsFontSizeToFitWidth =
-        [self.styleSheet summaryAdjustsFontSizeToFitWidth];
-      self.textLabel.minimumFontSize           = [self.styleSheet summaryMinimumFontSize];
-    }
+    self.textLabel.font                      = [self.styleSheet summaryFont];
+    self.textLabel.textColor                 = [self.styleSheet summaryColor];
+    self.textLabel.highlightedTextColor      = [self.styleSheet summaryHighlightedColor];
+    self.textLabel.lineBreakMode             = [self.styleSheet summaryLineBreakMode];
+    self.textLabel.numberOfLines             = [self.styleSheet summaryNumberOfLines];
+    self.textLabel.textAlignment             = [self.styleSheet summaryTextAlignment];
+    self.textLabel.adjustsFontSizeToFitWidth =
+      [self.styleSheet summaryAdjustsFontSizeToFitWidth];
+    self.textLabel.minimumFontSize           = [self.styleSheet summaryMinimumFontSize];
   }  
 }
 
@@ -1019,22 +1023,22 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableTitleItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableTitleItem* item = object;
-      self.textLabel.text = item.title;
+    TTTableTitleItem* item = object;
+    self.textLabel.text = item.title;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.linkFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.linkFont);
 
-      self.textLabel.font                 = [self.styleSheet linkFont];
-      self.textLabel.textColor            = [self.styleSheet linkColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet linkHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet linkLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet linkNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet linkTextAlignment];
-    }
+    self.textLabel.font                 = [self.styleSheet linkFont];
+    self.textLabel.textColor            = [self.styleSheet linkColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet linkHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet linkLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet linkNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet linkTextAlignment];
   }
 }
 
@@ -1083,29 +1087,29 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableButtonItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableButtonItem* item = object;
-      self.textLabel.text = item.title;
+    TTTableButtonItem* item = object;
+    self.textLabel.text = item.title;
 
-      self.accessoryType = UITableViewCellAccessoryNone;
-      if (TTIsStringWithAnyText(item.urlPath)) {
-        self.selectionStyle = [self.styleSheet selectionStyle];
-      } else {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-      }
-
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.buttonFont);
-
-      self.textLabel.font                      = [self.styleSheet buttonFont];
-      self.textLabel.textColor                 = [self.styleSheet buttonColor];
-      self.textLabel.highlightedTextColor      = [self.styleSheet buttonHighlightedColor];
-      self.textLabel.lineBreakMode             = [self.styleSheet buttonLineBreakMode];
-      self.textLabel.numberOfLines             = [self.styleSheet buttonNumberOfLines];
-      self.textLabel.textAlignment             = [self.styleSheet buttonTextAlignment];
+    self.accessoryType = UITableViewCellAccessoryNone;
+    if (TTIsStringWithAnyText(item.urlPath)) {
+      self.selectionStyle = [self.styleSheet selectionStyle];
+    } else {
+      self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.buttonFont);
+
+    self.textLabel.font                      = [self.styleSheet buttonFont];
+    self.textLabel.textColor                 = [self.styleSheet buttonColor];
+    self.textLabel.highlightedTextColor      = [self.styleSheet buttonHighlightedColor];
+    self.textLabel.lineBreakMode             = [self.styleSheet buttonLineBreakMode];
+    self.textLabel.numberOfLines             = [self.styleSheet buttonNumberOfLines];
+    self.textLabel.textAlignment             = [self.styleSheet buttonTextAlignment];
   }
 }
 
@@ -1238,42 +1242,42 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableMoreButtonItem class]]);
+
     // We've just ensured that _item != object, so a release/retain is fine here.
     [_item release];
     _item = [object retain];
 
-    if (nil != object) {
-      TTTableMoreButtonItem* item = object;
-      self.textLabel.text = item.title;
-      self.detailTextLabel.text = item.subtitle;
-      self.animating = item.isLoading;
+    TTTableMoreButtonItem* item = object;
+    self.textLabel.text = item.title;
+    self.detailTextLabel.text = item.subtitle;
+    self.animating = item.isLoading;
 
-      self.accessoryType = UITableViewCellAccessoryNone;
-      self.selectionStyle = [self.styleSheet selectionStyle];
+    self.accessoryType = UITableViewCellAccessoryNone;
+    self.selectionStyle = [self.styleSheet selectionStyle];
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.moreButtonFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.moreButtonFont);
 
-      self.textLabel.font                 = [self.styleSheet moreButtonFont];
-      self.textLabel.textColor            = [self.styleSheet moreButtonColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet moreButtonHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet moreButtonLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet moreButtonNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet moreButtonTextAlignment];
+    self.textLabel.font                 = [self.styleSheet moreButtonFont];
+    self.textLabel.textColor            = [self.styleSheet moreButtonColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet moreButtonHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet moreButtonLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet moreButtonNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet moreButtonTextAlignment];
 
-      TTDASSERT(nil != self.styleSheet.moreButtonSubtitleFont);
+    TTDASSERT(nil != self.styleSheet.moreButtonSubtitleFont);
 
-      self.detailTextLabel.font                 = [self.styleSheet moreButtonSubtitleFont];
-      self.detailTextLabel.textColor            = [self.styleSheet moreButtonSubtitleColor];
-      self.detailTextLabel.highlightedTextColor =
-        [self.styleSheet moreButtonSubtitleHighlightedColor];
-      self.detailTextLabel.lineBreakMode        =
-        [self.styleSheet moreButtonSubtitleLineBreakMode];
-      self.detailTextLabel.numberOfLines        =
-        [self.styleSheet moreButtonSubtitleNumberOfLines];
-      self.detailTextLabel.textAlignment        =
-        [self.styleSheet moreButtonSubtitleTextAlignment];
-    }
+    self.detailTextLabel.font                 = [self.styleSheet moreButtonSubtitleFont];
+    self.detailTextLabel.textColor            = [self.styleSheet moreButtonSubtitleColor];
+    self.detailTextLabel.highlightedTextColor =
+      [self.styleSheet moreButtonSubtitleHighlightedColor];
+    self.detailTextLabel.lineBreakMode        =
+      [self.styleSheet moreButtonSubtitleLineBreakMode];
+    self.detailTextLabel.numberOfLines        =
+      [self.styleSheet moreButtonSubtitleNumberOfLines];
+    self.detailTextLabel.textAlignment        =
+      [self.styleSheet moreButtonSubtitleTextAlignment];
   }  
 }
 
@@ -1349,26 +1353,26 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableActivityItem class]]);
+
     // We've just ensured that _item != object, so a release/retain is fine here.
     [_item release];
     _item = [object retain];
 
-    if (nil != object) {
-      TTTableActivityItem* item = object;
+    TTTableActivityItem* item = object;
 
-      self.accessoryType = UITableViewCellAccessoryNone;
-      self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accessoryType = UITableViewCellAccessoryNone;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-      TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet);
 
-      [_activityLabel removeFromSuperview];
-      TT_RELEASE_SAFELY(_activityLabel);
-      _activityLabel = [[TTActivityLabel alloc]
-        initWithStyle:[self.styleSheet activityLabelStyle]];
-      [self.contentView addSubview:_activityLabel];
+    [_activityLabel removeFromSuperview];
+    TT_RELEASE_SAFELY(_activityLabel);
+    _activityLabel = [[TTActivityLabel alloc]
+      initWithStyle:[self.styleSheet activityLabelStyle]];
+    [self.contentView addSubview:_activityLabel];
 
-      self.activityLabel.text = item.title;
-    }
+    self.activityLabel.text = item.title;
   }  
 }
 
@@ -1465,24 +1469,24 @@ static const CGFloat kMaxLabelHeight = 2000;
 
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableStyledTextItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableStyledTextItem* item = object;
-      if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
-        _label.text = item.styledText;
-        _label.contentInset = item.padding;
-      } else if ([item isKindOfClass:[TTStyledText class]]) {
-        _label.text = (TTStyledText*)item;
-        _label.contentInset = UIEdgeInsetsZero;
-      } else {
-        _label.text = nil;
-        _label.contentInset = UIEdgeInsetsZero;    
-      }
+    TTTableStyledTextItem* item = object;
+    if ([item isKindOfClass:[TTTableStyledTextItem class]]) {
+      _label.text = item.styledText;
+      _label.contentInset = item.padding;
+    } else if ([item isKindOfClass:[TTStyledText class]]) {
+      _label.text = (TTStyledText*)item;
+      _label.contentInset = UIEdgeInsetsZero;
+    } else {
+      _label.text = nil;
+      _label.contentInset = UIEdgeInsetsZero;    
+    }
 
-      if (!_label.text.font) {
-        _label.text.font = [self.styleSheet styledTextFont];
-      }
+    if (!_label.text.font) {
+      _label.text.font = [self.styleSheet styledTextFont];
     }
   }  
 }
@@ -1672,7 +1676,7 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (object != _item) {
-    TTDASSERT([object isKindOfClass:[TTTableControlItem class]]);
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableControlItem class]]);
 
     [_item.control removeFromSuperview];
 
@@ -1680,7 +1684,7 @@ static const CGFloat kMaxLabelHeight = 2000;
     [_item release];
     _item = [object retain];
 
-    if (_item.control) {
+    if (nil != _item.control) {
       [self.contentView addSubview:_item.control];
     }
     self.textLabel.text = _item.caption;
@@ -1766,22 +1770,22 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
   if (_item != object) {
+    TTDASSERT(nil == object || [object isKindOfClass:[TTTableLongTextItem class]]);
+
     [super setObject:object];
 
-    if (nil != object) {
-      TTTableLongTextItem* item = object;
-      self.textLabel.text = item.text;
+    TTTableLongTextItem* item = object;
+    self.textLabel.text = item.text;
 
-      TTDASSERT(nil != self.styleSheet);
-      TTDASSERT(nil != self.styleSheet.longTextFont);
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.longTextFont);
 
-      self.textLabel.font                 = [self.styleSheet longTextFont];
-      self.textLabel.textColor            = [self.styleSheet longTextColor];
-      self.textLabel.highlightedTextColor = [self.styleSheet longTextHighlightedColor];
-      self.textLabel.lineBreakMode        = [self.styleSheet longTextLineBreakMode];
-      self.textLabel.numberOfLines        = [self.styleSheet longTextNumberOfLines];
-      self.textLabel.textAlignment        = [self.styleSheet longTextTextAlignment];
-    }
+    self.textLabel.font                 = [self.styleSheet longTextFont];
+    self.textLabel.textColor            = [self.styleSheet longTextColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet longTextHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet longTextLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet longTextNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet longTextTextAlignment];
   }  
 }
 
