@@ -16,6 +16,8 @@
 
 #import "TableItemCatalogController.h"
 
+#import "ScalableTableStyleSheet.h"
+
 static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do\
  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\
   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -47,7 +49,16 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
     editingSwitch.on = self.editing;
 
-    self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
+    UISlider* fontMultiplierSlider = [[UISlider alloc] init];
+    fontMultiplierSlider.minimumValue = 0.1;
+    fontMultiplierSlider.maximumValue = 10;
+    fontMultiplierSlider.value = 1.0;
+    fontMultiplierSlider.continuous = NO;
+    [fontMultiplierSlider addTarget:self
+                             action:@selector(didChangeFontMultiplier:)
+                   forControlEvents:UIControlEventValueChanged];
+
+    TTSectionedDataSource* dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"The items",
       [[TTTableTitleItem item]
         applyTitle:@"TTTableTitleItem"],
@@ -92,14 +103,30 @@ characters and followed by this URL http://bit.ly/1234"]],
       [[[TTTableControlItem item]
         applyControl:editingSwitch]
         applyCaption:@"Editing"],
+      [[[TTTableControlItem item]
+        applyControl:fontMultiplierSlider]
+        applyCaption:@"Font scale"],
 
       nil];
 
+    _styleSheet = [[ScalableTableStyleSheet alloc] init];
+    dataSource.styleSheet = _styleSheet;
+    self.dataSource = dataSource;
+
     TT_RELEASE_SAFELY(groupedSwitch);
     TT_RELEASE_SAFELY(editingSwitch);
+    TT_RELEASE_SAFELY(fontMultiplierSlider);
   }
 
   return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_styleSheet);
+
+  [super dealloc];
 }
 
 
@@ -130,6 +157,13 @@ characters and followed by this URL http://bit.ly/1234"]],
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didSwitchEditing:(UISwitch*)theSwitch {
   [self setEditing:theSwitch.on animated:YES];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)didChangeFontMultiplier:(UISlider*)slider {
+  _styleSheet.scale = slider.value;
+  [self.tableView reloadData];
 }
 
 
