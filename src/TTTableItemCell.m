@@ -1496,55 +1496,60 @@ static const CGFloat kMaxLabelHeight = 2000;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableControlItemCell
 
-@synthesize item = _item, control = _control;
+@synthesize item = _item;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// class private
-
 + (BOOL)shouldConsiderControlIntrinsicSize:(UIView*)view {
   return [view isKindOfClass:[UISwitch class]];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (BOOL)shouldSizeControlToFit:(UIView*)view {
   return [view isKindOfClass:[UITextView class]]
          || [view isKindOfClass:[TTTextEditor class]]
          || [view isKindOfClass:[UISlider class]];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (BOOL)shouldRespectControlPadding:(UIView*)view {
   return [view isKindOfClass:[UITextField class]];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSObject
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)identifier {
   if (self = [super initWithStyle:style reuseIdentifier:identifier]) {
     _item = nil;
-    _control = nil;
 	}
 	return self;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   TT_RELEASE_SAFELY(_item);
-  TT_RELEASE_SAFELY(_control);
+
 	[super dealloc];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutSubviews {
   [super layoutSubviews];
 
-  if ([TTTableControlItemCell shouldSizeControlToFit:_control]) {
-    if ([_control isKindOfClass:[UISlider class]]) {
-      _control.frame = CGRectInset(self.contentView.bounds, kControlPadding, 0);
+  if ([TTTableControlItemCell shouldSizeControlToFit:_item.control]) {
+    if ([_item.control isKindOfClass:[UISlider class]]) {
+      _item.control.frame = CGRectInset(self.contentView.bounds, kControlPadding, 0);
     } else {
-      _control.frame = CGRectInset(self.contentView.bounds, 2, kSpacing/2);
+      _item.control.frame = CGRectInset(self.contentView.bounds, 2, kSpacing/2);
     }
   } else {
     CGFloat minX = kControlPadding;
     CGFloat contentWidth = self.contentView.width - kControlPadding;
-    if (![TTTableControlItemCell shouldRespectControlPadding:_control]) {
+    if (![TTTableControlItemCell shouldRespectControlPadding:_item.control]) {
       contentWidth -= kControlPadding;
     }
     if (self.textLabel.text.length) {
@@ -1553,35 +1558,50 @@ static const CGFloat kMaxLabelHeight = 2000;
       minX += textSize.width + kSpacing;
     }
 
-    if (!_control.height) {
-      [_control sizeToFit];
+    if (!_item.control.height) {
+      [_item.control sizeToFit];
     }
     
-    if ([TTTableControlItemCell shouldConsiderControlIntrinsicSize:_control]) {
-      minX += contentWidth - _control.width;
+    if ([TTTableControlItemCell shouldConsiderControlIntrinsicSize:_item.control]) {
+      minX += contentWidth - _item.control.width;
     }
     
     // XXXjoe For some reason I need to re-add the control as a subview or else
     // the re-use of the cell will cause the control to fail to paint itself on occasion
-    [self.contentView addSubview:_control];
-    _control.frame = CGRectMake(minX, floor((self.contentView.height - _control.height) / 2),
-                                contentWidth, _control.height);
+    [self.contentView addSubview:_item.control];
+    _item.control.frame = CGRectMake(minX, floor((self.contentView.height - _item.control.height) / 2),
+                                contentWidth, _item.control.height);
   }
 
   CGFloat contentWidth = self.contentView.width
     - self.styleSheet.padding.left - self.styleSheet.padding.right;
-  CGFloat textContentWidth = contentWidth - _control.width;
+  CGFloat textContentWidth = contentWidth - _item.control.width;
 
-  if (![TTTableControlItemCell shouldRespectControlPadding:_control]) {
+  if (![TTTableControlItemCell shouldRespectControlPadding:_item.control]) {
     textContentWidth += kControlPadding;
   }
 
-  CGFloat titleHeight = [self.textLabel heightWithWidth:textContentWidth];
+  CGFloat titleHeight;
+  if ([TTTableControlItemCell shouldSizeControlToFit:_item.control]) {
+    titleHeight = 0;
+  } else {
+    titleHeight = [self.textLabel heightWithWidth:textContentWidth];
+  }
 
   self.textLabel.frame =
     CGRectMake(self.styleSheet.padding.left, floor((self.contentView.height - titleHeight) / 2),
                textContentWidth, titleHeight);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)didMoveToSuperview {
+  [super didMoveToSuperview];
+  if (self.superview) {
+    _item.control.backgroundColor = self.backgroundColor;
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark TTTableViewCell
@@ -1627,11 +1647,11 @@ static const CGFloat kMaxLabelHeight = 2000;
   }
 
   CGFloat contentWidth = [self contentWidthWithTableView:tableView indexPath:indexPath];
-  CGFloat textContentWidth = contentWidth - _control.width;
+  CGFloat textContentWidth = contentWidth - _item.control.width;
 
   CGFloat titleHeight;
 
-  if ([TTTableControlItemCell shouldSizeControlToFit:_control]) {
+  if ([TTTableControlItemCell shouldSizeControlToFit:_item.control]) {
     titleHeight = 0;
   } else {
     titleHeight = [self.textLabel heightWithWidth:textContentWidth];
@@ -1643,33 +1663,42 @@ static const CGFloat kMaxLabelHeight = 2000;
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)object {
-  return _item ? _item : (id)_control;
+  return _item;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setObject:(id)object {
-  if (object != _control && object != _item) {
-    [_control removeFromSuperview];
-    TT_RELEASE_SAFELY(_control);
-    TT_RELEASE_SAFELY(_item);
+  if (object != _item) {
+    TTDASSERT([object isKindOfClass:[TTTableControlItem class]]);
 
-    if ([object isKindOfClass:[UIView class]]) {
-      _control = [object retain];
-    } else if ([object isKindOfClass:[TTTableControlItem class]]) {
-      _item = [object retain];
-      _control = [_item.control retain];
+    [_item.control removeFromSuperview];
+
+    // We've just ensured that _item != object, so a release/retain is fine here.
+    [_item release];
+    _item = [object retain];
+
+    if (_item.control) {
+      [self.contentView addSubview:_item.control];
     }
-
-    _control.backgroundColor = [UIColor clearColor];
     self.textLabel.text = _item.caption;
 
-    if (_control) {
-      [self.contentView addSubview:_control];
-    }
+    TTDASSERT(nil != self.styleSheet);
+    TTDASSERT(nil != self.styleSheet.controlCaptionFont);
+
+    self.textLabel.font                 = [self.styleSheet controlCaptionFont];
+    self.textLabel.textColor            = [self.styleSheet controlCaptionColor];
+    self.textLabel.highlightedTextColor = [self.styleSheet controlCaptionHighlightedColor];
+    self.textLabel.lineBreakMode        = [self.styleSheet controlCaptionLineBreakMode];
+    self.textLabel.numberOfLines        = [self.styleSheet controlCaptionNumberOfLines];
+    self.textLabel.textAlignment        = [self.styleSheet controlCaptionTextAlignment];
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
   }
 }
+
 
 @end
 

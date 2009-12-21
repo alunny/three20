@@ -143,6 +143,14 @@
   return [self highlightedColor];
 }
 
+- (UIColor*)controlCaptionColor {
+  return [UIColor blackColor];
+}
+
+- (UIColor*)controlCaptionHighlightedColor {
+  return [self highlightedColor];
+}
+
 - (UIColor*)longTextColor {
   return [UIColor blackColor];
 }
@@ -193,6 +201,10 @@
 
 - (UIFont*)moreButtonSubtitleFont {
   return [UIFont systemFontOfSize:14];
+}
+
+- (UIFont*)controlCaptionFont {
+  return [UIFont boldSystemFontOfSize:17];
 }
 
 - (UIFont*)longTextFont {
@@ -356,6 +368,19 @@
 }
 
 - (UITextAlignment)moreButtonSubtitleTextAlignment {
+  return UITextAlignmentLeft;
+}
+
+
+- (UILineBreakMode)controlCaptionLineBreakMode {
+  return UILineBreakModeTailTruncation;
+}
+
+- (NSInteger)controlCaptionNumberOfLines {
+  return 1;
+}
+
+- (UITextAlignment)controlCaptionTextAlignment {
   return UITextAlignmentLeft;
 }
 

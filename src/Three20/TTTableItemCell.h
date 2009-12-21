@@ -132,11 +132,9 @@
 @interface TTTableControlItemCell : TTTableViewCell {
 @protected
   TTTableControlItem* _item;
-  UIControl*          _control;
 }
 
-@property(nonatomic,readonly,retain) TTTableControlItem*  item;
-@property(nonatomic,readonly,retain) UIControl*           control;
+@property(nonatomic,readonly,retain) TTTableControlItem* item;
 
 @end
 

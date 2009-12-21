@@ -46,6 +46,8 @@
 -(UIColor*) moreButtonHighlightedColor;
 -(UIColor*) moreButtonSubtitleColor;
 -(UIColor*) moreButtonSubtitleHighlightedColor;
+-(UIColor*) controlCaptionColor;
+-(UIColor*) controlCaptionHighlightedColor;
 -(UIColor*) longTextColor;
 -(UIColor*) longTextHighlightedColor;
 
@@ -61,6 +63,7 @@
 -(UIFont*) buttonFont;
 -(UIFont*) moreButtonFont;
 -(UIFont*) moreButtonSubtitleFont;
+-(UIFont*) controlCaptionFont;
 -(UIFont*) longTextFont;
 -(UIFont*) styledTextFont;
 
@@ -125,6 +128,10 @@
 -(UILineBreakMode) moreButtonSubtitleLineBreakMode;
 -(NSInteger      ) moreButtonSubtitleNumberOfLines;
 -(UITextAlignment) moreButtonSubtitleTextAlignment;
+
+-(UILineBreakMode) controlCaptionLineBreakMode;
+-(NSInteger      ) controlCaptionNumberOfLines;
+-(UITextAlignment) controlCaptionTextAlignment;
 
 -(UILineBreakMode) longTextLineBreakMode;
 -(NSInteger      ) longTextNumberOfLines;
