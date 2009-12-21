@@ -40,6 +40,13 @@ static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisi
 
     groupedSwitch.on = (self.tableViewStyle == UITableViewStyleGrouped) ? YES : NO;
 
+    UISwitch* editingSwitch = [[UISwitch alloc] init];
+    [editingSwitch addTarget:self
+                      action:@selector(didSwitchEditing:)
+            forControlEvents:UIControlEventValueChanged];
+
+    editingSwitch.on = self.editing;
+
     self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
       @"The items",
       [[TTTableTitleItem item]
@@ -82,10 +89,14 @@ characters and followed by this URL http://bit.ly/1234"]],
       [[[TTTableControlItem item]
         applyControl:groupedSwitch]
         applyCaption:@"Grouped"],
+      [[[TTTableControlItem item]
+        applyControl:editingSwitch]
+        applyCaption:@"Editing"],
 
       nil];
 
-      TT_RELEASE_SAFELY(groupedSwitch);
+    TT_RELEASE_SAFELY(groupedSwitch);
+    TT_RELEASE_SAFELY(editingSwitch);
   }
 
   return self;
@@ -107,6 +118,12 @@ characters and followed by this URL http://bit.ly/1234"]],
 
   // And then create a new one.
   [self showModel:YES];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)didSwitchEditing:(UISwitch*)theSwitch {
+  [self setEditing:theSwitch.on animated:YES];
 }
 
 
