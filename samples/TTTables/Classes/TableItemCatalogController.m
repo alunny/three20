@@ -16,10 +16,64 @@
 
 #import "TableItemCatalogController.h"
 
+static NSString* kLoremIpsum = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do\
+ eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\
+  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TableItemCatalogController
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)init {
+  if (self = [super init]) {
+    self.title = @"Table Item Catalog";
+
+    self.variableHeightRows = YES;
+
+    self.dataSource = [TTSectionedDataSource dataSourceWithObjects:
+      @"",
+      [[TTTableTitleItem item]
+        applyTitle:@"TTTableTitleItem"],
+      [[[TTTableSubtitleItem item]
+        applySubtitle:@"TTTableSubtitleItems are TTTableTitleItems with a subtitle"]
+        applyTitle:@"TTTableSubtitleItem"],
+      [[[[[TTTableMessageItem item]
+        applyTimestamp:[NSDate date]]
+        applyMessage:@"TTTableMessageItems are TTTableSubtitleItems with a message/time"]
+        applySubtitle:@"This message will generally span multiple lines"]
+        applyTitle:@"TTTableMessageItem"],
+      [[[TTTableCaptionItem item]
+        applyCaption:@"Caption"]
+        applyTitle:@"TTTableCaptionItem"],
+      [[TTTableSummaryItem item]
+        applyTitle:@"TTTableSummaryItem"],
+      [[TTTableLinkItem item]
+        applyTitle:@"TTTableLinkItem"],
+      [[TTTableButtonItem item]
+        applyTitle:@"TTTableButtonItem"],
+      [[[TTTableMoreButtonItem item]
+        applySubtitle:@"With subtitle text"]
+        applyTitle:@"TTTableMoreButtonItem"],
+      [[TTTableActivityItem item]
+        applyTitle:@"TTTableActivityItem"],
+      [[TTTableStyledTextItem item]
+        applyStyledText:[TTStyledText textFromXHTML:@"This is a whole bunch of text made from \
+characters and followed by this URL http://bit.ly/1234"]],
+      [[[TTTableControlItem item]
+        applyControl:[[[UISwitch alloc] init] autorelease]]
+        applyCaption:@"TTTableControlItem"],
+      [[[TTTableControlItem item]
+        applyControl:[[[UISlider alloc] init] autorelease]]
+        applyCaption:@"TTTableControlItem"],
+      [[TTTableLongTextItem item]
+        applyText:kLoremIpsum],
+      nil];
+  }
+  return self;
+}
+
 
 @end
